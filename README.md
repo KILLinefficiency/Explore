@@ -1,6 +1,6 @@
 # Explore
 <br>
-#### Data Manager with Python Integration.
+**Data Manager with Python Integration.**
 Explore is a REPL Data Manager with Python Integration.
 
 The official documentaion can be found in the ``Documentation`` directory in this repository.
