@@ -1009,7 +1009,7 @@ The user can get a data item into the Python Program from either the **Mess** or
 
 This is where Python's Formatted Strings come handy.
 
-The user can directly use operations like ``push`` and ``set`` by passing the data/value inside a formatted string.
+The user can directly use operations like ``push`` and ``set`` by passing the data/value inside a formatted string in ``invoke()``.
 
 Like, 
 ```python
