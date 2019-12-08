@@ -1005,7 +1005,7 @@ Command | Return Type
 <br>
 **Using Formatted Strings**
 
-The user can get a data item into the Python Program from either the **Mess** or the **Cluster** by using ``get``. But there is not standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
+The user can get a data item into the Python Program from either the **Mess** or the **Cluster** by using ``get``. But there is no standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
 
 This is where Python's Formatted Strings come handy.
 
