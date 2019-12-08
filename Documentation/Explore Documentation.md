@@ -1003,6 +1003,34 @@ Command | Return Type
 *info* | *Dictionary* (``dict``)
 
 <br>
+**Using Formatted Strings**
+
+The user can get a data item into the Python Program from either the **Mess** or the **Cluster** by using ``get``. But there is not standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
+
+This is where Python's Formatted Strings come handy.
+
+The user can directly use operations like ``push`` and ``set`` by passing the data/value inside a formatted string.
+
+Like, 
+```python
+import explore_package as e
+some_value = 9.8
+some_name = "Explore"
+e.invoke(f"push num {some_value}")
+e.invoke(f"set name alpha {some_name}")
+e.invoke("getmess")
+print()
+e.invoke("getcluster")
+```
+The output on running would be:
+```
+1. 9.8
+
+Key : Value
+
+name : Explore
+```
+<br>
 #### *run()*
 ``run()`` lets the user to run Explore Scripts in a Python Program. The user does not have to run all the everyday commands everytime. This task can be automated with the help of Explore Scripts.
 
