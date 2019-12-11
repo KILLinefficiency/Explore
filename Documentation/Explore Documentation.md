@@ -663,6 +663,7 @@ Like,
 :( > exp 1
 :) >
 ```
+The user can see the changed expression on the prompt.
 <br>
 #### *16. export*
 Explore saves all of it's data items in the **Mess** and in the **Cluster**. The users are free to store as much as data they wish. However, Explore clears all of it's data once it is closed which means that there will be no data present if Explore is re-launched.
@@ -999,9 +1000,42 @@ Command | Return Type
 *count* | *Integer* (``int``)
 *get* | *Float* / *String* (``float`` / ``str``)
 *calc* | *Float* (``float``)
-*find* | *Dictionary* / *Dictionaries* inside a List (``list`` and ``dict``)
+*find* | *Dictionary* / *Dictionaries* inside a *List* (``list`` and ``dict``)
 *info* | *Dictionary* (``dict``)
 
+<br>
+Like,
+
+**Python Program**
+```python
+import explore_package as e
+
+e.invoke("push num 3.14")
+e.invoke("set pi num 3.14")
+
+# Getting a search result for the number 3.14
+search = e.invoke("find num 3.14")
+print(search)
+print() # Printing a blank line...
+
+# Getting Explore's information
+information = e.invoke("info")
+print(information)
+print() # Printing a blank line...
+
+# Getting specific data from the returned data
+print(search[1]["Key"])
+print(information["Codename"])
+```
+Output on running would be:
+```python
+[{'Location': 'Mess', 'Datatype': 'num', 'Position': 1}, {'Location': 'Cluster', 'Itemtype': 'Value', 'Datatype': 'num', 'Key': 'pi'}]
+
+{'Version': 1.0, 'Codename': 'Prometheus', 'License': 'GNU General Public License v3.0', 'Author': 'Shreyas Sable', 'Repository': 'https://www.github.com/KILLinefficiency/Explore'}
+
+pi
+Prometheus
+```
 <br>
 **Using Formatted Strings**
 
@@ -1098,5 +1132,5 @@ pip3 uninstall explore_package_KILLinefficiency
 #### Hey There!
 Hello Explorers! I hope you had fun using Explore as much as I had making it. If you like it, feel free to make contributions and leave a feedback at https://www.github.com/KILLinefficiency/Explore.
 
-**Shreyas Sable**
+**_Shreyas Sable_**
 <hr>
