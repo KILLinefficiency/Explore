@@ -7,7 +7,7 @@ login_file = Path(".cipher")
 key_file = Path(".val")
 log_file = Path("log.txt")
 
-if not (login_file.is_file() or key_file.is_file()) and not(log_file.is_file()):
+if not (login_file.is_file() or key_file.is_file() or log_file.is_file()):
     password = open(".cipher", "w+", encoding = "utf=8")
     key = open(".val", "w+", encoding = "utf-8")
     log = open("log.txt", "w+", encoding = "utf-8")
