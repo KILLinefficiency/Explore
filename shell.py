@@ -748,3 +748,4 @@ while flag:
         break
     except:
         print("Oops! Something Went Wrong.")
+log.close()
