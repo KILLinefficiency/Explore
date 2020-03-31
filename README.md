@@ -29,12 +29,6 @@ You now have Explore set-up and running.
 
 #### Installing the Explore Package:
 
-1] ``cd`` into ``explore-package``
 ```
-cd explore-package
-```
-
-2] Use ``pip3`` to install the package
-```
-pip3 install explore_package_KILLinefficiency-1.0-py3-none-any.whl
+sudo pip3 install explore_package
 ```
