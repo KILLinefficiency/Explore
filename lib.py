@@ -1,3 +1,20 @@
+from os import system
+from platform import system as platform
+
+# The awesome Explore Spalsh.
+def explore_splash():
+    splash = r"""
+  ______                     _                          
+ |  ____|                   | |                         
+ | |__     __  __   _ __    | |    ___     _ __     ___ 
+ |  __|    \ \/ /  | '_ \   | |   / _ \   | '__|   / _ \
+ | |____    >  <   | |_) |  | |  | (_) |  | |     |  __/
+ |______|  /_/\_\  | .__/   |_|   \___/   |_|      \___|
+                   | |                                  
+                   |_|                                  
+    """
+    print(splash)
+
 """
 sort_mess() sorts the mess using Bubble Sort. sort_mess() will work
 only if the mess consists of either numeric or single character values
@@ -42,8 +59,9 @@ def csv(location, spacing):
     for trim in range(0, len(contents)):
         contents[trim] = contents[trim][0:-1]
     first_line = contents[0].split(",")
+    print("    ", end = "")
     for first_index in range(0, len(first_line)):
-        print("    " + str(first_line[first_index]), end = str("\t" * spacing))
+        print(str(first_line[first_index]), end = str("\t" * spacing))
     print()
     for val in range(1, len(contents)):
         row = contents[val].split(",")
@@ -52,6 +70,28 @@ def csv(location, spacing):
             print(str(row[itr]), end = str("\t" * spacing))
         print()
 
+"""
+parse_csv() reads data from a CSV file and returns a list with data
+organized as rows.
+Working of parse_csv():
+1. Declares an empty list which is filled with data and returned at the end
+   of the function.
+2. The escape character "\n" is removed.
+3. The function reads the CSV file and separates the data in each rows with ",".
+4. The list of separated data is appended to the empty list (parsed_list).
+5. parsed_list is returned.
+"""
+def parse_csv(location):
+    parsed_list = []
+    csv_parse_file = open(location, "r", encoding = "utf-8")
+    parse_contents = csv_parse_file.readlines()
+    for trim_n in range(0, len(parse_contents)):
+        if parse_contents[trim_n][-1] == "\n":
+            parse_contents[trim_n] = parse_contents[trim_n][:-1]
+    for add_cell in range(0, len(parse_contents)):
+        info_cells = parse_contents[add_cell].split(",")
+        parsed_list.append(info_cells)
+    return parsed_list
 
 """
 starts_with() checks if the first parameter (a string) starts with the
@@ -69,10 +109,9 @@ def starts_with(string, trimmed_string):
 
 """read_file() reads a text file and displays the contents as a whole."""
 def read_file(location):
-    file = open(location, "r", encoding = "utf-8")
-    contents = file.read()
-    print(contents)
-    file.close()
+    rfile = open(location, "r", encoding = "utf-8")
+    print(rfile.read())
+    rfile.close()
 
 
 """
@@ -103,7 +142,7 @@ def read_log():
 
 """
 del_spaces() removes the extra unwanted spaces from the entered command.
-Working of del_spaces()
+Working of del_spaces():
 1. The "for" loop iterates and deletes the empty strings
    generated for spaces after using split().
 2. The loop deletes the few empty strings but
@@ -123,3 +162,54 @@ def del_spaces(arr):
                 del arr[trim_spaces]
     except IndexError:
         del_spaces(arr)
+
+"""
+clear_screen() makes the terminal tidy again.
+The function checks the system, Explore is running on
+and runs the terminal command to clear it up.
+
+For Linux and MacOS, it runs: clear
+For Windows, it runs: cls
+"""
+def clear_screen():
+    if platform() == "Linux" or platform() == "Darwin":
+        system("clear")
+    elif platform() == "Windows":
+        system("cls")
+    else:
+        print("Unable to clear screen.")
+
+"""
+disp_list() reads a multi-dimensional list.
+Working of disp_list():
+1. A loop iterates over the entire list.
+2. Another loop iterated over all the elements (also lists) of the passed
+   multi-dimensional list.
+3. The function then prints each item,
+"""
+def disp_list(arr):
+    for itr_item in range(0, len(arr)):
+        for itr_content in range(0, len(arr[itr_item])):
+            print("", end = "    ")
+            print(arr[itr_item][itr_content], end = "    ")
+        print()
+
+"""
+del_left_zeros() removes all the zeros from the left side of the text
+as eval() cannot evaluate string which has zeros on it's left side.
+"""
+def del_left_zeros(text):
+    zero_counter = 0
+    while text[zero_counter] == "0":
+        zero_counter = zero_counter + 1
+    return text[zero_counter:]
+
+
+"""
+reverse_list() reverses the passed list.
+"""
+def reverse_list(arr):
+    rev_arr = []
+    for rev_list_count in range(len(arr) - 1, -1, -1):
+        rev_arr.append(arr[rev_list_count])
+    return rev_arr
