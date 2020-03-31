@@ -1,7 +1,7 @@
 import setuptools
 setuptools.setup(
-	name = "explore_package-KILLinefficiency",
-	version = "1.0",
+	name = "explore_package",
+	version = "2.0",
 	author = "Shreyas Sable",
 	author_email = "shreyas.sable2166@gmail.com",
 	description = "Official Python Package for Explore",
