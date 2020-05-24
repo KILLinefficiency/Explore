@@ -1,18 +1,20 @@
 import lib
-import server
+from requests import get
 
 mess = ""
 cluster = ""
 
 data_types = ["num", "num\n", "alpha", "alpha\n"]
 
-def get_from_server(ip, memory):
+def get_data(ip, memory):
     global mess
     global cluster
+    address = "http://" + ip + ":5000/" + memory
+    data = get(address)
     if memory == "mess":
-        mess = server.get_data(ip, "mess")
+        mess = data
     elif memory == "cluster":
-        cluster = server.get_data(ip, "cluster")
+        cluster = data
 
 def gen_mess_values():
     global mess
