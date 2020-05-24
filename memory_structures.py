@@ -12,9 +12,9 @@ def get_data(ip, memory):
     address = "http://" + ip + ":5000/" + memory
     data = get(address)
     if memory == "mess":
-        mess = data
+        mess = data.text
     elif memory == "cluster":
-        cluster = data
+        cluster = data.text
 
 def gen_mess_values():
     global mess
