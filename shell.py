@@ -3,8 +3,11 @@ import lib
 import memory_structures as ms
 import limit
 import error as err
+import server
 from pathlib import Path
 from random import randint
+
+SERVER_IP = ""
 
 # Opens files .cipher and .val.
 # .cipher and .val are the hidden system files.
@@ -692,6 +695,18 @@ while flag:
             # Writes with a new line.
             dump_file.write(dump_file_text + "\n")
             dump_file.close()
+
+        elif cmd[0] == "server":
+            if cmd[1] == "config":
+                SERVER_IP = cmd[2]
+            elif cmd[1] == "fetch":
+                if cmd[2] == "mess":
+                    ms.get_from_server(SERVER_IP, "mess")
+                elif cmd[2] == "cluster":
+                    ms.get_from_server(SERVER_IP, "cluster")
+                else:
+                    me.get_from_server(SERVER_IP, "mess")
+                    ms.get_from_server(SERVER_IP, "cluster")
 
         # Show a "Invalid Command" message if wrong command is entered.
         else:
