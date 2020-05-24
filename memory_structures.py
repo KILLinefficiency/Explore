@@ -1,9 +1,18 @@
 import lib
+import server
 
 mess = ""
 cluster = ""
 
 data_types = ["num", "num\n", "alpha", "alpha\n"]
+
+def get_from_server(ip, memory):
+    global mess
+    global cluster
+    if memory == "mess":
+        mess = server.get_data(ip, "mess")
+    elif memory == "cluster":
+        cluster = server.get_data(ip, "cluster")
 
 def gen_mess_values():
     global mess
