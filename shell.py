@@ -716,7 +716,7 @@ while flag:
                     elif cmd[2] == "cluster":
                         ms.get_data(SERVER_IP, "cluster")
                     elif cmd[2] == "all":
-                        me.get_data(SERVER_IP, "mess")
+                        ms.get_data(SERVER_IP, "mess")
                         ms.get_data(SERVER_IP, "cluster")
 
         # Show a "Invalid Command" message if wrong command is entered.
@@ -738,7 +738,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    except:
-        print("-1")
-        continue
+    #except:
+    #   print("-1")
+    #   continue
 log.close()
