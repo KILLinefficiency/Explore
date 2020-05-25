@@ -698,7 +698,7 @@ while flag:
         elif cmd[0] == "server":
             if cmd[1] == "connect":
                     SERVER_IP = cmd[2]
-            if SERVER_IP == "":
+            if SERVER_IP == "" and cmd[1] != "update":
                 print("No Server Connected.")
             else:
                 if cmd[1] == "ip":
