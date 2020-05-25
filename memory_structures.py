@@ -7,14 +7,20 @@ cluster = ""
 data_types = ["num", "num\n", "alpha", "alpha\n"]
 
 def get_data(ip, memory):
-    global mess
-    global cluster
-    address = "http://" + ip + ":5000/" + memory
-    data = get(address)
-    if memory == "mess":
-        mess = data.text
-    elif memory == "cluster":
-        cluster = data.text
+    try:
+        global mess
+        global cluster
+        address = "http://" + ip + ":5000/" + memory
+        data = get(address)
+        if memory == "mess":
+            mess = data.text
+        elif memory == "cluster":
+            cluster = data.text
+    except KeyboardInterrupt:
+        pass
+        print()
+    except ConnectionError:
+        print("Server Not Running.")
 
 def gen_mess_values():
     global mess
