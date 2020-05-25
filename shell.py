@@ -697,22 +697,27 @@ while flag:
 
         elif cmd[0] == "server":
             if cmd[1] == "connect":
-                SERVER_IP = cmd[2]
-            elif cmd[1] == "update":
-                mess_file = open("mess_file.txt", "w+", encoding = "utf-8")
-                mess_file.write(ms.mess)
-                mess_file.close()
-                cluster_file = open("cluster_file.txt", "w+", encoding = "utf-8")
-                cluster_file.write(ms.cluster)
-                cluster_file.close()
-            elif cmd[1] == "fetch":
-                if cmd[2] == "mess":
-                    ms.get_data(SERVER_IP, "mess")
-                elif cmd[2] == "cluster":
-                    ms.get_data(SERVER_IP, "cluster")
-                else:
-                    me.get_data(SERVER_IP, "mess")
-                    ms.get_data(SERVER_IP, "cluster")
+                    SERVER_IP = cmd[2]
+            if SERVER_IP == "":
+                print("No Server Connected.")
+            else:
+                if cmd[1] == "ip":
+                    print("Connected to: " + SERVER_IP)
+                elif cmd[1] == "update":
+                    mess_file = open("mess_file.txt", "w+", encoding = "utf-8")
+                    mess_file.write(ms.mess)
+                    mess_file.close()
+                    cluster_file = open("cluster_file.txt", "w+", encoding = "utf-8")
+                    cluster_file.write(ms.cluster)
+                    cluster_file.close()
+                elif cmd[1] == "fetch":
+                    if cmd[2] == "mess":
+                        ms.get_data(SERVER_IP, "mess")
+                    elif cmd[2] == "cluster":
+                        ms.get_data(SERVER_IP, "cluster")
+                    elif cmd[2] == "all":
+                        me.get_data(SERVER_IP, "mess")
+                        ms.get_data(SERVER_IP, "cluster")
 
         # Show a "Invalid Command" message if wrong command is entered.
         else:
@@ -733,7 +738,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    #except:
-    #    print("-1")
-    #    continue
+    except:
+        print("-1")
+        continue
 log.close()
