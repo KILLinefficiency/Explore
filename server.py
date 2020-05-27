@@ -4,11 +4,11 @@ import memory_structures as ms
 server = Flask(__name__)
 
 index_page = """
-<h1 align = 'center'>Explore Server</h1>
-<br>
-<h3>Raw Data can be found at the following routes of this IP address:</h3>
-<h3><code>/mess</code></h3>
-<h3><code>/cluster</code></h3>
+    <h1 align = 'center'>Explore Server</h1>
+    <br>
+    <h3>Raw Data can be found at the following routes of this IP address:</h3>
+    <h3><code>/mess</code></h3>
+    <h3><code>/cluster</code></h3>
 """
 
 @server.route("/")
