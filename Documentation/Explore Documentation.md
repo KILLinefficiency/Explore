@@ -1,14 +1,14 @@
-# Explore Documentation
+# <h1 align="center">Explore Documentation</h1>
 
 &nbsp;
-https://www.github.com/KILLinefficiency/Explore
+<p align="center">https://www.github.com/KILLinefficiency/Explore</p>
 &nbsp;
 #### Introduction
 Explore is a REPL data manager for small scale to intermediate scale purposes. Explore has a CLI but also comes with a Python Package which allows programmers to integrate Explore into their Python Programs.
 
 Explore is distributed under the [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/).
 
-Explore is currently at version 2.0, codenamed *Terrific*.
+Explore is currently at version 3.0, codenamed *Kal-El*.
 
 This documentation covers Explore on a **Linux Distribution**.
 
@@ -637,11 +637,11 @@ abc,def,ghi,jkl
 
 :) > csv /home/me/Desktop/file.csv
 
-    abc				def				ghi				jkl				
-1.  123				456				789				012				
-2.  345				678				901				234				
-3.  567				890				123				456				
-4.  789				012				345				678				
+    abc				def				ghi				jkl
+1.  123				456				789				012
+2.  345				678				901				234
+3.  567				890				123				456
+4.  789				012				345				678
 
 :) > csv 1 /home/me/Desktop/file.csv
 
@@ -714,18 +714,18 @@ Like,
 :) > getbook
 
 info:
-    abc        def        ghi        jkl    
-    123        456        789        012    
-    345        678        901        234    
-    567        890        123        456    
-    789        012        345        678    
+    abc        def        ghi        jkl
+    123        456        789        012
+    345        678        901        234
+    567        890        123        456
+    789        012        345        678
 
 data:
-    abc        def        ghi        jkl    
-    123        456        789        012    
-    345        678        901        234    
-    567        890        123        456    
-    789        012        345        678    
+    abc        def        ghi        jkl
+    123        456        789        012
+    345        678        901        234
+    567        890        123        456
+    789        012        345        678
 
 ```
 Here the same CSV file has been parsed twice in two different *Data Spaces*.
@@ -830,11 +830,11 @@ var2 : something
 :) > getbook
 
 data:
-    abc        def        ghi        jkl    
-    123        456        789        012    
-    345        678        901        234    
-    567        890        123        456    
-    789        012        345        678    
+    abc        def        ghi        jkl
+    123        456        789        012
+    345        678        901        234
+    567        890        123        456
+    789        012        345        678
 
 :) > clean book
 :) > getbook
@@ -974,38 +974,38 @@ Like,
 
 Using ``w``:
 ```
-:) > push alpha Terrific
-:) > set codename alpha Terrific
+:) > push alpha Kal-El
+:) > set codename alpha Kal-El
 :) > getmess
-1. Terrific
+1. Kal-El
 :) > getcluster
 Key : Value
 
-codename : Terrific
+codename : Kal-El
 :) > import mess w /home/me/Desktop/my_mess.txt
 :) > getmess
-1. Terrific
+1. Kal-El
 2. 3.14
 3. something
 :) > import cluster w /home/me/Desktop/my_cluster.txt
 :) > getcluster
 Key : Value
 
-codename : Terrific
+codename : Kal-El
 name : Explore
 ver : 2
 ```
 
 Using ``rw``:
 ```
-:) > push alpha Terrific
-:) > set codename alpha Terrific
+:) > push alpha Kal-El
+:) > set codename alpha Kal-El
 :) > getmess
-1. Prometheus
+1. Kal-El
 :) > getcluster
 Key : Value
 
-codename : Terrific
+codename : Kal-El
 :) > import mess rw /home/me/Desktop/my_mess.txt
 :) > getmess
 1. 3.14
@@ -1142,16 +1142,16 @@ Like,
 ```
 :) > info
 
-Explore v2.0
-Codename: Terrific
+Explore v3.0
+Codename: Kal-El
 License: GNU General Public License v3.0
 Author: Shreyas Sable
 Repository: https://www.github.com/KILLinefficiency/Explore
 
 :) > about
 
-Explore v2.0
-Codename: Terrific
+Explore v3.0
+Codename: Kal-El
 License: GNU General Public License v3.0
 Author: Shreyas Sable
 Repository: https://www.github.com/KILLinefficiency/Explore
@@ -1183,7 +1183,7 @@ cd explore-package
 ```
 Use ``pip3`` to install the package
 ```
-sudo pip3 install explore_package-2.0-py3-none-any.whl
+sudo pip3 install explore_package-3.0-py3-none-any.whl
 ```
 
 Installing Explore Package from pypi.org :
@@ -1308,10 +1308,10 @@ Output on running would be:
 ```python
 [{'Location': 'Mess', 'Datatype': 'num', 'Position': 1}, {'Location': 'Cluster', 'Itemtype': 'Value', 'Datatype': 'num', 'Key': 'pi'}]
 
-{'Version': 2.0, 'Codename': 'Terrific', 'License': 'GNU General Public License v3.0', 'Author': 'Shreyas Sable', 'Repository': 'https://www.github.com/KILLinefficiency/Explore'}
+{'Version': 3.0, 'Codename': 'Kal-El', 'License': 'GNU General Public License v3.0', 'Author': 'Shreyas Sable', 'Repository': 'https://www.github.com/KILLinefficiency/Explore'}
 
 pi
-Terrific
+Kal-El
 ```
 &nbsp;
 **Using Formatted Strings**
