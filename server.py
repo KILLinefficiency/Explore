@@ -18,12 +18,14 @@ def index():
 @server.route("/mess")
 def mess():
     mess_raw_data = open("mess_file.txt", "r", encoding = "utf-8")
-    return mess_raw_data.read()
+    mess_data = mess_raw_data.read()
+    return mess_data
     
 @server.route("/cluster")
 def cluster():
     cluster_raw_data = open("cluster_file.txt", "r", encoding = "utf-8")
-    return cluster_raw_data.read()
+    cluster_data = cluster_raw_data.read()
+    return cluster_data
     
 if __name__ == "__main__":
     server.run(host = "0.0.0.0")
