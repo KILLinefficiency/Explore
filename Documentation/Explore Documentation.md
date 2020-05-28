@@ -161,7 +161,6 @@ Explore uses the smily face emoticon ``:)`` as the default prompt. However the u
 
 ## Explore Commands
 Explore works with the following 23 commands:
->
 > *01. push*
 > *02. getmess*
 > *03. pop*
