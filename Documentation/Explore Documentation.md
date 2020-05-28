@@ -3,6 +3,7 @@
 &nbsp;
 <p align="center">https://www.github.com/KILLinefficiency/Explore</p>
 &nbsp;
+
 #### Introduction
 Explore is a REPL data manager for small scale to intermediate scale purposes. Explore has a CLI but also comes with a Python Package which allows programmers to integrate Explore into their Python Programs.
 
