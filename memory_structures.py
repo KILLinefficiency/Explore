@@ -10,12 +10,12 @@ def get_data(ip, memory):
     try:
         global mess
         global cluster
-        address = "http://" + ip + ":5000/" + memory
+        address = "http://" + ip + ":2166/" + memory
         data = get(address)
         if memory == "mess":
-            mess = data.text
+            mess = data.text[0:-1]
         elif memory == "cluster":
-            cluster = data.text
+            cluster = data.text[0:-1]
     except KeyboardInterrupt:
         pass
         print()
