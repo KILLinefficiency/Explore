@@ -8,6 +8,8 @@ from random import randint
 
 SERVER_IP = ""
 
+exit_comms = ["exit", "exit.", "bye", "bye."]
+
 # Opens files .cipher and .val.
 # .cipher and .val are the hidden system files.
 login_file = Path(".cipher")
@@ -168,7 +170,7 @@ while flag:
             except IndexError:
                 continue
 
-        elif (cmd[0] == "exit" or cmd[0] == "bye" or cmd[0] == "exit." or cmd[0] == "bye.") and len(cmd) == 1:
+        elif (cmd[0] in exit_comms) and len(cmd) == 1:
             print("\nBye.\n")
             break
 
@@ -705,12 +707,12 @@ while flag:
                     print("Connected to: " + SERVER_IP)
                 elif cmd[1] == "update":
                     if cmd[2] == "mess":
-                        ms.set_mess_data()
+                        ms.set_data("mess")
                     elif cmd[2] == "cluster":
-                        ms.set_cluster_data()
+                        ms.set_data("cluster")
                     elif cmd[2] == "all":
-                        ms.set_mess_data()
-                        ms.set_cluster_data()
+                        ms.set_data("mess")
+                        ms.set_data("cluster")
                     else:
                         print("Memory Location Not Specified.")
                 elif cmd[1] == "fetch":
