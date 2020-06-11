@@ -22,17 +22,15 @@ def get_data(ip, memory):
     except ConnectionError:
         print("Server Not Running.")
 
-def set_mess_data():
+def set_data(memory):
     global mess
-    mess_file = open("mess_file.txt", "w+", encoding = "utf-8")
-    mess_file.write(mess)
-    mess_file.close()
-
-def set_cluster_data():
     global cluster
-    cluster_file = open("cluster_file.txt", "w+", encoding = "utf-8")
-    cluster_file.write(cluster)
-    cluster_file.close()
+    memory_file = open(("." + memory + "_server_file.txt"), "w+", encoding = "utf-8")
+    if memory == "mess":
+        memory_file.write(mess)
+    elif memory == "cluster":
+        memory_file.write(cluster)
+    memory_file.close()
 
 def gen_mess_values():
     global mess
