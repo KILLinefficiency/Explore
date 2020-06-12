@@ -1,7 +1,7 @@
 from os import system
 from platform import system as platform
 
-# The awesome Explore Spalsh.
+# The awesome Explore Splash.
 def explore_splash():
     splash = r"""
   ______                     _                          
