@@ -404,25 +404,19 @@ while flag:
                 # For parsing a CSV file.
                 if cmd[1] == "csv":
                     # For address without spaces.
-                    if len(cmd) == 4:
-                        path = cmd[3]
-                    # For address with spaces.
-                    elif len(cmd) > 4:
-                        for join_path in range(3, len(cmd)):
-                            path = path + cmd[join_path] + " "
-                        path = path[:-1]
-
+                    path = lib.join_string(cmd, 3, len(cmd) - 1)
+                    
                     # Writes the parsed data with the given key only if
                     # the provided data label does not already exist in
                     # the Book. 
                     if not(cmd[2] in book_keys):
                         print()
-                        lib.csv(cmd[3], 1)
+                        lib.csv(path, 1)
                         print()
                         book[cmd[2]] = lib.parse_csv(path)
                     else:
                         err.error(14)
-            except (FileNotFoundError, IsADirectoryError):
+            except (IsADirectoryError):
                 err.error(13)
 
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
