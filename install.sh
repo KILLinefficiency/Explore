@@ -27,6 +27,13 @@ if [ $CHOICE == "1" ]; then
   echo ""
   echo "Executable Script genereted!"
 
+  touch explore-server
+  echo "cd $EXPLORE_DIR" > explore-server
+  echo "node $EXPLORE_DIR/server.js" >> explore-server
+  chmod +x explore-server
+  echo ""
+  echo "Explore Server set up!"
+
   echo "export PATH=\"$EXPLORE_DIR:$PATH\"" >> $HOME/.bashrc
   echo ""
   echo "Executable Script added to PATH (modified .bashrc)!"
