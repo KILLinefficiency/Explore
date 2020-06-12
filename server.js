@@ -4,20 +4,20 @@ const fs = require("fs");
 const SERVER_PORT = 2166;
 
 const index_page = `<html>
-<head>
-	<title>Explore Server</title>
-</head>
+	<head>
+		<title>Explore Server</title>
+	</head>
 
-<body>
-<h1 align = "center">Explore Sever</h1>
-<br>
-<h3>Routes for Explore Server:</h3>
-<code>/mess</code>
-<br><br>
-<code>/cluster</code>
-</body>
+	<body>
+		<h1 align = "center">Explore Sever</h1>
+		<br>
+		<h3>Routes for Explore Server:</h3>
+			<code>/mess</code>
+			<br><br>
+			<code>/cluster</code>
+	</body>
 
-</html>
+	</html>
 `;
 
 const mess_file = ".mess_server_file.txt";
