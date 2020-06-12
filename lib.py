@@ -38,6 +38,15 @@ def delete_item(array, index):
     del array[index - 1]
 
 
+def trim_n(array):
+    clean_array = []
+    for trim in range(0, len(array)):
+        if array[trim][-1] == "\n":
+            clean_array.append(array[trim][0:-1])
+        else:
+            clean_array,append(array[trim])
+    return clean_array
+
 """
 CSV Reader
 Working of the CSV Reader:
@@ -85,13 +94,17 @@ def parse_csv(location):
     parsed_list = []
     csv_parse_file = open(location, "r", encoding = "utf-8")
     parse_contents = csv_parse_file.readlines()
-    for trim_n in range(0, len(parse_contents)):
-        if parse_contents[trim_n][-1] == "\n":
-            parse_contents[trim_n] = parse_contents[trim_n][:-1]
+    parse_contents = trim_n(parse_contents)
     for add_cell in range(0, len(parse_contents)):
         info_cells = parse_contents[add_cell].split(",")
         parsed_list.append(info_cells)
     return parsed_list
+
+def parse_file(location):
+    parse_file = open(location, "r", encoding = "utf-8")
+    file_data = parse_file.readlines()
+    file_data = trim_n(file_data)
+    return file_data
 
 """
 starts_with() checks if the first parameter (a string) starts with the
