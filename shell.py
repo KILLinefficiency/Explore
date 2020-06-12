@@ -340,32 +340,7 @@ while flag:
         # Reads a text-containing file using read_file from lib.py.
         elif cmd[0] == "read":
             try:
-                # If the address of the file does not contain spaces.
-                file_address = ""
-                if len(cmd) == 2:
-                    # Raises a handled error if the user tries to read the system files.
-                    if cmd[1] == ".cipher" or cmd[1] == ".val":
-                        err.error(12)
-                        continue
-                    if ((cmd[len(cmd) - 1][-7:-1] + "r") == ".cipher") or (cmd[len(cmd) - 1][-4:-1] + "l" == ".val"):
-                        err.error(12)
-                        continue
-                    # If not a system file, sets the variable "file_address" to the supplied address.
-                    else:
-                        file_address = cmd[1]
-
-                # If the address of the file contains spaces.
-                elif len(cmd) > 2:
-                    # Raises a handled error if the user tries to read the system files.
-                    if ((cmd[len(cmd) - 1][-6:-1] + "r") == "cipher") or (cmd[len(cmd) - 1][-3:-1] + "l" == "val"):
-                        err.error(12)
-                        continue
-                    # If not a system file, sets the variable "file_address" to the supplied address
-                    # after concatenation.
-                    else:
-                        for file_address_concat in range(1, len(cmd)):
-                            file_address = file_address + cmd[file_address_concat] + " "
-                        file_address = file_address[:-1]
+                file_address = lib.join_string(cmd, 1, len(cmd) - 1)
                 print()
                 lib.read_file(file_address)
                 print()
@@ -405,7 +380,7 @@ while flag:
                 if cmd[1] == "csv":
                     # For address without spaces.
                     path = lib.join_string(cmd, 3, len(cmd) - 1)
-                    
+
                     # Writes the parsed data with the given key only if
                     # the provided data label does not already exist in
                     # the Book. 
