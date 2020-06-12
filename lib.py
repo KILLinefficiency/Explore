@@ -15,18 +15,6 @@ def explore_splash():
     """
     print(splash)
 
-"""
-sort_mess() sorts the mess using Bubble Sort. sort_mess() will work
-only if the mess consists of either numeric or single character values
-sorting the mess consisting both data types will result into an error
-that will be caught while shell.py is running.
-"""
-def sort_mess(array):
-    for itr in range(0, len(array)):
-        for loop in range(0, len(array) - 1):
-            if array[loop] > array[loop + 1]:
-                array[loop], array[loop + 1] = array[loop + 1], array[loop]
-
 
 """
 delete_item() deletes an item in the mess.
