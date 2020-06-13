@@ -115,7 +115,10 @@ while flag:
                 # For referred values from the Book.
                 elif lib.starts_with(cmd[replace_ref], "b_"):
                     info_address = cmd[replace_ref][2:].split("->")
-                    cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1][int(info_address[2]) - 1])
+                    if book[info_address[0]][0] == "text":
+                        cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1])
+                    elif book[info_address[0]][0] == "csv":
+                        cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1][int(info_address[2]) - 1])
         except (KeyError, ValueError, IndexError):
             err.error(4)
             continue
@@ -328,9 +331,13 @@ while flag:
                 for itr_book in range(0, len(book_keys)):
                     # Displays the label of the parsed data and the contents
                     # in an organized way.
+                    print()
                     print(str(book_keys[itr_book]) + ": ")
+                    print()
                     if book[book_keys[itr_book]][0] == "csv":
                         lib.disp_list(book[book_keys[itr_book]][1])
+                    elif book[book_keys[itr_book]][0] == "text":
+                        lib.read_list(book[book_keys[itr_book]][1])
                 print()
                 
         # Reads the log.txt file which contains the history of all previously entered commands.
@@ -393,7 +400,7 @@ while flag:
                         print()
                         lib.read_file(path)
                         print()
-                        book[cmd[2]] = [text, lib.parse_file(path)]
+                        book[cmd[2]] = ["text", lib.parse_file(path)]
                     else:
                         err.error(14)
             except (FileNotFoundError, IsADirectoryError):
@@ -569,7 +576,11 @@ while flag:
                 elif cmd[1] == "cluster":
                     print(ms.get_from_cluster(cmd[2]))
                 elif cmd[1] == "book":
-                    print(str(book[cmd[2]][1][int(cmd[3]) - 1][int(cmd[4]) - 1]))
+                    # Gets parsed CSV data.
+                    if len(cmd) == 5:
+                        print(str(book[cmd[2]][1][int(cmd[3]) - 1][int(cmd[4]) - 1]))
+                    elif len(cmd) == 4:
+                        print(str(book[cmd[2]][1][int(cmd[3]) - 1]))
             except (IndexError, KeyError):
                 err.error(8)
 
