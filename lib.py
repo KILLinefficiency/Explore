@@ -192,6 +192,10 @@ def disp_list(arr):
             print(arr[itr_item][itr_content], end = "    ")
         print()
 
+def read_list(arr):
+    for item in range(0, len(arr)):
+        print(str(item + 1) + ". " + arr[item])
+
 """
 del_left_zeros() removes all the zeros from the left side of the text
 as eval() cannot evaluate string which has zeros on it's left side.
