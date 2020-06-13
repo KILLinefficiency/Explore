@@ -115,7 +115,7 @@ while flag:
                 # For referred values from the Book.
                 elif lib.starts_with(cmd[replace_ref], "b_"):
                     info_address = cmd[replace_ref][2:].split("->")
-                    cmd[replace_ref] = str(book[info_address[0]][int(info_address[1]) - 1][int(info_address[2]) - 1])
+                    cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1][int(info_address[2]) - 1])
         except (KeyError, ValueError, IndexError):
             err.error(4)
             continue
@@ -326,11 +326,11 @@ while flag:
                 continue
             else:
                 for itr_book in range(0, len(book_keys)):
-                    print()
                     # Displays the label of the parsed data and the contents
                     # in an organized way.
                     print(str(book_keys[itr_book]) + ": ")
-                    lib.disp_list(book[book_keys[itr_book]])
+                    if book[book_keys[itr_book]][0] == "csv":
+                        lib.disp_list(book[book_keys[itr_book]][1])
                 print()
                 
         # Reads the log.txt file which contains the history of all previously entered commands.
@@ -373,14 +373,11 @@ while flag:
         # Writes the parsed data from a file to the Book.
         elif cmd[0] == "book" and len(cmd) >= 4:
             try:
-                path = ""
+                path = lib.join_string(cmd, 3, len(cmd) - 1)
                 # Gets the data labels from the Book.
                 book_keys = list(book.keys())
                 # For parsing a CSV file.
                 if cmd[1] == "csv":
-                    # For address without spaces.
-                    path = lib.join_string(cmd, 3, len(cmd) - 1)
-
                     # Writes the parsed data with the given key only if
                     # the provided data label does not already exist in
                     # the Book. 
@@ -388,10 +385,18 @@ while flag:
                         print()
                         lib.csv(path, 1)
                         print()
-                        book[cmd[2]] = lib.parse_csv(path)
+                        book[cmd[2]] = ["csv", lib.parse_csv(path)]
                     else:
                         err.error(14)
-            except (IsADirectoryError):
+                elif cmd[1] == "text":
+                    if not(cmd[2] in book_keys):
+                        print()
+                        lib.read_file(path)
+                        print()
+                        book[cmd[2]] = [text, lib.parse_file(path)]
+                    else:
+                        err.error(14)
+            except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
 
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
@@ -564,7 +569,7 @@ while flag:
                 elif cmd[1] == "cluster":
                     print(ms.get_from_cluster(cmd[2]))
                 elif cmd[1] == "book":
-                    print(str(book[cmd[2]][int(cmd[3]) - 1][int(cmd[4]) - 1]))
+                    print(str(book[cmd[2]][1][int(cmd[3]) - 1][int(cmd[4]) - 1]))
             except (IndexError, KeyError):
                 err.error(8)
 
