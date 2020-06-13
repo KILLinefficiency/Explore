@@ -620,6 +620,8 @@ while flag:
             c_values = ms.gen_cluster_key_values()
             b_data_space = list(book.keys())
             b_data_space_contents = list(book.values())
+            for get_values in range(0, len(b_data_space_contents)):
+                b_data_space_contents[get_values] = b_data_space_contents[get_values][1]
             book_all_values = []
             for all_values in range(0, len(b_data_space_contents)):
                 for add_values in range(0, len(b_data_space_contents[all_values])):
@@ -730,7 +732,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    #except:
-    #   print("-1")
-    #   continue
+    # except:
+    #    print("-1")
+    #    continue
 log.close()
