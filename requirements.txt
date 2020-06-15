@@ -1,7 +1,7 @@
-# Dependencies for Explore
+# Dependencies for Explore :
 requests==2.23.0
 
-# Dependencies for generating and uploading the Explore Package to pypi.org
+# Dependencies for generating and uploading the Explore Package to pypi.org :  
 twine
 setuptools
 tqdm
