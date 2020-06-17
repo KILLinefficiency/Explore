@@ -50,18 +50,18 @@ Working of the CSV Reader:
    numbering. The columns are separated as per the number of tabs
    specified by the user in shell.py file.
 """
-def csv(location, spacing):
+def csv(location, spacing, csv_fs):
     csv_file = open(location, "r", encoding = "utf-8")
     contents = csv_file.readlines()
     for trim in range(0, len(contents)):
         contents[trim] = contents[trim][0:-1]
-    first_line = contents[0].split(",")
+    first_line = contents[0].split(csv_fs)
     print("    ", end = "")
     for first_index in range(0, len(first_line)):
         print(str(first_line[first_index]), end = str("\t" * spacing))
     print()
     for val in range(1, len(contents)):
-        row = contents[val].split(",")
+        row = contents[val].split(csv_fs)
         print(str(val) + ". ", end = " ")
         for itr in range(0, len(row)):
             print(str(row[itr]), end = str("\t" * spacing))
@@ -78,13 +78,13 @@ Working of parse_csv():
 4. The list of separated data is appended to the empty list (parsed_list).
 5. parsed_list is returned.
 """
-def parse_csv(location):
+def parse_csv(location, csv_fs):
     parsed_list = []
     csv_parse_file = open(location, "r", encoding = "utf-8")
     parse_contents = csv_parse_file.readlines()
     parse_contents = trim_n(parse_contents)
     for add_cell in range(0, len(parse_contents)):
-        info_cells = parse_contents[add_cell].split(",")
+        info_cells = parse_contents[add_cell].split(csv_fs)
         parsed_list.append(info_cells)
     return parsed_list
 
