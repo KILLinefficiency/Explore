@@ -7,6 +7,9 @@ from pathlib import Path
 from random import randint
 
 SERVER_IP = ""
+CSV_FS = ","
+csv_spacing = 4
+
 
 exit_comms = ["exit", "exit.", "bye", "bye."]
 
@@ -357,23 +360,17 @@ while flag:
         # Reads a .csv file using csv() from lib.py
         elif cmd[0] == "csv" and len(cmd) >= 2:
             try:
-                # Sets the default spacing for CVS Reader to 4 spacings.
-                csv_spacing = 4
-                path = ""
-                # If custom spacing is not supplied and the file address does not contain spaces.
-                if len(cmd) == 2:
-                    path = cmd[1]
-                # If custom spacing is supplied and the file address contains spaces.
-                elif len(cmd) > 2:
-                    # Concatenates the path which contains spaces.
-                    for path_concat in range(2, len(cmd)):
-                        path = path + cmd[path_concat] + " "
-                    path = path[:-1]
-                    # Sets the custom spacing.
-                    csv_spacing = int(cmd[1])
-                print()
-                lib.csv(path, csv_spacing)
-                print()
+                if cmd[1] == "config":
+                    if cmd[2] == "fs":
+                        new_csv_fs = lib.join_string(cmd, 3, len(cmd) - 1)
+                        CSV_FS = new_csv_fs
+                    elif cmd[2] == "tab":
+                        csv_spacing = int(eval(lib.join_string(cmd, 3, len(cmd) - 1)))
+                else:
+                    path = lib.join_string(cmd, 1, len(cmd) - 1)
+                    print()
+                    lib.csv(path, csv_spacing, CSV_FS)
+                    print()
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
         
@@ -390,9 +387,9 @@ while flag:
                     # the Book. 
                     if not(cmd[2] in book_keys):
                         print()
-                        lib.csv(path, 1)
+                        lib.csv(path, 1, CSV_FS)
                         print()
-                        book[cmd[2]] = ["csv", lib.parse_csv(path)]
+                        book[cmd[2]] = ["csv", lib.parse_csv(path, CSV_FS)]
                     else:
                         err.error(14)
                 elif cmd[1] == "text":
@@ -722,9 +719,9 @@ while flag:
         err.error(9)
         continue
 
-    except ValueError:
-        err.error(6)
-        continue
+    # except ValueError:
+    #     err.error(6)
+    #     continue
 
     except IndexError:
         print("Missing Arguments or Extra Arguments.")
