@@ -8,7 +8,7 @@ from random import randint
 
 SERVER_IP = ""
 CSV_FS = ","
-csv_spacing = 4
+CSV_SPACING = 4
 
 
 exit_comms = ["exit", "exit.", "bye", "bye."]
@@ -365,11 +365,11 @@ while flag:
                         new_csv_fs = lib.join_string(cmd, 3, len(cmd) - 1)
                         CSV_FS = new_csv_fs
                     elif cmd[2] == "tab":
-                        csv_spacing = int(eval(lib.join_string(cmd, 3, len(cmd) - 1)))
+                        CSV_SPACING = int(eval(lib.join_string(cmd, 3, len(cmd) - 1)))
                 else:
                     path = lib.join_string(cmd, 1, len(cmd) - 1)
                     print()
-                    lib.csv(path, csv_spacing, CSV_FS)
+                    lib.csv(path, CSV_SPACING, CSV_FS)
                     print()
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
@@ -617,15 +617,23 @@ while flag:
             c_values = ms.gen_cluster_key_values()
             b_data_space = list(book.keys())
             b_data_space_contents = list(book.values())
+
+            text_file_values = []
+            # print(b_data_space_contents)
+            for get_text_values in range(0, len(b_data_space_contents)):
+                if b_data_space_contents[get_text_values][0] == "text":
+                    text_file_values.append(b_data_space_contents[get_text_values][1])
+
             for get_values in range(0, len(b_data_space_contents)):
                 b_data_space_contents[get_values] = b_data_space_contents[get_values][1]
+            
             book_all_values = []
             for all_values in range(0, len(b_data_space_contents)):
                 for add_values in range(0, len(b_data_space_contents[all_values])):
                     for add_more_values in range(0, len(b_data_space_contents[all_values][add_values])):
                         book_all_values.append(b_data_space_contents[all_values][add_values][add_more_values])
             # Shows a "Not Found." message if the item is found nowhere.
-            if not((search in c_keys) or (search in c_values) or (search in m_values) or (search in b_data_space) or (search in book_all_values)):
+            if not((search in c_keys) or (search in c_values) or (search in m_values) or (search in b_data_space) or (search in book_all_values) or (search in text_file_values[0])):
                 err.error(17)
             else:
                 data_type = None
@@ -657,6 +665,9 @@ while flag:
                 for search_data_space in range(0, len(b_data_space)):
                     if search == b_data_space[search_data_space]:
                         print("Location: Book\t Itemtype: Dataspace\t Position: " + str(search_data_space + 1))
+                for search_text_values in range(0, len(text_file_values[0])):
+                    if search == text_file_values[0][search_text_values]:
+                        print("Location: Book\t Itemtype: Parsed Values\t Position: " + str(search_text_values + 1))
                 # Searches for the particular data item and the data space and outputs it's information.
                 for search_parsed_values in range(0, len(b_data_space_contents)):
                     for search_each_dataspace in range(0, len(b_data_space_contents[search_parsed_values])):
