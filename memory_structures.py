@@ -35,13 +35,13 @@ def set_data(memory):
 def gen_mess_values():
     global mess
     mess_values = mess.split("\n")
-    lib.del_spaces(mess_values)
+    mess_values = lib.del_spaces(mess_values)
     return mess_values
 
 def gen_cluster_values():
     global cluster
     cluster_values = cluster.split("\n")
-    lib.del_spaces(cluster_values)
+    cluster_values = lib.del_spaces(cluster_values)
     return cluster_values
 
 # Code for generating the Mess as a Python List and the Cluster as a Python Dictionary.
@@ -93,7 +93,7 @@ def insert_mess(value, data_type, position):
 def get_from_mess(position):
     global mess
     mess_items = mess.split("\n")
-    lib.del_spaces(mess_items)
+    mess_items = lib.del_spaces(mess_items)
     required_item = mess_items[position - 1]
     required_item = required_item.split()
     value = lib.join_string(required_item, 0, len(required_item) - 2)
@@ -133,7 +133,7 @@ def pop_from_mess(items):
     else:
         for del_item in range(0, len(items)):
             mess_values[int(items[del_item]) - 1] = ""
-    lib.del_spaces(mess_values)
+    mess_values = lib.del_spaces(mess_values)
     mess = ""
     for concat_mess in range(0, len(mess_values)):
         mess = mess + mess_values[concat_mess]
@@ -169,7 +169,7 @@ def change_in_cluster(key, new_value, data_type):
 def get_from_cluster(key):
     global cluster
     cluster_items = cluster.split("\n")
-    lib.del_spaces(cluster_items)
+    cluster_items = lib.del_spaces(cluster_items)
     for search_item in range(0, len(cluster_items)):
         individual_item = cluster_items[search_item].split()
         if individual_item[0] == key:
@@ -186,7 +186,7 @@ def rem_from_cluster(key):
     for rem_items in range(0, len(cluster_values)):
         if lib.starts_with(cluster_values[rem_items], key):
             cluster_values[rem_items] = ""
-    lib.del_spaces(cluster_values)
+    cluster_values = lib.del_spaces(cluster_values)
     cluster = ""
     for cluster_concat in range(0, len(cluster_values)):
         cluster = cluster + cluster_values[cluster_concat]
