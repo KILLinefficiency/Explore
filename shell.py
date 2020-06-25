@@ -133,7 +133,7 @@ while flag:
             log.write(command + "\n")
 
         # Removes the extra unwanted spaces from the command.
-        lib.del_spaces(cmd)
+        cmd = lib.del_spaces(cmd)
 
         # Replaces the pipe character ("|") with space (" ").
         for add_spaces in range(0, len(cmd)):
