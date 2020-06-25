@@ -571,7 +571,10 @@ while flag:
                 if cmd[1] == "mess":
                     print(ms.get_from_mess(int(cmd[2])))
                 elif cmd[1] == "cluster":
-                    print(ms.get_from_cluster(cmd[2]))
+                    if ms.get_from_cluster(cmd[2]) != None:
+                        print(ms.get_from_cluster(cmd[2]))
+                    else:
+                        err.error(8)
                 elif cmd[1] == "book":
                     # Gets parsed CSV data.
                     if len(cmd) == 5:
