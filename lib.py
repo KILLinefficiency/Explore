@@ -154,12 +154,11 @@ Working of del_spaces():
    empty strings.
 """
 def del_spaces(arr):
-    try:
-        for trim_spaces in range(0, len(arr)):
-            if arr[trim_spaces] == "":
-                del arr[trim_spaces]
-    except IndexError:
-        del_spaces(arr)
+    new_arr = []
+    for check_arr in range(0, len(arr)):
+        if arr[check_arr] != "":
+            new_arr.append(arr[check_arr])
+    return new_arr
 
 """
 clear_screen() makes the terminal tidy again.
