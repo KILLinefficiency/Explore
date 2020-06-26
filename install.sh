@@ -1,51 +1,45 @@
 #!/bin/bash
 
-EXPLORE_DIR=$(pwd)
+echo "Installing Explore..."
 
-echo "Welcome to Explore Installer!"
+mkdir ~/.Explore
+cp * -r ~/.Explore
 
-echo "Enter the number for your selection: "
-echo "1 Install Explore (recommended)."
-echo "2 Repair (If you've run into a System Error)."
-echo "3 Exit Installer."
+echo "Installing Dependencies..."
+pip3 install -r ~/.Explore/requirements.txt
 
-read -p ":) > " CHOICE
+echo "Installing Explore Executable..."
 
-if [ -z "$CHOICE" ]; then
-  exit
+cat << EXPSCR > ~/.Explore/explore
+cd ~/.Explore
+python3 Explore.py
+EXPSCR
+chmod +x ~/.Explore/explore
+
+echo "Installing Explore Server..."
+cat << EXPSER > ~/.Explore/explore-server
+cd ~/.Explore
+node server.js
+EXPSER
+
+chmod +x ~/.Explore/explore ~/.Explore/explore-server
+
+echo "Adding to PATH..."
+if [ -e ~/.bashrc ]; then
+  echo "export PATH=\"~/.Explore:$PATH\"" >> ~/.bashrc
 fi
 
-if [ $CHOICE == "1" ]; then
-  pip3 install -r requirements.txt
-  echo ""
-  echo "Dependencies Installed!"
-
-  touch explore
-  echo "cd $EXPLORE_DIR" > explore
-  echo "python3 $EXPLORE_DIR/Explore.py" >> explore
-  chmod +x explore
-  echo ""
-  echo "Executable Script genereted!"
-
-  touch explore-server
-  echo "cd $EXPLORE_DIR" > explore-server
-  echo "node $EXPLORE_DIR/server.js" >> explore-server
-  chmod +x explore-server
-  echo ""
-  echo "Explore Server set up!"
-
-  echo "export PATH=\"$EXPLORE_DIR:$PATH\"" >> $HOME/.bashrc
-  echo ""
-  echo "Executable Script added to PATH (modified .bashrc)!"
-
-  echo ""
-  echo "Explore installed successfully!"
-
-elif [ $CHOICE == "2" ]; then
-  rm .val .cipher log.txt 2> /dev/null
-  echo "System repaired!"
-
-else
-  exit
-
+if [ -e ~/.zshrc ]; then
+  echo "export PATH=\"~/.Explore:$PATH\"" >> ~/.zshrc
 fi
+
+echo ""
+cat << FIN
+Installation Finished!
+Explore Installed at ~/.Explore
+
+Restart the terminal and run:
+explore : For starting Explore.
+explore-server: For running Explore Server.
+
+FIN
