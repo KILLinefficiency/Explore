@@ -38,8 +38,8 @@ cat << FIN
 Installation Finished!
 Explore Installed at ~/.Explore
 
-Restart the terminal and run:
-explore : For starting Explore.
-explore-server: For running Explore Server.
+Restart the terminal and run :-
+explore : For running Explore.
+explore-server : For running Explore Server.
 
 FIN
