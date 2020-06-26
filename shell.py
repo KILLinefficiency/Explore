@@ -3,8 +3,6 @@ import lib
 import memory_structures as ms
 import limit
 import error as err
-from pathlib import Path
-from random import randint
 
 SERVER_IP = ""
 CSV_FS = ","
@@ -13,13 +11,11 @@ CSV_SPACING = 4
 
 exit_comms = ["exit", "exit.", "bye", "bye."]
 
-log_file = Path("log.txt")
-
 # The code for shell begins here.
 
 flag = True
 logging = True
-log = open("log.txt", "a", encoding = "utf-8")
+log = open("log.txt", "a+", encoding = "utf-8")
 # Declares empty list and dictionaries for the Mess, the Cluster and the Book respectively.
 book = {}
 # Sets up the expression that appears on the prompt.
@@ -114,7 +110,7 @@ while flag:
 
         elif (cmd[0] == "about" or cmd[0] == "info") and len(cmd) == 1:
             lib.explore_splash()
-            print("\nExplore v2.0\nCodename: Terrific\nLicense: GNU General Public License v3.0\nAuthor: Shreyas Sable\nRepository: https://www.github.com/KILLinefficiency/Explore\n")
+            print("\nExplore v3.0\nCodename: Kal-El\nLicense: GNU General Public License v3.0\nAuthor: Shreyas Sable\nRepository: https://www.github.com/KILLinefficiency/Explore\n")
 
         elif cmd[0] == "clear" and len(cmd) == 1:
             lib.clear_screen()
