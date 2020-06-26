@@ -13,76 +13,7 @@ CSV_SPACING = 4
 
 exit_comms = ["exit", "exit.", "bye", "bye."]
 
-# Opens files .cipher and .val.
-# .cipher and .val are the hidden system files.
-login_file = Path(".cipher")
-key_file = Path(".val")
 log_file = Path("log.txt")
-
-try:
-    if not (login_file.is_file() or key_file.is_file() or log_file.is_file()):
-        password = open(".cipher", "w+", encoding = "utf-8")
-        key = open(".val", "w+", encoding = "utf-8")
-        log = open("log.txt", "w+", encoding = "utf-8")
-        # Closes the log.txt file I/O instance because it is not required in this file.
-        # log.txt is used again.
-        log.close()
-        while True:
-            try:
-                # Asks the user to set up a new password.
-                new_password = input("\nSet new Login Password: ")
-                break
-            except KeyboardInterrupt:
-                print()
-        while True:
-            try:
-                # Asks the user to set up a new encryption key.
-                cipher_key = int(input("\nSet new Encryption Key: "))
-                # Sets a random encryption key between 1 and 128 if the user enters 0.
-                if cipher_key == 0:
-                    cipher_key = randint(1, 129)
-                    key.write(str(cipher_key))
-                    lib.explore_splash()
-                # Sets the user-desired key if it is not 0. 
-                else:
-                    key.write(str(cipher_key))
-                    lib.explore_splash()
-                print()
-                break
-            except ValueError:
-                print()
-                err.error(2)
-                continue
-            except KeyboardInterrupt:
-                print()
-        key.close()
-        # Encrypts the new password with the key entered by the user.
-        password.write(cipher.enc_dec(new_password, cipher_key))
-        password.close()
-    # Asks user to log in with password if the files cipher and val exist.
-    elif login_file.is_file() or key_file.is_file():
-        password = open(".cipher", "r", encoding = "utf-8")
-        login_password = password.read()
-        key = open(".val", "r", encoding = "utf-8")
-        cipher_key = int(key.read())
-        while True:
-            try:
-                ask_password = input("\nLogin Password: ")
-                # Checks if the entered password matches the correct decrypted password.
-                if ask_password == cipher.enc_dec(login_password, cipher_key):
-                    lib.explore_splash()
-                    break
-                else:
-                    print()
-                    err.error(3)
-                    continue
-            except KeyboardInterrupt:
-                continue
-        password.close()
-        key.close()
-except FileNotFoundError:
-    err.error(1)
-    exit()
 
 # The code for shell begins here.
 
@@ -97,6 +28,7 @@ expressions = [":) > ", ";) > ", ":| > ", ":( > ", ":D > ", ":P > ", ":O > "]
 
 # Starts the infinite loop where the prompt appears again and again
 # for interpreting commands
+lib.explore_splash()
 while flag:
     commands = list(limit.cmd_requests.keys())
     limit_commands = list(limit.cmd_limit.keys())
