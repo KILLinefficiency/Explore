@@ -205,76 +205,9 @@ def del_left_zeros(text):
         zero_counter = zero_counter + 1
     return text[zero_counter:]
 
-
-"""
-reverse_list() reverses the passed list.
-"""
-def reverse_list(arr):
-    rev_arr = []
-    for rev_list_count in range(len(arr) - 1, -1, -1):
-        rev_arr.append(arr[rev_list_count])
-    return rev_arr
-
 def join_string(arr, start, end):
     complete_string = ""
     for join_str in range(start, end + 1):
         complete_string = complete_string + arr[join_str] + " "
     complete_string = complete_string[:-1]
     return complete_string
-
-def power(base, index):
-    final_val = 1
-    for mul in range(0, index):
-        final_val = final_val * base
-    return final_val
-
-def reverse_string(string):
-    rev_str = ""
-    for reverse in range(len(string) - 1, -1, -1):
-        rev_str = rev_str + string[reverse]
-    return rev_str
-
-def add_left_zeros(string, num):
-    string = reverse_string(string)
-    string = string + ("0" * num)
-    string = reverse_string(string)
-    return string
-
-def to_bin(num):
-    str_num = ""
-    num = int(num)
-    while num != 0:
-        if num % 2 == 0:
-            str_num = str_num + "0"
-            num = int(num / 2)
-        elif num % 2 != 0:
-            str_num = str_num + "1"
-            num = int(num / 2)
-    bin_num = reverse_string(str_num)
-    return int(bin_num)
-
-def to_dec(num):
-    dec_num = 0
-    num = str(num)
-    for convert in range(0, len(num)):
-        dec_num = dec_num + int(num[convert]) * power(2, (len(num) - convert - 1))
-    return int(dec_num)
-
-def xor(val1, val2):
-    final_val = ""
-    val1 = str(to_bin(val1))
-    val2 = str(to_bin(val2))
-    if len(val1) > len(val2):
-        num_zeros = len(val1) - len(val2)
-        val2 = add_left_zeros(val2, num_zeros)
-    elif len(val2) > len(val1):
-        num_zeros = len(val2) - len(val1)
-        val1 = add_left_zeros(val1, num_zeros)
-
-    for oper in range(0, len(val1)):
-        if val1[oper] == val2[oper]:
-            final_val = final_val + "0"
-        elif val1[oper] != val2[oper]:
-            final_val = final_val + "1"
-
-    return final_val
