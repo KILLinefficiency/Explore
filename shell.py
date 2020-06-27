@@ -32,6 +32,9 @@ while flag:
         escape_log = False
         command = input(expression)
         command = command.replace("\t", " ")
+        if command[0] == " ":
+            escape_log = True
+        command = command.strip()
         cmd = command.split(" ")
 
         # For replacing the referred values from the Mess, the Cluster and the Book.
@@ -54,9 +57,6 @@ while flag:
             err.error(4)
             continue
 
-        # Writes the entered command to log.txt file and does not if the command starts with a space character (" ").
-        if cmd[0] == "":
-            escape_log = True
         if not (len(command) == 0) and not (escape_log):
             log.write(command + "\n")
 
@@ -358,7 +358,6 @@ while flag:
                     e_c_key = int(cmd[-1][2:])
                 cluster_export_address = lib.join_string(cmd, 2, len(cmd) - back_char)
                 cluster_export_file = open(cluster_export_address, "w+", encoding = "utf-8")
-                print(ms.cluster)
                 if lib.starts_with(cmd[-1], "e_"):
                     cluster_export_file.write(cipher.enc_dec(ms.cluster, e_c_key))
                 else:
@@ -383,7 +382,6 @@ while flag:
                 mess_contents = mess_import_file.read()
                 if lib.starts_with(cmd[-1], "d_"):
                     ms.add_to_ms_directly_unsafe(cipher.enc_dec(mess_contents, d_m_key), "mess")
-                    print(ms.mess)
                 else:
                     ms.add_to_ms_directly_safe(mess_contents, "mess")
             except (FileNotFoundError, IsADirectoryError):
@@ -405,7 +403,6 @@ while flag:
                 cluster_contents = cluster_import_file.read()
                 if lib.starts_with(cmd[-1], "d_"):
                     ms.add_to_ms_directly_unsafe(cipher.enc_dec(cluster_contents, d_c_key), "cluster")
-                    print(ms.cluster)
                 else:
                     ms.add_to_ms_directly_safe(cluster_contents, "cluster")
             except (FileNotFoundError, IsADirectoryError):
@@ -664,9 +661,9 @@ while flag:
         err.error(9)
         continue
 
-    # except ValueError:
-    #     err.error(6)
-    #     continue
+    except ValueError:
+        err.error(6)
+        continue
 
     except IndexError:
         print("Missing Arguments or Extra Arguments.")
@@ -674,7 +671,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    # except:
-    #    print("-1")
-    #    continue
+    except:
+        print("-1")
+        continue
 log.close()
