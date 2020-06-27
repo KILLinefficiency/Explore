@@ -88,19 +88,22 @@ while flag:
 
         if cmd[0] == "limit":
             try:
-                if cmd[1] == "enable" and cmd[2] != "all":
-                    limit.set_limit(cmd[2], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
-                elif cmd[1] == "enable" and cmd[2] == "all":
-                    for limit_all in range(0, len(limit.total_commands)):
-                        limit.set(limit.total_commands[limit_all], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
-                elif cmd[1] == "disable" and cmd[2] != "all":
-                    limit.rem_limit(cmd[2:])
-                elif cmd[1] == "disable" and cmd[2] == "all":
-                    limit.rem_limit(list(limit.cmd_limit.keys()))
-                elif cmd[1] == "status" and cmd[2] != "all":
-                    limit.limit_status(cmd[2:])
-                elif cmd[1] == "status" and cmd[2] == "all":
-                    limit.limit_status(limit.total_commands)
+                if cmd[1] == "enable":
+                    if cmd[2] == "all":
+                        for limit_all in range(0, len(limit.total_commands)):
+                            limit.set(limit.total_commands[limit_all], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
+                    elif cmd[2] != "all":
+                        limit.set_limit(cmd[2], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
+                elif cmd[1] == "disable":
+                    if cmd[2] == "all":
+                        limit.rem_limit(list(limit.cmd_limit.keys()))
+                    elif cmd[2] != "all":
+                        limit.rem_limit(cmd[2:])
+                elif cmd[1] == "status":
+                    if cmd[2] == "all":
+                        limit.limit_status(limit.total_commands)
+                    elif cmd[2] != "all":
+                        limit.limit_status(cmd[2:])
             except IndexError:
                 continue
 
