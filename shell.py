@@ -91,7 +91,7 @@ while flag:
                 if cmd[1] == "enable":
                     if cmd[2] == "all":
                         for limit_all in range(0, len(limit.total_commands)):
-                            limit.set(limit.total_commands[limit_all], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
+                            limit.set_limit(limit.total_commands[limit_all], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
                     elif cmd[2] != "all":
                         limit.set_limit(cmd[2], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
                 elif cmd[1] == "disable":
@@ -120,11 +120,7 @@ while flag:
         
         # Displays text and data.
         elif cmd[0] == "disp":
-            disp_data = ""
-            # Concatenates the data passed to "disp".
-            for check in range(1, len(cmd)):
-                disp_data = disp_data + str(cmd[check]) + " "
-            disp_data = disp_data[:-1]
+            disp_data = lib.join_string(cmd, 1, len(cmd) - 1)
             print(disp_data)
 
         # Pushes numeric data items into the mess.
