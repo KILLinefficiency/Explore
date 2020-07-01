@@ -420,6 +420,9 @@ def del_line_comm(commands):
         del_line_comm(commands)
 
 def invoke(command):
+    global mess
+    global cluster
+    global book
     global commands
     limit_commands = list(cmd_limit.keys())
     error_catch = 0
@@ -553,13 +556,16 @@ def invoke(command):
 
         elif cmd[0] == "count" and len(cmd) == 2:
             if cmd[1] == "mess":
-                print(count_mess())
+                return count_mess()
             elif cmd[1] == "cluster":
-                print(count_cluster())
+                return count_cluster()
             elif cmd[1] == "book":
-                print(len(book))
+                return len(book)
             else:
                 error(9)
+
+        elif cmd[0] == "getmess":
+            return gen_mess_list()
 
         elif cmd[0] == "clean":
             clean_list = cmd[1:]
@@ -568,7 +574,7 @@ def invoke(command):
             if "cluster" in clean_list:
                 clean_cluster()
             if "book" in clean_list:
-                clear()
+                book.clear()
 
         elif cmd[0] == "calc":
             try:
@@ -577,38 +583,12 @@ def invoke(command):
                 for check in range(1, len(cmd)):
                     equation = equation + del_left_zeros(cmd[check])
                 maths_answer = eval(equation)
-                if maths_answer == True:
-                    print("Yes. (1)")
-                elif maths_answer == False:
-                    print("No. (0)")
-                else:
-                    print(maths_answer)
-            except ValueError:
-                    error(6)
-            except IndexError:
-                error(8)
-            except ZeroDivisionError:
-                error(10)
-            except EOFError:
-                error(11)
+                return maths_answer
+            except (ValueError, IndexError, ZeroDivisionError, EOFError):
+                return None
 
         elif cmd[0] == "getbook" and len(cmd) == 1:
-            # Gets the data labels of all the parsed data.
-            book_keys = list(book.keys())
-            if len(book_keys) == 0:
-                pass
-            else:
-                for itr_book in range(0, len(book_keys)):
-                    # Displays the label of the parsed data and the contents
-                    # in an organized way.
-                    print()
-                    print(str(book_keys[itr_book]) + ": ")
-                    print()
-                    if book[book_keys[itr_book]][0] == "csv":
-                        disp_list(book[book_keys[itr_book]][1])
-                    elif book[book_keys[itr_book]][0] == "text":
-                        read_list(book[book_keys[itr_book]][1])
-                print()
+            return book
 
         elif cmd[0] == "read":
             try:
@@ -758,33 +738,13 @@ def invoke(command):
                     error(6)
 
         elif cmd[0] == "getcluster":
-            existing_keys = gen_cluster_keys()
-            if len(existing_keys) > 0:
-                # Displays the entire cluster.
-                if len(cmd) == 1:
-                    print("\nKey : Value\n")
-                    for items in range(0, len(existing_keys)):
-                        # Displays each key and value for the list "cluster_items"
-                        # and is separated by " : ".
-                        print(existing_keys[items], get_from_cluster(existing_keys[items]), sep = " : ")
-                    print()
-
-                # Displays only the keys from the cluster.
-                elif len(cmd) == 2 and cmd[1] == "keys":
-                    keys = gen_cluster_keys()
-                    print("\nKey :\n")
-                    for list_keys in range(0, len(keys)):
-                        print(str(keys[list_keys]) + " :")
-                    print()
-                # Displays only the values from the cluster.
-                elif len(cmd) == 2 and cmd[1] == "values":
-                    keys = gen_cluster_keys()
-                    print("\n: Value\n")
-                    for list_values in range(0, len(keys)):
-                        print(": " + str(get_from_cluster(keys[list_values])))
-                    print()
-                else:
-                    error(9)
+            cluster_values = gen_cluster_dict()
+            if len(cmd) == 1:
+                return cluster_values
+            elif len(cmd) == 2 and cmd[1] == "keys":
+                return list(cluster_values.keys())
+            elif len(cmd) == 2 and cmd[1] == "values":
+                return list(cluster_values.values())
             else:
                 pass
 
