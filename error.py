@@ -1,5 +1,5 @@
 explore_errors = [
-    "\nSystem Error Encountered.\n\nNavigate to Explore's directory and run:\n\n\tmake reset\n\nAlternative: Get a fresh copy of Explore from https://www.github.com/KILLinefficiency/Explore\n",
+    "Reserved Place for System Error",
     "Invalid Key Entered.",
     "Access Denied.",
     "Referenced Data Item(s) not found.",
@@ -15,7 +15,9 @@ explore_errors = [
     "Data Item already exists.",
     "Invalid Import Mode.",
     "Key Already Exists.",
-    "Not Found."
+    "Not Found.",
+    "Server Not Found.",
+    "Memory Location Not Specified."
 ]
 
 def error(error_code):
