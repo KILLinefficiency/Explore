@@ -14,7 +14,6 @@ cat << EXPSCR > ~/.Explore/explore
 cd ~/.Explore
 python3 Explore.py
 EXPSCR
-chmod +x ~/.Explore/explore
 
 echo "Installing Explore Server..."
 cat << EXPSER > ~/.Explore/explore-server
