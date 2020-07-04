@@ -1,5 +1,3 @@
-import lib
-
 def enc_dec(text, key):
     enc_dec_text = ""
     for encrypt in range(0, len(text)):
