@@ -592,9 +592,12 @@ while flag:
                 for search_data_space in range(0, len(b_data_space)):
                     if search == b_data_space[search_data_space]:
                         print("Location: Book\t Itemtype: Dataspace\t Position: " + str(search_data_space + 1))
-                for search_text_values in range(0, len(text_file_values[0])):
-                    if search == text_file_values[0][search_text_values]:
-                        print("Location: Book\t Itemtype: Parsed Values\t Position: " + str(search_text_values + 1))
+                try:
+                    for search_text_values in range(0, len(text_file_values[0])):
+                        if search == text_file_values[0][search_text_values]:
+                            print("Location: Book\t Itemtype: Parsed Value\t Position: " + str(search_text_values + 1))
+                except IndexError:
+                    problems = None
                 # Searches for the particular data item and the data space and outputs it's information.
                 for search_parsed_values in range(0, len(b_data_space_contents)):
                     for search_each_dataspace in range(0, len(b_data_space_contents[search_parsed_values])):
@@ -623,7 +626,7 @@ while flag:
             if cmd[1] == "connect":
                     SERVER_IP = cmd[2]
             if SERVER_IP == "" and cmd[1] != "update":
-                print("No Server Connected.")
+                err.error(18)
             else:
                 if cmd[1] == "ip":
                     print("Connected to: " + SERVER_IP)
@@ -636,7 +639,7 @@ while flag:
                         ms.set_data("mess")
                         ms.set_data("cluster")
                     else:
-                        print("Memory Location Not Specified.")
+                        err.error(19)
                 elif cmd[1] == "fetch":
                     if cmd[2] == "mess":
                         ms.get_data(SERVER_IP, "mess")
@@ -646,7 +649,7 @@ while flag:
                         ms.get_data(SERVER_IP, "mess")
                         ms.get_data(SERVER_IP, "cluster")
                     else:
-                        print("Memory Location Not Specified.")
+                        err.error(19)
 
         # Show a "Invalid Command" message if wrong command is entered.
         else:
@@ -663,6 +666,9 @@ while flag:
 
     except IndexError:
         print("Missing Arguments or Extra Arguments.")
+
+    except ConnectionError:
+        err.error(18)
 
     except KeyboardInterrupt:
         print("\n\nBye.")
