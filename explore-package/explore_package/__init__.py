@@ -1,22 +1,14 @@
 from requests import get
-VERSION = 3.0
-CODENAME = "Kal-El"
-LICENSE = "GNU General Public License v3.0"
-AUTHOR = "Shreyas Sable"
-REPOSITORY = "https://www.github.com/KILLinefficiency/Explore"
-
-SERVER_IP = ""
-CSV_FS = ","
-CSV_SPACING = 4
-
-exit_comms = ["exit", "exit.", "bye", "bye."]
-
-mess = ""
-cluster = ""
-book = {}
+INFO = {
+    "VERSION": 3.0,
+    "CODENAME": "Kal-El",
+    "LICENSE": "GNU General Public License v3.0",
+    "AUTHOR": "Shreyas Sable",
+    "REPOSITORY": "https://www.github.com/KILLinefficiency/Explore"
+}
 
 explore_errors = [
-    "\nSystem Error Encountered.\n\nNavigate to Explore's directory and run:\n\n\tmake reset\n\nAlternative: Get a fresh copy of Explore from https://www.github.com/KILLinefficiency/Explore\n",
+    "Reserved Place for System Error",
     "Invalid Key Entered.",
     "Access Denied.",
     "Referenced Data Item(s) not found.",
@@ -32,74 +24,14 @@ explore_errors = [
     "Data Item already exists.",
     "Invalid Import Mode.",
     "Key Already Exists.",
-    "Not Found."
+    "Not Found.",
+    "Server Not Found.",
+    "Memory Location Not Specified."
 ]
 
 def error(error_code):
     global explore_errors
     print(explore_errors[int(error_code) - 1])
-
-cmd_requests = {
-    "disp": 0,
-    "push": 0,
-    "pop": 0,
-    "mov": 0,
-    "count": 0,
-    "getmess": 0,
-    "calc": 0,
-    "getbook": 0,
-    "read": 0,
-    "csv": 0,
-    "book": 0,
-    "export": 0,
-    "import": 0,
-    "set": 0,
-    "getcluster": 0,
-    "change": 0,
-    "get": 0,
-    "rem": 0,
-    "find": 0,
-    "dump": 0
-}
-
-cmd_limit = {}
-
-total_commands = list(cmd_requests.keys())
-commands = list(cmd_requests.keys())
-limit_commands = list(cmd_limit.keys())
-
-def set_limit(command, limit):
-    global cmd_limit
-    cmd_limit[command] = limit
-
-def rem_limit(commands):
-    global cmd_limit
-    global cmd_requests
-    for rem_limits in range(0, len(commands)):
-        del cmd_limit[commands[rem_limits]]
-    for reset_counter in range(0, len(commands)):
-        cmd_requests[commands[reset_counter]] = 0
-
-def incr_limit_count(command):
-    global cmd_requests
-    cmd_requests[command] = cmd_requests[command] + 1
-
-def limit_status(commands):
-    global total_commands
-    limit_commands = list(cmd_limit.keys())
-    print()
-    for status in range(0, len(commands)):
-        limit_enabled = "No"
-        requests = None
-        limit = 0
-        if commands[status] in limit_commands:
-            limit_enabled = "Yes"
-            limit = cmd_limit[commands[status]]
-        requests = cmd_requests[commands[status]]
-        print(str(status + 1) + ". Command: " + commands[status] + "\nLimit Enabled: " + limit_enabled + "\nRequests: " + str(requests) + "\nLimit: " + str(limit) + "\n")
-
-def delete_item(array, index):
-    del array[index - 1]
 
 def enc_dec(text, key):
     enc_dec_text = ""
@@ -107,213 +39,8 @@ def enc_dec(text, key):
         enc_dec_text = enc_dec_text + chr(ord(text[encrypt]) ^ key)
     return enc_dec_text
 
-data_types = ["num", "num\n", "alpha", "alpha\n"]
-
-def get_data(ip, memory):
-    try:
-        global mess
-        global cluster
-        address = "http://" + ip + ":2166/" + memory
-        data = get(address)
-        if memory == "mess":
-            mess = data.text[0:-1]
-        elif memory == "cluster":
-            cluster = data.text[0:-1]
-    except KeyboardInterrupt:
-        pass
-        print()
-    except ConnectionError:
-        print("Server Not Running.")
-
-def set_data(memory):
-    global mess
-    global cluster
-    memory_file = open(("." + memory + "_server_file.txt"), "w+", encoding = "utf-8")
-    if memory == "mess":
-        memory_file.write(mess)
-    elif memory == "cluster":
-        memory_file.write(cluster)
-    memory_file.close()
-
-def gen_mess_values():
-    global mess
-    mess_values = mess.split("\n")
-    mess_values = del_spaces(mess_values)
-    return mess_values
-
-def gen_cluster_values():
-    global cluster
-    cluster_values = cluster.split("\n")
-    cluster_values = del_spaces(cluster_values)
-    return cluster_values
-
-def gen_mess_list():
-    global mess
-    true_mess = []
-    mess_values = gen_mess_values()
-    for add_to_true_mess in range(0, len(mess_values)):
-        mess_items = mess_values[add_to_true_mess].split(" ")
-        if mess_items[-1] == "num":
-            true_mess.append(float(mess_items[0]))
-        elif mess_items[-1] == "alpha":
-            true_mess.append(str(join_string(mess_items, 0, len(mess_items) - 2)))
-    return true_mess
-
-def gen_cluster_dict():
-    global cluster
-    true_cluster = {}
-    cluster_values = gen_cluster_values()
-    for add_to_true_cluster in range(0, len(cluster_values)):
-        cluster_items = cluster_values[add_to_true_cluster].split(" ")
-        if cluster_items[-1] == "num":
-            true_cluster[cluster_items[0]] = float(join_string(cluster_items, 1, len(cluster_items) - 2))
-        elif cluster_items[-1] == "alpha":
-            true_cluster[cluster_items[0]] = str(join_string(cluster_items, 1, len(cluster_items) - 2))
-    return true_cluster
-
-def add_n(items):
-    for add_n in range(0, len(items)):
-        if items[add_n][-1] != "\n":
-            items[add_n] = items[add_n] + "\n"
-
-def add_mess(value, data_type):
-    global mess
-    mess = mess + str(value) + " " + data_type + "\n"
-
-def insert_mess(value, data_type, position):
-    global mess
-    mess_values = gen_mess_values()
-    add_n(mess_values)
-    mess = ""
-    mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
-    for concat_mess in range(0, len(mess_values)):
-        mess = mess + mess_values[concat_mess]
-
-def get_from_mess(position):
-    global mess
-    mess_items = mess.split("\n")
-    mess_items = del_spaces(mess_items)
-    required_item = mess_items[position - 1]
-    required_item = required_item.split()
-    value = join_string(required_item, 0, len(required_item) - 2)
-    if required_item[-1] == "num":
-        value = float(value)
-    elif required_item[-1] == "alpha":
-        value = str(value)
-    if position > 0:
-        return value
-    else:
-        pass
-
-def move_in_mess(value, data_type, position):
-    global mess
-    mess_values = gen_mess_values()
-    add_n(mess_values)
-    del mess_values[position - 1]
-    mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
-    mess = ""
-    for concat_mess in range(0, len(mess_values)):
-        mess = mess + mess_values[concat_mess]
-
-def count_mess():
-    mess_values = gen_mess_values()
-    return len(mess_values)
-
-def clean_mess():
-    global mess
-    mess = ""
-
-def pop_from_mess(items):
-    global mess
-    mess_values = gen_mess_values()
-    add_n(mess_values)
-    if items == []:
-        mess_values[-1] = ""
-    else:
-        for del_item in range(0, len(items)):
-            mess_values[int(items[del_item]) - 1] = ""
-    mess_values = del_spaces(mess_values)
-    mess = ""
-    for concat_mess in range(0, len(mess_values)):
-        mess = mess + mess_values[concat_mess]
-
-def add_cluster(key, value, data_type):
-    global cluster
-    cluster = cluster + str(key) + " " + str(value) + " " + data_type + "\n"
-
-def gen_cluster_keys():
-    cluster_items = gen_cluster_dict()
-    cluster_keys = list(cluster_items.keys())
-    return cluster_keys
-
-def gen_cluster_key_values():
-    cluster_items = gen_cluster_dict()
-    cluster_values = list(cluster_items.values())
-    return cluster_values
-
-def change_in_cluster(key, new_value, data_type):
-    global cluster
-    cluster_values = gen_cluster_values()
-    add_n(cluster_values)
-    cluster_keys = gen_cluster_keys()
-    key_index = cluster_keys.index(key)
-    del cluster_values[key_index]
-    cluster_values.insert(key_index, str(key) + " " + str(new_value) + " " + data_type + "\n")
-    cluster = ""
-    for concat_cluster in range(0, len(cluster_values)):
-        cluster = cluster + cluster_values[concat_cluster]
-
-def get_from_cluster(key):
-    global cluster
-    cluster_items = cluster.split("\n")
-    cluster_items = del_spaces(cluster_items)
-    for search_item in range(0, len(cluster_items)):
-        individual_item = cluster_items[search_item].split()
-        if individual_item[0] == key:
-            value = join_string(individual_item, 1, len(individual_item) - 2)
-            if individual_item[-1] == "num":
-                return float(value)
-            elif individual_item[-1] == "alpha":
-                return str(value)
-
-def rem_from_cluster(key):
-    global cluster
-    cluster_values = gen_cluster_values()
-    add_n(cluster_values)
-    for rem_items in range(0, len(cluster_values)):
-        if starts_with(cluster_values[rem_items], key):
-            cluster_values[rem_items] = ""
-    cluster_values = del_spaces(cluster_values)
-    cluster = ""
-    for cluster_concat in range(0, len(cluster_values)):
-        cluster = cluster + cluster_values[cluster_concat]
-
-def clean_cluster():
-    global cluster
-    cluster = ""
-
-def count_cluster():
-    cluster_values = gen_cluster_values()
-    return len(cluster_values)
-
-def add_to_ms_directly_safe(value, memory_structure):
-    global data_types
-    global mess
-    global cluster
-    split_array = value.split(" ")
-    if split_array[-1] in data_types: 
-        if memory_structure == "mess":
-            mess = mess + value
-        elif memory_structure == "cluster":
-            cluster = cluster + value
-
-def add_to_ms_directly_unsafe(value, memory_structure):
-    global mess
-    global cluster
-    if memory_structure == "mess":
-        mess = mess + value
-    elif memory_structure == "cluster":
-        cluster = cluster + value
+def delete_item(array, index):
+    del array[index - 1]
 
 def trim_n(array):
     clean_array = []
@@ -362,8 +89,9 @@ def starts_with(string, trimmed_string):
 
 def read_file(location):
     rfile = open(location, "r", encoding = "utf-8")
-    print(rfile.read())
+    file_contents = rfile.read()
     rfile.close()
+    return file_contents
 
 def del_spaces(arr):
     new_arr = []
@@ -396,104 +124,335 @@ def join_string(arr, start, end):
     complete_string = complete_string[:-1]
     return complete_string
 
-def del_comments(commands):
-    clean_commands = []
-    for trim_comments in range(0, len(commands)):
-        if not(starts_with(commands[trim_comments], "...")):
-            clean_commands.append(commands[trim_commands])
-    return clean_commands
+class Explore:
+    __mess = ""
+    __cluster = ""
+    __book = {}
 
-"""
-Comments will also be present on the same line as that of
-the Explore command statement. The following function
-detects and deletes these comments. The detection is done
-by checking if a individual word is or starts with "...".
-If yes, then the function deletes the word and all the words
-onwards to that word.
-"""
-def del_line_comm(commands):
-    try:
-        for del_comm in range(0, len(commands)):
-            if commands[del_comm] == "..." or starts_with(commands[del_comm], "..."):
-                del commands[commands.index(commands[del_comm]):]
-    except IndexError:
-        del_line_comm(commands)
+    __SERVER_IP = ""
+    __CSV_FS = ","
+    __CSV_SPACING = 4
 
-def invoke(command):
-    global mess
-    global cluster
-    global book
-    global commands
-    limit_commands = list(cmd_limit.keys())
-    error_catch = 0
-    try:
-        command = command.replace("\t", " ")
+    __cmd_requests = {
+        "disp": 0,
+        "push": 0,
+        "pop": 0,
+        "mov": 0,
+        "count": 0,
+        "getmess": 0,
+        "calc": 0,
+        "getbook": 0,
+        "read": 0,
+        "csv": 0,
+        "book": 0,
+        "export": 0,
+        "import": 0,
+        "set": 0,
+        "getcluster": 0,
+        "change": 0,
+        "get": 0,
+        "rem": 0,
+        "find": 0,
+        "dump": 0
+    }
+
+    __cmd_limit = {}
+
+    __total_commands = list(__cmd_requests.keys())
+
+    def set_limit(self, command, limit):
+        self.__cmd_limit[command] = limit
+
+    def rem_limit(self, commands):
+        for rem_limits in range(0, len(commands)):
+            del self.__cmd_limit[commands[rem_limits]]
+        for reset_counter in range(0, len(commands)):
+            self.__cmd_requests[commands[reset_counter]] = 0
+
+    def incr_limit_count(self, command):
+        self.__cmd_requests[command] = self.__cmd_requests[command] + 1
+
+    def limit_status(self, commands):
+        global total_commands
+        limit_commands = list(self.__cmd_limit.keys())
+        print()
+        for status in range(0, len(commands)):
+            limit_enabled = "No"
+            requests = None
+            limit = 0
+            if commands[status] in limit_commands:
+                limit_enabled = "Yes"
+                limit = self.__cmd_limit[commands[status]]
+            requests = self.__cmd_requests[commands[status]]
+            print(str(status + 1) + ". Command: " + commands[status] + "\nLimit Enabled: " + limit_enabled + "\nRequests: " + str(requests) + "\nLimit: " + str(limit) + "\n")
+
+    def get_data(self, ip, memory):
+        try:
+            global mess
+            global cluster
+            address = "http://" + ip + ":2166/" + memory
+            data = get(address)
+            if memory == "mess":
+                self.__mess = data.text[0:-1]
+            elif memory == "cluster":
+                self.__cluster = data.text[0:-1]
+        except KeyboardInterrupt:
+            pass
+            print()
+        except ConnectionError:
+            print("Server Not Running.")
+
+    def set_data(self, memory):
+        global mess
+        global cluster
+        memory_file = open(("." + memory + "_server_file.txt"), "w+", encoding = "utf-8")
+        if memory == "mess":
+            memory_file.write(self.__mess)
+        elif memory == "cluster":
+            memory_file.write(self.__cluster)
+        memory_file.close()
+
+    def gen_mess_values(self):
+        global mess
+        mess_values = self.__mess.split("\n")
+        mess_values = del_spaces(mess_values)
+        return mess_values
+
+    def gen_cluster_values(self):
+        global cluster
+        cluster_values = self.__cluster.split("\n")
+        cluster_values = del_spaces(cluster_values)
+        return cluster_values
+
+    def gen_mess_list(self):
+        global mess
+        true_mess = []
+        mess_values = self.gen_mess_values()
+        for add_to_true_mess in range(0, len(mess_values)):
+            mess_items = mess_values[add_to_true_mess].split(" ")
+            if mess_items[-1] == "num":
+                true_mess.append(float(mess_items[0]))
+            elif mess_items[-1] == "alpha":
+                true_mess.append(str(join_string(mess_items, 0, len(mess_items) - 2)))
+        return true_mess
+
+    def gen_cluster_dict(self):
+        global cluster
+        true_cluster = {}
+        cluster_values = self.gen_cluster_values()
+        for add_to_true_cluster in range(0, len(cluster_values)):
+            cluster_items = cluster_values[add_to_true_cluster].split(" ")
+            if cluster_items[-1] == "num":
+                true_cluster[cluster_items[0]] = float(join_string(cluster_items, 1, len(cluster_items) - 2))
+            elif cluster_items[-1] == "alpha":
+                true_cluster[cluster_items[0]] = str(join_string(cluster_items, 1, len(cluster_items) - 2))
+        return true_cluster
+
+    def add_n(self, items):
+        for add_n in range(0, len(items)):
+            if items[add_n][-1] != "\n":
+                items[add_n] = items[add_n] + "\n"
+
+    def add_mess(self, value, data_type):
+        global mess
+        self.__mess = self.__mess + str(value) + " " + data_type + "\n"
+
+    def insert_mess(self, value, data_type, position):
+        global mess
+        mess_values = self.gen_mess_values()
+        self.add_n(mess_values)
+        self.__mess = ""
+        mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
+        for concat_mess in range(0, len(mess_values)):
+            self.__mess = self.__mess + mess_values[concat_mess]
+
+    def get_from_mess(self, position):
+        global mess
+        mess_items = self.__mess.split("\n")
+        mess_items = del_spaces(mess_items)
+        required_item = mess_items[position - 1]
+        required_item = required_item.split()
+        value = join_string(required_item, 0, len(required_item) - 2)
+        if required_item[-1] == "num":
+            value = float(value)
+        elif required_item[-1] == "alpha":
+            value = str(value)
+        if position > 0:
+            return value
+        else:
+            pass
+
+    def move_in_mess(self, value, data_type, position):
+        global mess
+        mess_values = gen_mess_values()
+        add_n(mess_values)
+        del mess_values[position - 1]
+        mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
+        mess = ""
+        for concat_mess in range(0, len(mess_values)):
+            mess = mess + mess_values[concat_mess]
+
+    def count_mess(self):
+        mess_values = self.gen_mess_values()
+        return len(mess_values)
+
+    def clean_mess(self):
+        global mess
+        self.__mess = ""
+
+    def pop_from_mess(self, items):
+        global mess
+        mess_values = self.gen_mess_values()
+        add_n(mess_values)
+        if items == []:
+            mess_values[-1] = ""
+        else:
+            for del_item in range(0, len(items)):
+                mess_values[int(items[del_item]) - 1] = ""
+        mess_values = del_spaces(mess_values)
+        self.__mess = ""
+        for concat_mess in range(0, len(mess_values)):
+            self.__mess = self.__mess + mess_values[concat_mess]
+
+    def add_cluster(self, key, value, data_type):
+        global cluster
+        self.__cluster = self.__cluster + str(key) + " " + str(value) + " " + data_type + "\n"
+
+    def gen_cluster_keys(self):
+        cluster_items = self.gen_cluster_dict()
+        cluster_keys = list(cluster_items.keys())
+        return cluster_keys
+
+    def gen_cluster_key_values(self):
+        cluster_items = self.gen_cluster_dict()
+        cluster_values = list(cluster_items.values())
+        return cluster_values
+
+    def change_in_cluster(self, key, new_value, data_type):
+        global cluster
+        cluster_values = self.gen_cluster_values()
+        self.add_n(cluster_values)
+        cluster_keys = self.gen_cluster_keys()
+        key_index = cluster_keys.index(key)
+        del cluster_values[key_index]
+        cluster_values.insert(key_index, str(key) + " " + str(new_value) + " " + data_type + "\n")
+        self.__cluster = ""
+        for concat_cluster in range(0, len(cluster_values)):
+            self.__cluster = self.__cluster + cluster_values[concat_cluster]
+
+    def get_from_cluster(self, key):
+        global cluster
+        cluster_items = self.__cluster.split("\n")
+        cluster_items = del_spaces(cluster_items)
+        for search_item in range(0, len(cluster_items)):
+            individual_item = cluster_items[search_item].split()
+            if individual_item[0] == key:
+                value = join_string(individual_item, 1, len(individual_item) - 2)
+                if individual_item[-1] == "num":
+                    return float(value)
+                elif individual_item[-1] == "alpha":
+                    return str(value)
+
+    def rem_from_cluster(self, key):
+        global cluster
+        cluster_values = self.gen_cluster_values()
+        self.add_n(cluster_values)
+        for rem_items in range(0, len(cluster_values)):
+            if starts_with(cluster_values[rem_items], key):
+                cluster_values[rem_items] = ""
+        cluster_values = del_spaces(cluster_values)
+        self.__cluster = ""
+        for cluster_concat in range(0, len(cluster_values)):
+            self.__cluster = self.__cluster + cluster_values[cluster_concat]
+
+    def clean_cluster(self):
+        global cluster
+        self.__cluster = ""
+
+    def count_cluster(self):
+        cluster_values = self.gen_cluster_values()
+        return len(cluster_values)
+
+    def add_to_ms_directly_safe(self, value, memory_structure):
+        global data_types
+        global mess
+        global cluster
+        split_array = value.split(" ")
+        if split_array[-1] in data_types: 
+            if memory_structure == "mess":
+                self.__mess = self.__mess + value
+            elif memory_structure == "cluster":
+                self.__cluster = self.__cluster + value
+
+    def add_to_ms_directly_unsafe(self, value, memory_structure):
+        global mess
+        global cluster
+        if memory_structure == "mess":
+            self.__mess = self.__mess + value
+        elif memory_structure == "cluster":
+            self.__cluster = self.__cluster + value
+
+    def invoke(self, command):
+        commands = list(self.__cmd_requests.keys())
+        limit_commands = list(self.__cmd_limit.keys())
         command = command.strip()
         cmd = command.split(" ")
+        try:
+            for replace_ref in range(0, len(cmd)):
+                if starts_with(cmd[replace_ref], "x_"):
+                    cmd[replace_ref] = str(self.get_from_mess(int(cmd[replace_ref][2:])))
+                elif starts_with(cmd[replace_ref], "y_"):
+                    cmd[replace_ref] = str(self.get_from_cluster(cmd[replace_ref][2:]))
+                elif starts_with(cmd[replace_ref], "b_"):
+                    info_address = cmd[replace_ref][2:].split("->")
+                    if self.__book[info_address[0]][0] == "text":
+                        cmd[replace_ref] = str(self.__book[info_address[0]][1][int(info_address[1]) - 1])
+                    elif self.__book[info_address[0]][0] == "csv":
+                        cmd[replace_ref] = str(self.__book[info_address[0]][1][int(info_address[1]) - 1][int(info_address[2]) - 1])
+        except (KeyError, ValueError, IndexError):
+            error(4)
+            pass
         cmd = del_spaces(cmd)
-        # Deletes all the comments present with the Explore command.
-        del_line_comm(cmd)
-
         for add_spaces in range(0, len(cmd)):
             for put_spaces in range(0, len(cmd[add_spaces])):
                 if "|" in cmd[add_spaces]:
                     cmd[add_spaces] = cmd[add_spaces].replace("|", " ")
-        
-        try:
-            for replace_ref in range(0, len(cmd)):
-                if starts_with(cmd[replace_ref], "x_"):
-                    cmd[replace_ref] = str(get_from_mess(int(cmd[replace_ref][2:])))
-                elif starts_with(cmd[replace_ref], "y_"):
-                    cmd[replace_ref] = str(get_from_cluster(cmd[replace_ref][2:]))
-                elif starts_with(cmd[replace_ref], "b_"):
-                    info_address = cmd[replace_ref][2:].split("->")
-                    if book[info_address[0]][0] == "text":
-                        cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1])
-                    elif book[info_address[0]][0] == "csv":
-                        cmd[replace_ref] = str(book[info_address[0]][1][int(info_address[1]) - 1][int(info_address[2]) - 1])
-        except (KeyError, ValueError, IndexError):
-            error(4)
-            error_catch = error_catch + 1
+
         try:
             if (cmd[0] in commands) and (cmd[0] in limit_commands) and (len(cmd) != 0):
-                if cmd_requests[cmd[0]] >= cmd_limit[cmd[0]]:
+                if self.__cmd_requests[cmd[0]] >= self.__cmd_limit[cmd[0]]:
                     error(5)
                     return None
         except KeyError:
-            error_catch = error_catch + 1
+            problems = None
 
         if cmd[0] in limit_commands:
-            incr_limit_count(cmd[0])
+            self.incr_limit_count(cmd[0])
 
         if cmd[0] == "limit":
             try:
                 if cmd[1] == "enable":
                     if cmd[2] == "all":
-                        for limit_all in range(0, len(total_commands)):
-                            set_limit(total_commands[limit_all], int(eval(join_string(cmd, 3, len(cmd) - 1))))
+                        for limit_all in range(0, len(self.__total_commands)):
+                            self.set_limit(self.__total_commands[limit_all], int(eval(join_string(cmd, 3, len(cmd) - 1))))
                     elif cmd[2] != "all":
-                        set_limit(cmd[2], int(eval(join_string(cmd, 3, len(cmd) - 1))))
+                        self.set_limit(cmd[2], int(eval(join_string(cmd, 3, len(cmd) - 1))))
                 elif cmd[1] == "disable":
                     if cmd[2] == "all":
-                        rem_limit(list(cmd_limit.keys()))
+                        self.rem_limit(list(self.__cmd_limit.keys()))
                     elif cmd[2] != "all":
-                        rem_limit(cmd[2:])
+                        self.rem_limit(cmd[2:])
                 elif cmd[1] == "status":
                     if cmd[2] == "all":
-                        limit_status(total_commands)
+                        self.limit_status(self.__total_commands)
                     elif cmd[2] != "all":
-                        limit_status(cmd[2:])
+                        self.limit_status(cmd[2:])
             except IndexError:
-                error_catch = error_catch + 1
+                problems = None
 
         elif (cmd[0] == "about" or cmd[0] == "info") and len(cmd) == 1:
-            return {
-                "Version": VERSION,
-                "Codename": CODENAME,
-                "License": LICENSE,
-                "Author": AUTHOR,
-                "Repository": REPOSITORY
-            }
+            return INFO
+
         elif cmd[0] == "disp":
             disp_data = join_string(cmd, 1, len(cmd) - 1)
             print(disp_data)
@@ -502,36 +461,34 @@ def invoke(command):
             try:
                 num_data = cmd[2]
                 if len(cmd) == 3:
-                    add_mess(num_data, "num")
+                    self.add_mess(num_data, "num")
                 if len(cmd) == 4:
-                    insert_mess(eval(num_data), "num", int(cmd[-1]))
+                    self.insert_mess(eval(num_data), "num", int(cmd[-1]))
             except ValueError:
-                    error(6)
+                error(6)
             except KeyError:
                 error(2)
-
+        
         elif cmd[0] == "push" and cmd[1] == "alpha" and len(cmd) >= 3:
             try:
                 try:
                     data_push = cmd[2]
-                    # Pushes the data item at a particular index in the mess.
                     if type(int(cmd[-1])) == type(1):
                         insert_data = join_string(cmd, 2, len(cmd) - 2)
-                        insert_mess(insert_data, "alpha", int(cmd[-1]))
-                # Pushes the data item at the last position in the mess.
+                        self.insert_mess(insert_data, "alpha", int(cmd[-1]))
                 except ValueError:
                     push_data = join_string(cmd, 2, len(cmd) - 1)
-                    add_mess(push_data, "alpha")
+                    self.add_mess(push_data, "alpha")
             except ValueError:
-                    error(6)
+                error(6)
             except KeyError:
                 error(2)
 
         elif cmd[0] == "pop":
             try:
-                pop_from_mess(cmd[1:])
+                self.pop_from_mess(cmd[1:])
             except IndexError:
-                pass
+                problems = None
 
         elif cmd[0] == "mov":
             if cmd[1] == "num":
@@ -539,47 +496,45 @@ def invoke(command):
                 for join_mov_data in range(2, len(cmd) - 1):
                     mov_data = mov_data + del_left_zeros(cmd[join_mov_data]) + " "
                 mov_data = mov_data[:-1]
-                move_in_mess(mov_data, "num", int(cmd[-1]))
+                self.move_in_mess(mov_data, "num", int(cmd[-1]))
             elif cmd[1] == "alpha":
-                # Replaces the current data item of the given index with the supplied alphabetic data item.
                 try:
                     mov_data = join_string(cmd, 2, len(cmd) - 2)
-                    move_in_mess(mov_data, "alpha", int(cmd[-1]))
+                    self.move_in_mess(mov_data, "alpha", int(cmd[-1]))
                 except ValueError:
-                        error(6)
+                    error(6)
                 except IndexError:
                     error(8)
                 except KeyError:
                     error(2)
             else:
-                    error(9)
+                error(9)
 
         elif cmd[0] == "count" and len(cmd) == 2:
             if cmd[1] == "mess":
-                return count_mess()
+                return self.count_mess()
             elif cmd[1] == "cluster":
-                return count_cluster()
+                return self.count_cluster()
             elif cmd[1] == "book":
-                return len(book)
+                len(self.__book)
             else:
                 error(9)
-
-        elif cmd[0] == "getmess":
-            return gen_mess_list()
 
         elif cmd[0] == "clean":
             clean_list = cmd[1:]
             if "mess" in clean_list:
-                clean_mess()
+                self.clean_mess()
             if "cluster" in clean_list:
-                clean_cluster()
+                self.clean_cluster()
             if "book" in clean_list:
                 book.clear()
+
+        elif cmd[0] == "getmess":
+            return self.gen_mess_list()
 
         elif cmd[0] == "calc":
             try:
                 equation = ""
-                # Concatenates the operators and the numeric values.
                 for check in range(1, len(cmd)):
                     equation = equation + del_left_zeros(cmd[check])
                 maths_answer = eval(equation)
@@ -587,30 +542,21 @@ def invoke(command):
             except (ValueError, IndexError, ZeroDivisionError, EOFError):
                 return None
 
-        elif cmd[0] == "getbook" and len(cmd) == 1:
-            return book
-
-        elif cmd[0] == "read":
-            try:
-                file_address = join_string(cmd, 1, len(cmd) - 1)
-                print()
-                read_file(file_address)
-                print()
-            except (FileNotFoundError, IsADirectoryError):
-                error(13)
+        elif cmd[0] == "getbook":
+            return self.__book
 
         elif cmd[0] == "csv" and len(cmd) >= 2:
             try:
                 if cmd[1] == "config":
                     if cmd[2] == "fs":
                         new_csv_fs = join_string(cmd, 3, len(cmd) - 1)
-                        CSV_FS = new_csv_fs
+                        self.__CSV_FS = new_csv_fs
                     elif cmd[2] == "tab":
-                        CSV_SPACING = int(eval(join_string(cmd, 3, len(cmd) - 1)))
+                        self.__CSV_SPACING = int(eval(join_string(cmd, 3, len(cmd) - 1)))
                 else:
                     path = join_string(cmd, 1, len(cmd) - 1)
                     print()
-                    csv(path, CSV_SPACING, CSV_FS)
+                    csv(path, self.__CSV_SPACING, self.__CSV_FS)
                     print()
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
@@ -618,21 +564,15 @@ def invoke(command):
         elif cmd[0] == "book" and len(cmd) >= 4:
             try:
                 path = join_string(cmd, 3, len(cmd) - 1)
-                book_keys = list(book.keys())
-                if cmd[1] == "csv":
+                book_keys = list(self.__book.keys())
+                if cmd[1] == "csv": 
                     if not(cmd[2] in book_keys):
-                        print()
-                        csv(path, 1, CSV_FS)
-                        print()
-                        book[cmd[2]] = ["csv", parse_csv(path, CSV_FS)]
+                        self.__book[cmd[2]] = ["csv", parse_csv(path, CSV_FS)]
                     else:
                         error(14)
                 elif cmd[1] == "text":
                     if not(cmd[2] in book_keys):
-                        print()
-                        read_file(path)
-                        print()
-                        book[cmd[2]] = ["text", parse_file(path)]
+                        self.__book[cmd[2]] = ["text", parse_file(path)]
                     else:
                         error(14)
             except (FileNotFoundError, IsADirectoryError):
@@ -647,9 +587,9 @@ def invoke(command):
                 mess_export_address = join_string(cmd, 2, len(cmd) - back_char)
                 mess_export_file = open(mess_export_address, "w+", encoding = "utf-8")
                 if starts_with(cmd[-1], "e_"):
-                    mess_export_file.write(enc_dec(mess, e_m_key))
+                    mess_export_file.write(enc_dec(self.__mess, e_m_key))
                 else:
-                    mess_export_file.write(mess)
+                    mess_export_file.write(self.__mess)
                 mess_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
@@ -663,9 +603,9 @@ def invoke(command):
                 cluster_export_address = join_string(cmd, 2, len(cmd) - back_char)
                 cluster_export_file = open(cluster_export_address, "w+", encoding = "utf-8")
                 if starts_with(cmd[-1], "e_"):
-                    cluster_export_file.write(enc_dec(cluster, e_c_key))
+                    cluster_export_file.write(enc_dec(self.__cluster, e_c_key))
                 else:
-                    cluster_export_file.write(cluster)
+                    cluster_export_file.write(self.__cluster)
                 cluster_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
@@ -677,7 +617,7 @@ def invoke(command):
                     error(15)
                     pass
                 if cmd[2] == "rw":
-                    clean_mess()
+                    self.clean_mess()
                 if starts_with(cmd[-1], "d_"):
                     back_char = 2
                     d_m_key = int(cmd[-1][2:])
@@ -685,9 +625,9 @@ def invoke(command):
                 mess_import_file = open(mess_import_address, "r", encoding = "utf-8")
                 mess_contents = mess_import_file.read()
                 if starts_with(cmd[-1], "d_"):
-                    add_to_ms_directly_unsafe(enc_dec(mess_contents, d_m_key), "mess")
+                    self.add_to_ms_directly_unsafe(enc_dec(mess_contents, d_m_key), "mess")
                 else:
-                    add_to_ms_directly_safe(mess_contents, "mess")
+                    self.add_to_ms_directly_safe(mess_contents, "mess")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
@@ -698,7 +638,7 @@ def invoke(command):
                     error(15)
                     pass
                 if cmd[2] == "rw":
-                    clean_cluster()
+                    self.clean_cluster()
                 if starts_with(cmd[-1], "d_"):
                     back_char = 2
                     d_c_key = int(cmd[-1][2:])
@@ -711,10 +651,10 @@ def invoke(command):
                     add_to_ms_directly_safe(cluster_contents, "cluster")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
-
+        
         elif cmd[0] == "set" and len(cmd) >= 4:
             try:
-                cluster_existing_keys = gen_cluster_keys()
+                cluster_existing_keys = self.gen_cluster_keys()
                 if cmd[1] in cluster_existing_keys:
                     error(16)
                     pass
@@ -722,34 +662,32 @@ def invoke(command):
                     data_set = cmd[3]
                     if cmd[2] == "num":
                         if len(cmd) == 4:
-                            add_cluster(cmd[1], float(eval(data_set)), "num")
+                            self.add_cluster(cmd[1], float(eval(data_set)), "num")
                         elif len(cmd) > 4:
                             data_set = ""
                             for set_num_data in range(3, len(cmd)):
                                 data_set = data_set + del_left_zeros(cmd[set_num_data]) + " "
-                            add_cluster(cmd[1], float(eval(data_set)), "num")
+                            self.add_cluster(cmd[1], float(eval(data_set)), "num")
                     elif cmd[2] == "alpha":
                         data_set = ""
                         data_set = join_string(cmd, 3, len(cmd) - 1)
-                        add_cluster(cmd[1], str(data_set), "alpha")
+                        self.add_cluster(cmd[1], str(data_set), "alpha")
                     else:
                         pass
             except (NameError, ValueError):
-                    error(6)
+                error(6)
+            
 
         elif cmd[0] == "getcluster":
-            cluster_values = gen_cluster_dict()
             if len(cmd) == 1:
-                return cluster_values
-            elif len(cmd) == 2 and cmd[1] == "keys":
-                return list(cluster_values.keys())
-            elif len(cmd) == 2 and cmd[1] == "values":
-                return list(cluster_values.values())
-            else:
-                pass
+                return self.gen_cluster_dict()
+            elif cmd[1] == "keys":
+                return self.gen_cluster_keys()
+            elif cmd[1] == "values":
+                return self.gen_cluster_key_values()
 
         elif cmd[0] == "change" and len(cmd) >= 4:
-            cluster_keys = gen_cluster_keys()
+            cluster_keys = self.gen_cluster_keys()
             if cmd[1] in cluster_keys:
                 try:
                     if cmd[2] == "num":
@@ -757,57 +695,53 @@ def invoke(command):
                         for join_change_value in range(3, len(cmd)):
                             change_value = change_value + del_left_zeros(cmd[join_change_value]) + " "
                         change_value = change_value[:-1]
-                        change_in_cluster(cmd[1], float(change_value), "num")
+                        self.change_in_cluster(cmd[1], float(change_value), "num")
                     elif cmd[2] == "alpha":
                         change_value = join_string(cmd, 3, len(cmd) - 1)
-                        change_in_cluster(cmd[1], change_value, "alpha")
+                        self.change_in_cluster(cmd[1], change_value, "alpha")
                     else:
                         error(9)
                 except ValueError:
                         error(6)
             else:
                 error(2)
-
+        
         elif cmd[0] == "get":
             try:
                 if cmd[1] == "mess":
-                    print(get_from_mess(int(cmd[2])))
+                    return self.get_from_mess(int(cmd[2]))
                 elif cmd[1] == "cluster":
-                    if get_from_cluster(cmd[2]) != None:
-                        print(get_from_cluster(cmd[2]))
+                    if self.get_from_cluster(cmd[2]) != None:
+                        return self.get_from_cluster(cmd[2])
                     else:
                         error(8)
                 elif cmd[1] == "book":
-                    # Gets parsed CSV data.
                     if len(cmd) == 5:
-                        print(str(book[cmd[2]][1][int(cmd[3]) - 1][int(cmd[4]) - 1]))
+                        return self.__book[cmd[2]][1][int(cmd[3]) - 1][int(cmd[4]) - 1]
                     elif len(cmd) == 4:
-                        print(str(book[cmd[2]][1][int(cmd[3]) - 1]))
+                        return self.__book[cmd[2]][1][int(cmd[3]) - 1]
             except (IndexError, KeyError):
                 error(8)
 
         elif cmd[0] == "rem" and len(cmd) >= 1:
             try:
-                cluster_keys = gen_cluster_keys()
-                # Removes the last data item from the cluster if the key is not supplied.
+                cluster_keys = self.gen_cluster_keys()
                 if len(cmd) == 1:
-                    rem_from_cluster(cluster_keys[-1])
-                # Removes one or multiple data item(s) from the cluster with the key(s) supplied.
+                    self.rem_from_cluster(cluster_keys[-1])
                 else:
                     rem_items = cmd[1:]
                     for rem_several in range(0, len(rem_items)):
                         try:
-                            rem_from_cluster(rem_items[rem_several])
+                            self.rem_from_cluster(rem_items[rem_several])
                         except (KeyError, IndexError):
-                            pass
+                            continue
             except KeyError:
                 pass
 
         elif cmd[0] == "find" and len(cmd) >= 3:
-            # Sets the variable for the item to be found to None.
+            result = []
             search = None
             try:
-                # Sets a numeric value to be searched.
                 if cmd[1] == "num":
                     search = float(cmd[2])
                 elif len(cmd) >= 3 and cmd[1] == "alpha":
@@ -815,15 +749,13 @@ def invoke(command):
             except (ValueError, TypeError):
                 error(6)
                 pass
-            # Generates separate lists for Cluster keys and values.
-            m_values = gen_mess_list()
-            c_keys = gen_cluster_keys()
-            c_values = gen_cluster_key_values()
-            b_data_space = list(book.keys())
-            b_data_space_contents = list(book.values())
+            m_values = self.gen_mess_list()
+            c_keys = self.gen_cluster_keys()
+            c_values = self.gen_cluster_key_values()
+            b_data_space = list(self.__book.keys())
+            b_data_space_contents = list(self.__book.values())
 
             text_file_values = []
-            # print(b_data_space_contents)
             for get_text_values in range(0, len(b_data_space_contents)):
                 if b_data_space_contents[get_text_values][0] == "text":
                     text_file_values.append(b_data_space_contents[get_text_values][1])
@@ -836,27 +768,32 @@ def invoke(command):
                 for add_values in range(0, len(b_data_space_contents[all_values])):
                     for add_more_values in range(0, len(b_data_space_contents[all_values][add_values])):
                         book_all_values.append(b_data_space_contents[all_values][add_values][add_more_values])
-            # Shows a "Not Found." message if the item is found nowhere.
             if not((search in c_keys) or (search in c_values) or (search in m_values) or (search in b_data_space) or (search in book_all_values) or (search in text_file_values[0])):
                 error(17)
             else:
                 data_type = None
-                # Searches the item in the Mess.
                 for search_mess in range(0, len(m_values)):
                     if search == m_values[search_mess]:
                         if type(search) == type(1.1):
                             data_type = "num"
                         elif type(search) == type("1.1"):
                             data_type = "alpha"
-                        # Shows the detailed message about the item found.
-                        found_msg = "Location: Mess\t Datatype: " + str(data_type) + "\t Position: " + str(search_mess + 1)
-                        print(found_msg)
-                # Searches the item in the Cluster keys.
+                        result.append(
+                            {
+                                "Location": "Mess",
+                                "Datatype": data_type,
+                                "Position": (search_mess + 1)
+                            }
+                        )
                 for search_keys in range(0, len(c_keys)):
                     if search == c_keys[search_keys]:
-                        # Shows the detailed message about the item found.
-                        print("Location: Cluster\t Itemtype: Key\t Value: " + str(c_values[search_keys]))
-                # Searches the item in the Cluster values.
+                        result.append(
+                            {
+                                "Location": "Cluster",
+                                "Itemtype": "Key",
+                                "Value": c_values[search_keys]
+                            }
+                        )
                 for search_values in range(0, len(c_values)):
                     if search == c_values[search_values]:
                         data_type1 = None
@@ -864,21 +801,50 @@ def invoke(command):
                             data_type1 = "num"
                         elif type(search) == type("1.1"):
                             data_type1 = "alpha"
-                        # Shows the detailed message about the item found.
-                        print("Location: Cluster\t Itemtype: Value\t Datatype: " + str(data_type1) + "\t Key: " + str(c_keys[search_values]))
+                        result.append(
+                            {
+                                "Location": "Cluster",
+                                "Itemtype": "Value",
+                                "Datatype": data_type1,
+                                "Key": c_keys[search_values]
+                            }
+                        )
                 for search_data_space in range(0, len(b_data_space)):
                     if search == b_data_space[search_data_space]:
-                        print("Location: Book\t Itemtype: Dataspace\t Position: " + str(search_data_space + 1))
-                for search_text_values in range(0, len(text_file_values[0])):
-                    if search == text_file_values[0][search_text_values]:
-                        print("Location: Book\t Itemtype: Parsed Values\t Position: " + str(search_text_values + 1))
-                # Searches for the particular data item and the data space and outputs it's information.
+                        result.append(
+                            {
+                                "Location": "Book",
+                                "Itemtype": "Dataspace",
+                                "Position": (search_data_space + 1)
+                            }
+                        )
+                try:
+                    for search_text_values in range(0, len(text_file_values[0])):
+                        if search == text_file_values[0][search_text_values]:
+                            result.append(
+                                {
+                                    "Location": "Book",
+                                    "Itemtype": "Parsed Value",
+                                    "Position": (search_text_values + 1)
+                                }
+                            )
+                except IndexError:
+                    problems = None
                 for search_parsed_values in range(0, len(b_data_space_contents)):
                     for search_each_dataspace in range(0, len(b_data_space_contents[search_parsed_values])):
                         for search_each_value in range(0, len(b_data_space_contents[search_parsed_values][search_each_dataspace])):
                             if search == b_data_space_contents[search_parsed_values][search_each_dataspace][search_each_value]:
                                 print("Location: Book\t Itemtype: Parsed Value\tRow: " + str(b_data_space_contents[search_parsed_values].index(b_data_space_contents[search_parsed_values][search_each_dataspace]) + 1) + "\tColumn: " + str(b_data_space_contents[search_parsed_values][search_each_dataspace].index(b_data_space_contents[search_parsed_values][search_each_dataspace][search_each_value]) + 1))
-        
+                                result.append(
+                                    {
+                                        "Location": "Book",
+                                        "Itemtype": "Parsed Value",
+                                        "Row": (b_data_space_contents[search_parsed_values].index(b_data_space_contents[search_parsed_values][search_each_dataspace]) + 1),
+                                        "Column": (b_data_space_contents[search_parsed_values][search_each_dataspace].index(b_data_space_contents[search_parsed_values][search_each_dataspace][search_each_value]) + 1)
+                                    }
+                                )
+            return result
+
         elif cmd[0] == "dump":
             dump_file = open(cmd[-1], "a+")
             dump_file_text = ""
@@ -887,74 +853,37 @@ def invoke(command):
             dump_file_text = dump_file_text[:-1]
             dump_file.write(dump_file_text + "\n")
             dump_file.close()
-        
+
         elif cmd[0] == "server":
-            if cmd[1] == "connect":
-                    SERVER_IP = cmd[2]
-            if SERVER_IP == "" and cmd[1] != "update":
-                print("No Server Connected.")
-            else:
-                if cmd[1] == "ip":
-                    print("Connected to: " + SERVER_IP)
-                elif cmd[1] == "update":
-                    if cmd[2] == "mess":
-                        set_data("mess")
-                    elif cmd[2] == "cluster":
-                        set_data("cluster")
-                    elif cmd[2] == "all":
-                        set_data("mess")
-                        set_data("cluster")
-                    else:
-                        print("Memory Location Not Specified.")
-                elif cmd[1] == "fetch":
-                    if cmd[2] == "mess":
-                        get_data(SERVER_IP, "mess")
-                    elif cmd[2] == "cluster":
-                        get_data(SERVER_IP, "cluster")
-                    elif cmd[2] == "all":
-                        get_data(SERVER_IP, "mess")
-                        get_data(SERVER_IP, "cluster")
-                    else:
-                        print("Memory Location Not Specified.")
+            try:
+                if cmd[1] == "connect":
+                        self.__SERVER_IP = cmd[2]
+                if self.__SERVER_IP == "" and cmd[1] != "update":
+                    error(18)
+                else:
+                    if cmd[1] == "ip":
+                        return self.__SERVER_IP
+                    elif cmd[1] == "update":
+                        if cmd[2] == "mess":
+                            self.set_data("mess")
+                        elif cmd[2] == "cluster":
+                            self.set_data("cluster")
+                        elif cmd[2] == "all":
+                            self.set_data("mess")
+                            self.set_data("cluster")
+                        else:
+                            error(19)
+                    elif cmd[1] == "fetch":
+                        if cmd[2] == "mess":
+                            self.get_data(self.__SERVER_IP, "mess")
+                        elif cmd[2] == "cluster":
+                            self.get_data(self.__SERVER_IP, "cluster")
+                        elif cmd[2] == "all":
+                            self.get_data(self.__SERVER_IP, "mess")
+                            self.get_data(self.__SERVER_IP, "cluster")
+                        else:
+                            error(19)
+            except ConnectionError:
+                error(18)
 
-        elif cmd[0] == "":
-            pass
-
-        else:
-            print("Invalid Command: " + str(command))
-
-    # except NameError:
-    #     pass
-    except SyntaxError:
-        print("Invalid Syntax.")
-    except ValueError:
-        print("Invalid Datatypes.")
-    # except:
-    #     print("Oops! Something Went Wrong.")
-
-def del_unwanted(command_list):
-    # Removes the "\n" character from each line.
-    for trim_script in range(0, len(command_list) - 1):
-            command_list[trim_script] = command_list[trim_script][:-1]
-    # Removes leading and trailing tabs from the commands.
-    for strip_tabs in range(0, len(command_list)):
-            command_list[strip_tabs] = command_list[strip_tabs].strip()
-    # Remove the "" character representating a blank line.
-    del_spaces(command_list)
-    # Deletes all the comments from the Script.
-    del_comments(command_list)
-
-# Runs an Explore Script if a valid path is specified.
-def run(path):
-    try:
-        script = open(path, "r", encoding = "utf-8")
-        contents = script.readlines()
-        # Removes the unwanted characters from the Script.
-        del_unwanted(contents)
-        # Runs each line as an Explore command.
-        for run_comm in range(0, len(contents)):
-            invoke(contents[run_comm])
-    except (FileNotFoundError, IsADirectoryError):
-        print("Invalid File/Directory.")
-    except:
-        print("Oops! Something Went Wrong.")
+# TODO: Skipped 'read'. Add it later.
