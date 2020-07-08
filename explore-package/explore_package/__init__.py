@@ -160,19 +160,19 @@ class Explore:
 
     __total_commands = list(__cmd_requests.keys())
 
-    def set_limit(self, command, limit):
+    def __set_limit(self, command, limit):
         self.__cmd_limit[command] = limit
 
-    def rem_limit(self, commands):
+    def __rem_limit(self, commands):
         for rem_limits in range(0, len(commands)):
             del self.__cmd_limit[commands[rem_limits]]
         for reset_counter in range(0, len(commands)):
             self.__cmd_requests[commands[reset_counter]] = 0
 
-    def incr_limit_count(self, command):
+    def __incr_limit_count(self, command):
         self.__cmd_requests[command] = self.__cmd_requests[command] + 1
 
-    def limit_status(self, commands):
+    def __limit_status(self, commands):
         global total_commands
         limit_commands = list(self.__cmd_limit.keys())
         print()
@@ -186,7 +186,7 @@ class Explore:
             requests = self.__cmd_requests[commands[status]]
             print(str(status + 1) + ". Command: " + commands[status] + "\nLimit Enabled: " + limit_enabled + "\nRequests: " + str(requests) + "\nLimit: " + str(limit) + "\n")
 
-    def get_data(self, ip, memory):
+    def __get_data(self, ip, memory):
         try:
             global mess
             global cluster
@@ -202,7 +202,7 @@ class Explore:
         except ConnectionError:
             print("Server Not Running.")
 
-    def set_data(self, memory):
+    def __set_data(self, memory):
         global mess
         global cluster
         memory_file = open(("." + memory + "_server_file.txt"), "w+", encoding = "utf-8")
@@ -212,22 +212,22 @@ class Explore:
             memory_file.write(self.__cluster)
         memory_file.close()
 
-    def gen_mess_values(self):
+    def __gen_mess_values(self):
         global mess
         mess_values = self.__mess.split("\n")
         mess_values = del_spaces(mess_values)
         return mess_values
 
-    def gen_cluster_values(self):
+    def __gen_cluster_values(self):
         global cluster
         cluster_values = self.__cluster.split("\n")
         cluster_values = del_spaces(cluster_values)
         return cluster_values
 
-    def gen_mess_list(self):
+    def __gen_mess_list(self):
         global mess
         true_mess = []
-        mess_values = self.gen_mess_values()
+        mess_values = self.__gen_mess_values()
         for add_to_true_mess in range(0, len(mess_values)):
             mess_items = mess_values[add_to_true_mess].split(" ")
             if mess_items[-1] == "num":
@@ -236,10 +236,10 @@ class Explore:
                 true_mess.append(str(join_string(mess_items, 0, len(mess_items) - 2)))
         return true_mess
 
-    def gen_cluster_dict(self):
+    def __gen_cluster_dict(self):
         global cluster
         true_cluster = {}
-        cluster_values = self.gen_cluster_values()
+        cluster_values = self.__gen_cluster_values()
         for add_to_true_cluster in range(0, len(cluster_values)):
             cluster_items = cluster_values[add_to_true_cluster].split(" ")
             if cluster_items[-1] == "num":
@@ -248,25 +248,25 @@ class Explore:
                 true_cluster[cluster_items[0]] = str(join_string(cluster_items, 1, len(cluster_items) - 2))
         return true_cluster
 
-    def add_n(self, items):
+    def __add_n(self, items):
         for add_n in range(0, len(items)):
             if items[add_n][-1] != "\n":
                 items[add_n] = items[add_n] + "\n"
 
-    def add_mess(self, value, data_type):
+    def __add_mess(self, value, data_type):
         global mess
         self.__mess = self.__mess + str(value) + " " + data_type + "\n"
 
-    def insert_mess(self, value, data_type, position):
+    def __insert_mess(self, value, data_type, position):
         global mess
-        mess_values = self.gen_mess_values()
-        self.add_n(mess_values)
+        mess_values = self.__gen_mess_values()
+        self.__add_n(mess_values)
         self.__mess = ""
         mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
         for concat_mess in range(0, len(mess_values)):
             self.__mess = self.__mess + mess_values[concat_mess]
 
-    def get_from_mess(self, position):
+    def __get_from_mess(self, position):
         global mess
         mess_items = self.__mess.split("\n")
         mess_items = del_spaces(mess_items)
@@ -282,7 +282,7 @@ class Explore:
         else:
             pass
 
-    def move_in_mess(self, value, data_type, position):
+    def __move_in_mess(self, value, data_type, position):
         global mess
         mess_values = gen_mess_values()
         add_n(mess_values)
@@ -292,17 +292,17 @@ class Explore:
         for concat_mess in range(0, len(mess_values)):
             mess = mess + mess_values[concat_mess]
 
-    def count_mess(self):
-        mess_values = self.gen_mess_values()
+    def __count_mess(self):
+        mess_values = self.__gen_mess_values()
         return len(mess_values)
 
-    def clean_mess(self):
+    def __clean_mess(self):
         global mess
         self.__mess = ""
 
-    def pop_from_mess(self, items):
+    def __pop_from_mess(self, items):
         global mess
-        mess_values = self.gen_mess_values()
+        mess_values = self.__gen_mess_values()
         add_n(mess_values)
         if items == []:
             mess_values[-1] = ""
@@ -314,25 +314,25 @@ class Explore:
         for concat_mess in range(0, len(mess_values)):
             self.__mess = self.__mess + mess_values[concat_mess]
 
-    def add_cluster(self, key, value, data_type):
+    def __add_cluster(self, key, value, data_type):
         global cluster
         self.__cluster = self.__cluster + str(key) + " " + str(value) + " " + data_type + "\n"
 
-    def gen_cluster_keys(self):
-        cluster_items = self.gen_cluster_dict()
+    def __gen_cluster_keys(self):
+        cluster_items = self.__gen_cluster_dict()
         cluster_keys = list(cluster_items.keys())
         return cluster_keys
 
-    def gen_cluster_key_values(self):
-        cluster_items = self.gen_cluster_dict()
+    def __gen_cluster_key_values(self):
+        cluster_items = self.__gen_cluster_dict()
         cluster_values = list(cluster_items.values())
         return cluster_values
 
-    def change_in_cluster(self, key, new_value, data_type):
+    def __change_in_cluster(self, key, new_value, data_type):
         global cluster
-        cluster_values = self.gen_cluster_values()
-        self.add_n(cluster_values)
-        cluster_keys = self.gen_cluster_keys()
+        cluster_values = self.__gen_cluster_values()
+        self.__add_n(cluster_values)
+        cluster_keys = self.__gen_cluster_keys()
         key_index = cluster_keys.index(key)
         del cluster_values[key_index]
         cluster_values.insert(key_index, str(key) + " " + str(new_value) + " " + data_type + "\n")
@@ -340,7 +340,7 @@ class Explore:
         for concat_cluster in range(0, len(cluster_values)):
             self.__cluster = self.__cluster + cluster_values[concat_cluster]
 
-    def get_from_cluster(self, key):
+    def __get_from_cluster(self, key):
         global cluster
         cluster_items = self.__cluster.split("\n")
         cluster_items = del_spaces(cluster_items)
@@ -353,10 +353,10 @@ class Explore:
                 elif individual_item[-1] == "alpha":
                     return str(value)
 
-    def rem_from_cluster(self, key):
+    def __rem_from_cluster(self, key):
         global cluster
-        cluster_values = self.gen_cluster_values()
-        self.add_n(cluster_values)
+        cluster_values = self.__gen_cluster_values()
+        self.__add_n(cluster_values)
         for rem_items in range(0, len(cluster_values)):
             if starts_with(cluster_values[rem_items], key):
                 cluster_values[rem_items] = ""
@@ -365,15 +365,15 @@ class Explore:
         for cluster_concat in range(0, len(cluster_values)):
             self.__cluster = self.__cluster + cluster_values[cluster_concat]
 
-    def clean_cluster(self):
+    def __clean_cluster(self):
         global cluster
         self.__cluster = ""
 
-    def count_cluster(self):
-        cluster_values = self.gen_cluster_values()
+    def __count_cluster(self):
+        cluster_values = self.__gen_cluster_values()
         return len(cluster_values)
 
-    def add_to_ms_directly_safe(self, value, memory_structure):
+    def __add_to_ms_directly_safe(self, value, memory_structure):
         global data_types
         global mess
         global cluster
@@ -384,7 +384,7 @@ class Explore:
             elif memory_structure == "cluster":
                 self.__cluster = self.__cluster + value
 
-    def add_to_ms_directly_unsafe(self, value, memory_structure):
+    def __add_to_ms_directly_unsafe(self, value, memory_structure):
         global mess
         global cluster
         if memory_structure == "mess":
@@ -400,9 +400,9 @@ class Explore:
         try:
             for replace_ref in range(0, len(cmd)):
                 if starts_with(cmd[replace_ref], "x_"):
-                    cmd[replace_ref] = str(self.get_from_mess(int(cmd[replace_ref][2:])))
+                    cmd[replace_ref] = str(self.__get_from_mess(int(cmd[replace_ref][2:])))
                 elif starts_with(cmd[replace_ref], "y_"):
-                    cmd[replace_ref] = str(self.get_from_cluster(cmd[replace_ref][2:]))
+                    cmd[replace_ref] = str(self.__get_from_cluster(cmd[replace_ref][2:]))
                 elif starts_with(cmd[replace_ref], "b_"):
                     info_address = cmd[replace_ref][2:].split("->")
                     if self.__book[info_address[0]][0] == "text":
@@ -427,26 +427,26 @@ class Explore:
             problems = None
 
         if cmd[0] in limit_commands:
-            self.incr_limit_count(cmd[0])
+            self.__incr_limit_count(cmd[0])
 
         if cmd[0] == "limit":
             try:
                 if cmd[1] == "enable":
                     if cmd[2] == "all":
                         for limit_all in range(0, len(self.__total_commands)):
-                            self.set_limit(self.__total_commands[limit_all], int(eval(join_string(cmd, 3, len(cmd) - 1))))
+                            self.__set_limit(self.__total_commands[limit_all], int(eval(join_string(cmd, 3, len(cmd) - 1))))
                     elif cmd[2] != "all":
-                        self.set_limit(cmd[2], int(eval(join_string(cmd, 3, len(cmd) - 1))))
+                        self.__set_limit(cmd[2], int(eval(join_string(cmd, 3, len(cmd) - 1))))
                 elif cmd[1] == "disable":
                     if cmd[2] == "all":
-                        self.rem_limit(list(self.__cmd_limit.keys()))
+                        self.__rem_limit(list(self.__cmd_limit.keys()))
                     elif cmd[2] != "all":
-                        self.rem_limit(cmd[2:])
+                        self.__rem_limit(cmd[2:])
                 elif cmd[1] == "status":
                     if cmd[2] == "all":
-                        self.limit_status(self.__total_commands)
+                        self.__limit_status(self.__total_commands)
                     elif cmd[2] != "all":
-                        self.limit_status(cmd[2:])
+                        self.__limit_status(cmd[2:])
             except IndexError:
                 problems = None
 
@@ -461,9 +461,9 @@ class Explore:
             try:
                 num_data = cmd[2]
                 if len(cmd) == 3:
-                    self.add_mess(num_data, "num")
+                    self.__add_mess(num_data, "num")
                 if len(cmd) == 4:
-                    self.insert_mess(eval(num_data), "num", int(cmd[-1]))
+                    self.__insert_mess(eval(num_data), "num", int(cmd[-1]))
             except ValueError:
                 error(6)
             except KeyError:
@@ -475,10 +475,10 @@ class Explore:
                     data_push = cmd[2]
                     if type(int(cmd[-1])) == type(1):
                         insert_data = join_string(cmd, 2, len(cmd) - 2)
-                        self.insert_mess(insert_data, "alpha", int(cmd[-1]))
+                        self.__insert_mess(insert_data, "alpha", int(cmd[-1]))
                 except ValueError:
                     push_data = join_string(cmd, 2, len(cmd) - 1)
-                    self.add_mess(push_data, "alpha")
+                    self.__add_mess(push_data, "alpha")
             except ValueError:
                 error(6)
             except KeyError:
@@ -486,7 +486,7 @@ class Explore:
 
         elif cmd[0] == "pop":
             try:
-                self.pop_from_mess(cmd[1:])
+                self.__pop_from_mess(cmd[1:])
             except IndexError:
                 problems = None
 
@@ -496,11 +496,11 @@ class Explore:
                 for join_mov_data in range(2, len(cmd) - 1):
                     mov_data = mov_data + del_left_zeros(cmd[join_mov_data]) + " "
                 mov_data = mov_data[:-1]
-                self.move_in_mess(mov_data, "num", int(cmd[-1]))
+                self.__move_in_mess(mov_data, "num", int(cmd[-1]))
             elif cmd[1] == "alpha":
                 try:
                     mov_data = join_string(cmd, 2, len(cmd) - 2)
-                    self.move_in_mess(mov_data, "alpha", int(cmd[-1]))
+                    self.__move_in_mess(mov_data, "alpha", int(cmd[-1]))
                 except ValueError:
                     error(6)
                 except IndexError:
@@ -512,9 +512,9 @@ class Explore:
 
         elif cmd[0] == "count" and len(cmd) == 2:
             if cmd[1] == "mess":
-                return self.count_mess()
+                return self.__count_mess()
             elif cmd[1] == "cluster":
-                return self.count_cluster()
+                return self.__count_cluster()
             elif cmd[1] == "book":
                 len(self.__book)
             else:
@@ -523,14 +523,14 @@ class Explore:
         elif cmd[0] == "clean":
             clean_list = cmd[1:]
             if "mess" in clean_list:
-                self.clean_mess()
+                self.__clean_mess()
             if "cluster" in clean_list:
-                self.clean_cluster()
+                self.__clean_cluster()
             if "book" in clean_list:
                 book.clear()
 
         elif cmd[0] == "getmess":
-            return self.gen_mess_list()
+            return self.__gen_mess_list()
 
         elif cmd[0] == "calc":
             try:
@@ -617,7 +617,7 @@ class Explore:
                     error(15)
                     pass
                 if cmd[2] == "rw":
-                    self.clean_mess()
+                    self.__clean_mess()
                 if starts_with(cmd[-1], "d_"):
                     back_char = 2
                     d_m_key = int(cmd[-1][2:])
@@ -625,9 +625,9 @@ class Explore:
                 mess_import_file = open(mess_import_address, "r", encoding = "utf-8")
                 mess_contents = mess_import_file.read()
                 if starts_with(cmd[-1], "d_"):
-                    self.add_to_ms_directly_unsafe(enc_dec(mess_contents, d_m_key), "mess")
+                    self.__add_to_ms_directly_unsafe(enc_dec(mess_contents, d_m_key), "mess")
                 else:
-                    self.add_to_ms_directly_safe(mess_contents, "mess")
+                    self.__add_to_ms_directly_safe(mess_contents, "mess")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
@@ -638,7 +638,7 @@ class Explore:
                     error(15)
                     pass
                 if cmd[2] == "rw":
-                    self.clean_cluster()
+                    self.__clean_cluster()
                 if starts_with(cmd[-1], "d_"):
                     back_char = 2
                     d_c_key = int(cmd[-1][2:])
@@ -646,15 +646,15 @@ class Explore:
                 cluster_import_file = open(cluster_import_address, "r", encoding = "utf-8")
                 cluster_contents = cluster_import_file.read()
                 if starts_with(cmd[-1], "d_"):
-                    add_to_ms_directly_unsafe(enc_dec(cluster_contents, d_c_key), "cluster")
+                    self.__add_to_ms_directly_unsafe(enc_dec(cluster_contents, d_c_key), "cluster")
                 else:
-                    add_to_ms_directly_safe(cluster_contents, "cluster")
+                    self.__add_to_ms_directly_safe(cluster_contents, "cluster")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
         
         elif cmd[0] == "set" and len(cmd) >= 4:
             try:
-                cluster_existing_keys = self.gen_cluster_keys()
+                cluster_existing_keys = self.__gen_cluster_keys()
                 if cmd[1] in cluster_existing_keys:
                     error(16)
                     pass
@@ -662,16 +662,16 @@ class Explore:
                     data_set = cmd[3]
                     if cmd[2] == "num":
                         if len(cmd) == 4:
-                            self.add_cluster(cmd[1], float(eval(data_set)), "num")
+                            self.__add_cluster(cmd[1], float(eval(data_set)), "num")
                         elif len(cmd) > 4:
                             data_set = ""
                             for set_num_data in range(3, len(cmd)):
                                 data_set = data_set + del_left_zeros(cmd[set_num_data]) + " "
-                            self.add_cluster(cmd[1], float(eval(data_set)), "num")
+                            self.__add_cluster(cmd[1], float(eval(data_set)), "num")
                     elif cmd[2] == "alpha":
                         data_set = ""
                         data_set = join_string(cmd, 3, len(cmd) - 1)
-                        self.add_cluster(cmd[1], str(data_set), "alpha")
+                        self.__add_cluster(cmd[1], str(data_set), "alpha")
                     else:
                         pass
             except (NameError, ValueError):
@@ -680,14 +680,14 @@ class Explore:
 
         elif cmd[0] == "getcluster":
             if len(cmd) == 1:
-                return self.gen_cluster_dict()
+                return self.__gen_cluster_dict()
             elif cmd[1] == "keys":
-                return self.gen_cluster_keys()
+                return self.__gen_cluster_keys()
             elif cmd[1] == "values":
-                return self.gen_cluster_key_values()
+                return self.__gen_cluster_key_values()
 
         elif cmd[0] == "change" and len(cmd) >= 4:
-            cluster_keys = self.gen_cluster_keys()
+            cluster_keys = self.__gen_cluster_keys()
             if cmd[1] in cluster_keys:
                 try:
                     if cmd[2] == "num":
@@ -695,10 +695,10 @@ class Explore:
                         for join_change_value in range(3, len(cmd)):
                             change_value = change_value + del_left_zeros(cmd[join_change_value]) + " "
                         change_value = change_value[:-1]
-                        self.change_in_cluster(cmd[1], float(change_value), "num")
+                        self.__change_in_cluster(cmd[1], float(change_value), "num")
                     elif cmd[2] == "alpha":
                         change_value = join_string(cmd, 3, len(cmd) - 1)
-                        self.change_in_cluster(cmd[1], change_value, "alpha")
+                        self.__change_in_cluster(cmd[1], change_value, "alpha")
                     else:
                         error(9)
                 except ValueError:
@@ -709,10 +709,10 @@ class Explore:
         elif cmd[0] == "get":
             try:
                 if cmd[1] == "mess":
-                    return self.get_from_mess(int(cmd[2]))
+                    return self.__get_from_mess(int(cmd[2]))
                 elif cmd[1] == "cluster":
-                    if self.get_from_cluster(cmd[2]) != None:
-                        return self.get_from_cluster(cmd[2])
+                    if self.__get_from_cluster(cmd[2]) != None:
+                        return self.__get_from_cluster(cmd[2])
                     else:
                         error(8)
                 elif cmd[1] == "book":
@@ -725,14 +725,14 @@ class Explore:
 
         elif cmd[0] == "rem" and len(cmd) >= 1:
             try:
-                cluster_keys = self.gen_cluster_keys()
+                cluster_keys = self.__gen_cluster_keys()
                 if len(cmd) == 1:
-                    self.rem_from_cluster(cluster_keys[-1])
+                    self.__rem_from_cluster(cluster_keys[-1])
                 else:
                     rem_items = cmd[1:]
                     for rem_several in range(0, len(rem_items)):
                         try:
-                            self.rem_from_cluster(rem_items[rem_several])
+                            self.__rem_from_cluster(rem_items[rem_several])
                         except (KeyError, IndexError):
                             continue
             except KeyError:
@@ -749,9 +749,9 @@ class Explore:
             except (ValueError, TypeError):
                 error(6)
                 pass
-            m_values = self.gen_mess_list()
-            c_keys = self.gen_cluster_keys()
-            c_values = self.gen_cluster_key_values()
+            m_values = self.__gen_mess_list()
+            c_keys = self.__gen_cluster_keys()
+            c_values = self.__gen_cluster_key_values()
             b_data_space = list(self.__book.keys())
             b_data_space_contents = list(self.__book.values())
 
@@ -865,22 +865,22 @@ class Explore:
                         return self.__SERVER_IP
                     elif cmd[1] == "update":
                         if cmd[2] == "mess":
-                            self.set_data("mess")
+                            self.__set_data("mess")
                         elif cmd[2] == "cluster":
-                            self.set_data("cluster")
+                            self.__set_data("cluster")
                         elif cmd[2] == "all":
-                            self.set_data("mess")
-                            self.set_data("cluster")
+                            self.__set_data("mess")
+                            self.__set_data("cluster")
                         else:
                             error(19)
                     elif cmd[1] == "fetch":
                         if cmd[2] == "mess":
-                            self.get_data(self.__SERVER_IP, "mess")
+                            self.__get_data(self.__SERVER_IP, "mess")
                         elif cmd[2] == "cluster":
-                            self.get_data(self.__SERVER_IP, "cluster")
+                            self.__get_data(self.__SERVER_IP, "cluster")
                         elif cmd[2] == "all":
-                            self.get_data(self.__SERVER_IP, "mess")
-                            self.get_data(self.__SERVER_IP, "cluster")
+                            self.__get_data(self.__SERVER_IP, "mess")
+                            self.__get_data(self.__SERVER_IP, "cluster")
                         else:
                             error(19)
             except ConnectionError:
