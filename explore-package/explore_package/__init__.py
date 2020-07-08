@@ -175,16 +175,24 @@ class Explore:
     def __limit_status(self, commands):
         global total_commands
         limit_commands = list(self.__cmd_limit.keys())
-        print()
+        statuses = []
         for status in range(0, len(commands)):
-            limit_enabled = "No"
+            limit_enabled = False
             requests = None
             limit = 0
             if commands[status] in limit_commands:
-                limit_enabled = "Yes"
+                limit_enabled = True
                 limit = self.__cmd_limit[commands[status]]
             requests = self.__cmd_requests[commands[status]]
-            print(str(status + 1) + ". Command: " + commands[status] + "\nLimit Enabled: " + limit_enabled + "\nRequests: " + str(requests) + "\nLimit: " + str(limit) + "\n")
+            statuses.append(
+                {
+                    "Command": commands[status],
+                    "Limit Enabled": limit_enabled,
+                    "Requests": requests,
+                    "Limit": limit
+                }
+            )
+        return statuses
 
     def __get_data(self, ip, memory):
         try:
@@ -284,8 +292,8 @@ class Explore:
 
     def __move_in_mess(self, value, data_type, position):
         global mess
-        mess_values = gen_mess_values()
-        add_n(mess_values)
+        mess_values = self.__gen_mess_values()
+        self.__add_n(mess_values)
         del mess_values[position - 1]
         mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
         mess = ""
@@ -303,7 +311,7 @@ class Explore:
     def __pop_from_mess(self, items):
         global mess
         mess_values = self.__gen_mess_values()
-        add_n(mess_values)
+        self.__add_n(mess_values)
         if items == []:
             mess_values[-1] = ""
         else:
@@ -444,9 +452,9 @@ class Explore:
                         self.__rem_limit(cmd[2:])
                 elif cmd[1] == "status":
                     if cmd[2] == "all":
-                        self.__limit_status(self.__total_commands)
+                        return self.__limit_status(self.__total_commands)
                     elif cmd[2] != "all":
-                        self.__limit_status(cmd[2:])
+                        return self.__limit_status(cmd[2:])
             except IndexError:
                 problems = None
 
