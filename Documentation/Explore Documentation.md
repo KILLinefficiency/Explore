@@ -210,30 +210,29 @@ Explore works with the following 28 commands:
 > *02. getmess*
 > *03. pop*
 > *04. mov*
-> *05. sortmess*
-> *06. set*
-> *07. getcluster*
-> *08. rem*
-> *09. change*
-> *10. count*
-> *11. clear*
-> *12. csv*
-> *13. book*
-> *14. getbook*
-> *15. get*
-> *16. disp*
-> *17. clean*
-> *18. calc*
-> *19. exp*
-> *20. export*
-> *21. import*
-> *22. read*
-> *23. dump*
-> *24. getlog*
-> *25. find*
-> *26. limit*
-> *27. info*
-> *28. bye*
+> *05. set*
+> *06. getcluster*
+> *07. rem*
+> *08. change*
+> *09. count*
+> *10. clear*
+> *11. csv*
+> *12. book*
+> *13. getbook*
+> *14. get*
+> *15. disp*
+> *16. clean*
+> *17. calc*
+> *18. exp*
+> *19. export*
+> *20. import*
+> *21. read*
+> *22. dump*
+> *23. getlog*
+> *24. find*
+> *25. limit*
+> *26. info*
+> *27. bye*
 
 This documentation covers all of them one by one.
 
@@ -412,41 +411,7 @@ Like,
 The same operation can also be performed on the data from the **Cluster**.
 &nbsp;
 
-#### *05. sortmess*
-``sortmess`` simply sorts the **Mess** in ascending or descending order.
-
-Order for sorting in ascending is represented by **a** or **A** and the order for sorting in descending is represented by **d** or **D**.
-> Ascending: ``a`` or ``A``
-> Descending: ``d`` or ``D``
-
-&nbsp;
-```
-sortmess <order>
-```
-Like,
-```
-:) > push num 30
-:) > push num 10
-:) > push num 20
-:) > getmess
-1. 30
-2. 10
-3. 20
-:) > sortmess a
-:) > getmess
-1. 10
-2. 20
-3. 30
-:) > sortmess d
-:) > getmess
-1. 30
-2. 20
-3. 10
-```
-``sortmess`` can sort the mess only if it contains numeric data. ``sortmess`` can't sort alphabetic data.
-&nbsp;
-
-#### *06. set*
+#### *05. set*
 ``set`` is a **Cluster** related command. It allows the user to set a data item is the **Cluster**. Unlike the **Mess**, data items in the **Cluster** have a distinct key. The data item acts as the value to the user-specified key.
 ```
 set <key> <data_type_of_the_value> <value>
@@ -492,7 +457,7 @@ name : pi
 *Keys* cannot contain spaces and a *Key* can be assigned to one value at a time only.
 &nbsp;
 
-#### *07. getcluster*
+#### *06. getcluster*
 ``getcluster`` displays the contents of the **Cluster**. The contents include both the *Keys* and the *Values*.
 By default ``getcluster`` displays all the *Keys* and *Values* present in the **Cluster**. However, ``getcluster`` can also be used to access *Keys* or *Values* only.
 ```
@@ -524,7 +489,7 @@ something :
 ```
 &nbsp;
 
-#### *08. rem*
+#### *07. rem*
 ``rem`` removes a data item from the **Cluster**.  By default, ``rem`` will remove the last data item from the **Cluster**.
 ```
 rem
@@ -577,7 +542,7 @@ var : hello
 ```
 &nbsp;
 
-#### *09. change*
+#### *08. change*
 ``change`` is a **Cluster** related operation. In Explore, the user cannot assign a *Value* to an existing *Key*. This means that using ``set`` to reassign a value won't work.
 In this case, ``change`` comes handy. As the name suggests, ``change`` is used to change a *Value* of an existing *Key*.
 ```
@@ -622,7 +587,7 @@ pi_val : 3.142857142857143
 ```
 &nbsp;
 
-#### *10. count*
+#### *09. count*
 ``count`` displays the number of data items in the **Mess**, the **Cluster** and the **Book** as specified by the user.
 ```
 count mess
@@ -653,14 +618,14 @@ ten : 1010
 ```
 &nbsp;
 
-#### *11. clear*
+#### *10. clear*
 Sometimes when you are working hard, you make a lot of mess on the screen. ``clear`` clears the screen and returns the Explore Prompt back.
 ```
 clear
 ```
 &nbsp;
 
-#### *12. csv*
+#### *11. csv*
 ``csv`` reads a CSV file. CSV stands for *Comma-Separated Values*. ``csv`` will read the values from the ``.csv`` file and dislpay it in a tabular form.
 ```
 csv <file_name_with_complete_or_relative_address>
@@ -700,7 +665,7 @@ abc,def,ghi,jkl
 ```
 &nbsp;
 
-#### *13. book*
+#### *12. book*
 As seen in the previous section, ``csv`` can read and display the data from a CSV file in a tabular form, however ``csv`` does not provide any medium to access the parsed data.
 The data from a CSV file can be parsed and accessed using ``book``.
 
@@ -734,7 +699,7 @@ b_(name_of_dataspace)->(row_number)->(column_number)
 ```
 &nbsp;
 
-#### *14. getbook*
+#### *13. getbook*
 ``getbook`` displays all the *Data Spaces* from the **Book**.
 ```
 getbook
@@ -776,7 +741,7 @@ data:
 ```
 Here the same CSV file has been parsed twice in two different *Data Spaces*.
 &nbsp;
-#### *15. get*
+#### *14. get*
 ``get`` accesses the data from the **Mess**, the **Cluster** and the **Book**
 ```
 get mess <position>
@@ -807,7 +772,7 @@ threepointonefour
 901
 ```
 &nbsp;
-#### *16. disp*
+#### *15. disp*
 ``disp`` is similar to ``print()`` in Python. ``disp`` displays the text passed to it.
 ```
 disp <text>
@@ -836,7 +801,7 @@ Like,
 PI is 3.14
 ```
 &nbsp;
-#### *17. clean*
+#### *16. clean*
 ``clean`` is useful when the user wants to remove all the data items from the **Mess**, **Cluster** or the **Book**.
 ```
 clean mess
@@ -886,7 +851,7 @@ data:
 :) > getbook
 ```
 &nbsp;
-#### *18. calc*
+#### *17. calc*
 ``calc`` stands for "calculator". As the name suggests, the ``calc`` command performs mathematical calculations when a mathematical expression is passed to it.
 ```
 calc <mathematical_expression>
@@ -925,7 +890,7 @@ Yes. (1)
 No. (0)
 ```
 &nbsp;
-#### *19. exp*
+#### *18. exp*
 ``exp`` stands for expression and it changes the prompt expression. The default prompt emoticon is the smily face emoticon ``:)``.
 ```
 exp
@@ -964,7 +929,7 @@ Like,
 ```
 The user can see the changed expression on the prompt.
 &nbsp;
-#### *20. export*
+#### *19. export*
 Explore saves all of it's data items in the **Mess** and in the **Cluster**. The users are free to store as much as data they wish. However, Explore clears all of it's data once it is closed which means that there will be no data present if Explore is re-launched.
 
 It would be very inconvenient for the user to re-enter all the data items. This is where ``export`` saves the day.
@@ -1001,7 +966,7 @@ In this example, the **Mess** has been exported into a file called *enc_mess.txt
 
 *(Here, ``me`` is the username on a Linux machine. The following example shows a Linux File System, but ``export`` works just fine on Windows and MacOS too).*
 &nbsp;
-#### *21. import*
+#### *20. import*
 Exporting data is of no use if the user can't import it back into Explore. ``import`` imports the data back into the *Memory Locations* from the exported file.
 
 ``import`` has 2 import modes:
@@ -1080,7 +1045,7 @@ Like,
 ```
 *enc_mess.txt* is the same encrypted file which was exported in the previous section.
 &nbsp;
-#### *22. read*
+#### *21. read*
 ``read`` displays the contents of a text file passed to it.
 ```
 read <file_name_with_complete_or_relative_address>
@@ -1102,7 +1067,7 @@ some random text...
 ```
 &nbsp;
 
-#### *23. dump*
+#### *22. dump*
 ``dump`` is useful when the user wants to write certain text/data into a file. ``dump`` will keep stacking the data to the next line as long as it's being used for the same file. The file address *cannot* contain any spaces.
 ```
 dump <text> <file_name_with_complete_or_relative_address>
@@ -1128,7 +1093,7 @@ Hey Explore !
 
 ```
 &nbsp;
-#### *24. getlog*
+#### *23. getlog*
 Explore saves all of the user-entered commands in a file called ``log.txt`` in the same directoy as that of the main file, ``Explore.py``. However, all of the user-entered commands are written to ``log.txt`` only after Explore is closed.
 
 ``getlog`` simply reads the ``log.txt`` file so that the user can browse through the previously entered commands.
@@ -1159,7 +1124,7 @@ PI is 3.14
 &nbsp;
 *__``log.txt`` is an important file for Explore to run. Therefore, it's not a good idea to delete it even if the user doesn't need it.__*
 &nbsp;
-#### *25. find*
+#### *24. find*
 ``find`` searches for the entered data item. ``find`` can search data items from the **Mess** and the *Keys*, the *Values* from the **Cluster** and the parsed values for the dataspaces of the **Book**.
 ```
 find <data_type> <data_item_to_be_searched>
@@ -1179,7 +1144,7 @@ Location: Mess	 Datatype: alpha	 Position: 1
 Location: Cluster	 Itemtype: Key	 Value: 3.14
 ```
 &nbsp;
-#### *26. info*
+#### *25. info*
 ``info`` displays Explore-related information. ``about`` is an alternative to ``info``.
 ```
 info
@@ -1204,7 +1169,7 @@ Repository: https://www.github.com/KILLinefficiency/Explore
 
 ```
 &nbsp;
-#### *27. bye*
+#### *26~~~~. bye*
 As the name suggests, ``bye`` closes down the current instance of Explore. The alternatives to ``bye`` are ``bye.``, ``exit`` and ``exit.``.
 ```
 bye
