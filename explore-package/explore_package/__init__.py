@@ -89,7 +89,8 @@ def starts_with(string, trimmed_string):
 
 def read_file(location):
     rfile = open(location, "r", encoding = "utf-8")
-    file_contents = rfile.read()
+    file_contents = rfile.readlines()
+    file_contents = trim_n(file_contents)
     rfile.close()
     return file_contents
 
@@ -553,6 +554,12 @@ class Explore:
         elif cmd[0] == "getbook":
             return self.__book
 
+        elif cmd[0] == "read":
+            try:
+                return read_file(join_string(cmd, 1, len(cmd) - 1))
+            except(FileNotFoundError, IsADirectoryError):
+                error(13)
+
         elif cmd[0] == "csv" and len(cmd) >= 2:
             try:
                 if cmd[1] == "config":
@@ -893,5 +900,3 @@ class Explore:
                             error(19)
             except ConnectionError:
                 error(18)
-
-# TODO: Skipped 'read'. Add it later.
