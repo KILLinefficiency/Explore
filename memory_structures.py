@@ -6,6 +6,7 @@ cluster = ""
 
 data_types = ["num", "num\n", "alpha", "alpha\n"]
 
+# Scrapes data from the Server and stores it into the Mess, the Cluster or both.
 def get_data(ip, memory):
     try:
         global mess
@@ -22,6 +23,7 @@ def get_data(ip, memory):
     except ConnectionError:
         print("Server Not Running.")
 
+# Sets data from the Mess, the Cluster or both to server files.
 def set_data(memory):
     global mess
     global cluster
@@ -32,20 +34,21 @@ def set_data(memory):
         memory_file.write(cluster)
     memory_file.close()
 
+# Splits the Mess into lines and returns them as a list.
 def gen_mess_values():
     global mess
     mess_values = mess.split("\n")
     mess_values = lib.del_spaces(mess_values)
     return mess_values
 
+# Splits the Cluster into lines and returns them as a list.
 def gen_cluster_values():
     global cluster
     cluster_values = cluster.split("\n")
     cluster_values = lib.del_spaces(cluster_values)
     return cluster_values
 
-# Code for generating the Mess as a Python List and the Cluster as a Python Dictionary.
-
+# Returns all the values of the Mess as a Python List.
 def gen_mess_list():
     global mess
     true_mess = []
@@ -58,6 +61,7 @@ def gen_mess_list():
             true_mess.append(str(lib.join_string(mess_items, 0, len(mess_items) - 2)))
     return true_mess
 
+# Returns all the values of the Cluster as a Python Dictionary.
 def gen_cluster_dict():
     global cluster
     true_cluster = {}
@@ -72,15 +76,18 @@ def gen_cluster_dict():
 
 # Code for operations on the Mess.
 
+# Adds "\n" character to every string in the given array.
 def add_n(items):
     for add_n in range(0, len(items)):
         if items[add_n][-1] != "\n":
             items[add_n] = items[add_n] + "\n"
 
+# Adds value supplied with data type into the Mess
 def add_mess(value, data_type):
     global mess
     mess = mess + str(value) + " " + data_type + "\n"
 
+# Inserts the provided data with data type at a particular position in the Mess.
 def insert_mess(value, data_type, position):
     global mess
     mess_values = gen_mess_values()
@@ -90,6 +97,7 @@ def insert_mess(value, data_type, position):
     for concat_mess in range(0, len(mess_values)):
         mess = mess + mess_values[concat_mess]
 
+# Gets a value from the Mess after providing the position of it.
 def get_from_mess(position):
     global mess
     mess_items = mess.split("\n")
@@ -106,6 +114,7 @@ def get_from_mess(position):
     else:
         pass
 
+# Replaces an existing data item in the Mess with the provided data item.
 def move_in_mess(value, data_type, position):
     global mess
     mess_values = gen_mess_values()
@@ -116,14 +125,17 @@ def move_in_mess(value, data_type, position):
     for concat_mess in range(0, len(mess_values)):
         mess = mess + mess_values[concat_mess]
 
+# Returns the number of items in the Mess.
 def count_mess():
     mess_values = gen_mess_values()
     return len(mess_values)
 
+# Removes all the contents of the Mess.
 def clean_mess():
     global mess
     mess = ""
 
+# Removes an item from the Mess after giving the position of it.
 def pop_from_mess(items):
     global mess
     mess_values = gen_mess_values()
@@ -140,20 +152,24 @@ def pop_from_mess(items):
 
 # Code for the oprations of the Cluster.
 
+# Adds the Key and Value in the Cluster.
 def add_cluster(key, value, data_type):
     global cluster
     cluster = cluster + str(key) + " " + str(value) + " " + data_type + "\n"
 
+# Returns all the Keys from the Cluster as a list/
 def gen_cluster_keys():
     cluster_items = gen_cluster_dict()
     cluster_keys = list(cluster_items.keys())
     return cluster_keys
 
+# Returns all the Values from the Cluster as a list.
 def gen_cluster_key_values():
     cluster_items = gen_cluster_dict()
     cluster_values = list(cluster_items.values())
     return cluster_values
 
+# Changes the Value of a Key with a given Values in the Cluster.
 def change_in_cluster(key, new_value, data_type):
     global cluster
     cluster_values = gen_cluster_values()
@@ -166,6 +182,7 @@ def change_in_cluster(key, new_value, data_type):
     for concat_cluster in range(0, len(cluster_values)):
         cluster = cluster + cluster_values[concat_cluster]
 
+# Gets the Value of a Key from the Cluster.
 def get_from_cluster(key):
     global cluster
     cluster_items = cluster.split("\n")
@@ -179,6 +196,7 @@ def get_from_cluster(key):
             elif individual_item[-1] == "alpha":
                 return str(value)
 
+# Removes a Key-Value pair from the Cluster.
 def rem_from_cluster(key):
     global cluster
     cluster_values = gen_cluster_values()
@@ -191,14 +209,17 @@ def rem_from_cluster(key):
     for cluster_concat in range(0, len(cluster_values)):
         cluster = cluster + cluster_values[cluster_concat]
 
+# Removes all the contents of the Cluster.
 def clean_cluster():
     global cluster
     cluster = ""
 
+# Returns the number of Keys/Values in the Cluster.
 def count_cluster():
     cluster_values = gen_cluster_values()
     return len(cluster_values)
 
+# Adds a content to a Memory Structure only when a data type is specified.
 def add_to_ms_directly_safe(value, memory_structure):
     global data_types
     global mess
@@ -210,6 +231,7 @@ def add_to_ms_directly_safe(value, memory_structure):
         elif memory_structure == "cluster":
             cluster = cluster + value
 
+# Adds a content to a Memory Structure whether a data type is specified or not.
 def add_to_ms_directly_unsafe(value, memory_structure):
     global mess
     global cluster
