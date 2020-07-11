@@ -17,5 +17,4 @@ setuptools.setup(
 		"Natural Language :: English"
 	],
 	python_requires = ">=3.6"
-
 )
