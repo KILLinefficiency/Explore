@@ -26,6 +26,7 @@ def delete_item(array, index):
     del array[index - 1]
 
 
+""" Removes \n from every string in the given list. """
 def trim_n(array):
     clean_array = []
     for trim in range(0, len(array)):
@@ -88,6 +89,7 @@ def parse_csv(location, csv_fs):
         parsed_list.append(info_cells)
     return parsed_list
 
+""" Reads the contents of a file and returns a list of all the lines. """
 def parse_file(location):
     parse_file = open(location, "r", encoding = "utf-8")
     file_data = parse_file.readlines()
@@ -105,7 +107,7 @@ def starts_with(string, trimmed_string):
     return (trimmed_string == string[0:len(trimmed_string)])
 
 
-"""read_file() reads a text file and displays the contents as a whole."""
+""" read_file() reads a text file and displays the contents as a whole. """
 def read_file(location):
     rfile = open(location, "r", encoding = "utf-8")
     print(rfile.read())
@@ -141,17 +143,9 @@ def read_log():
 """
 del_spaces() removes the extra unwanted spaces from the entered command.
 Working of del_spaces():
-1. The "for" loop iterates and deletes the empty strings
-   generated for spaces after using split().
-2. The loop deletes the few empty strings but
-   causes an IndexError because the loop variable keeps
-   increasing as it keeps iterating but the length of the
-   list decreases as few of the empty strings get deleted.
-   Thus, the code tries to access a higher index of the list
-   which does not even exist.
-3. The following function handles the IndexError and
-   recursively calls itself to delete the remaining
-   empty strings.
+1. The loop iterates over the items of the list.
+2. The contents of the list are added ot other list new_arr if they are not "".
+3. new_arr is returned.
 """
 def del_spaces(arr):
     new_arr = []
@@ -169,7 +163,7 @@ For Linux and MacOS, it runs: clear
 For Windows, it runs: cls
 """
 def clear_screen():
-    if platform() == "Linux" or platform() == "Darwin":
+    if platform() == "Linux" or platform() == "FreeBSD" or platform() == "Darwin":
         system("clear")
     elif platform() == "Windows":
         system("cls")
@@ -191,6 +185,7 @@ def disp_list(arr):
             print(arr[itr_item][itr_content], end = "    ")
         print()
 
+""" Reads the contents of the list with numbering. """
 def read_list(arr):
     for item in range(0, len(arr)):
         print(str(item + 1) + ". " + arr[item])
@@ -205,6 +200,10 @@ def del_left_zeros(text):
         zero_counter = zero_counter + 1
     return text[zero_counter:]
 
+"""
+Joins the contents of the list with spaces to form a string.
+Requires the the position of items to be joint through.
+"""
 def join_string(arr, start, end):
     complete_string = ""
     for join_str in range(start, end + 1):
