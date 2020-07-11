@@ -25,18 +25,22 @@ cmd_limit = {}
 
 total_commands = list(cmd_requests.keys())
 
+# Sets a specified limit to a specified command.
 def set_limit(command, limit):
     cmd_limit[command] = limit
 
+# Removes the existing limit(s) from a list and resets the requests to zero.
 def rem_limit(commands):
     for rem_limits in range(0, len(commands)):
         del cmd_limit[commands[rem_limits]]
     for reset_counter in range(0, len(commands)):
         cmd_requests[commands[reset_counter]] = 0
 
+# Increses the limit of the given command by one.
 def incr_limit_count(command):
     cmd_requests[command] = cmd_requests[command] + 1
 
+# Gives the status for the given command.
 def limit_status(commands):
     global total_commands
     limit_commands = list(cmd_limit.keys())
