@@ -14,48 +14,81 @@ Explore is currently at version 3.0, codenamed *Kal-El*.
 This documentation covers Explore on a **Linux Distribution**.
 
 #### Getting Explore
-Explore is available in source code form only at the official Explore repository can be cloned from [GitHub](https://www.github.com/KILLinefficiency/Explore).
+Explore is available in source code form only at the official Explore repository and can be cloned from [GitHub](https://www.github.com/KILLinefficiency/Explore).
 You can either clone the repository directly from the GitHub page or by using the terminal.
 
-**Cloning via terminal:**
+**Requirements**
 
-Make sure you have a newer version of ``git``, ``python3``, ``pip3`` and ``make`` installed on your machine.
+Make sure that you have newer version of the following installed:
 
-1] Clone the repository
+> ``git``
+> ``python3``
+> ``pip3``
+> ``node``
+
+**Cloning**
 ```
-git clone https://www.github.com/KILLinefficiency/Explore.git
+git clone https://www.github.com/KILLinefficiency/Explore
 ```
-2] ``cd`` into the cloned repository
+
+**Installing on Linux and WSL**
+
+Installation for Linux can be done either manually or automatically via a script.
+
+*Manual Installation (not recommened for new users):*
+
+1] ``cd`` into the cloned repository.
+
+2] Install the dependencies using ``pip3``.
 ```
-cd Explore
+pip3 install -r requirements.txt
 ```
-3] Run the ``Explore.py`` file
+
+3] Run ``Explore.py`` file.
 ```
 python3 Explore.py
 ```
-You now have Explore set-up and running.
 
-&nbsp;
-#### Using the ``makefile``
-``makefile`` makes it easy to install Explore on your Linux machine. Using the ``makefile`` will produce an executable which can be run from anywhere on the system via the terminal.
+4] For using the server, run ``server.js`` file.
+```
+node server.js
+```
+*Automatic Installation (recommended):*
 
-Navigate to the Explore directory where the ``makefile`` is present. It is recommended to run ``make install`` or just ``make`` to setup Explore on your system in one step. However, the users have the freedom to use different clauses to initiate only the setup processes which they wish. Here are the different ``makefile`` clauses:
+1] ``cd`` into the cloned repository.
+```
+cd Explore
+```
 
-``make`` / ``make install``: (Recommended) Installs Explore on the user's machine. This will also install the Explore Package from pypi.org so make sure to have an internet connection.
+2] Run ``install.sh``.
+```
+./install.sh
+```
 
-``make script``: Generates an Explore executable.
+This will install Explore at ``~/.Explore``.
 
-``make path``: Adds the Explore directory to the PATH variable.
+Explore can be launched by running ``explore`` in the terminal.
 
-``make installpackage``: Installs the Explore Package via ``pip3``.
+Explore Server can be launched by running ``explore-server`` in the terminal.
 
-``buildpkg``: Generates the Explore Package from the code at ``Explore/explore-package/explore_package/__init__.py``
+**Installing on Windows**
 
-``make installpkg``: Uninstalls the previously installed package and installes the user-made package. (The user needs to run ``make buildpkg`` first)
+1] ``cd`` into the cloned repository.
 
-``make update``: Updates Explore by pulling the latest changes from the GitHub repository.
+2] Install the dependencies using ``pip``.
+```
+pip install -r requirements.txt
+```
 
-``make reset``: Resets the password and the encryption key.
+3] Run ``Explore.py`` file.
+```
+python Explore.py
+```
+
+4] For using the server, run ``server.js`` file.
+```
+node server.js
+```
 &nbsp;
 
 #### Files in the Source Code
@@ -68,10 +101,18 @@ Explore is made up of four files:
  * ``shell.py`` is an important file which contains the code responsible for the executions of commands. The code for the login screen is also present in ``shell.py``. ``shell.py`` uses all the standard functions defined in ``lib.py``.
 
  * ``Explore.py`` is the main file run by the Python interpreter. It just launches the ``shell.py`` file.
+ 
+* ``limit.py`` contains the functions related to the ``limit`` command.
 
-Apart from this files, the repository also contains file for Explore's Python module.
+* ``error.py`` contains standard Explore errors.
 
- * ``Explore/explore-package/setup.py`` is the script that creates a ``.whl`` package.
+* ``memory_structures.py`` contains functions realted the the working of the **Mess** and the **Cluster**.
+
+* ``server.js`` launches the server.
+
+Apart from these files, the repository also contains file for Explore's Python module.
+
+ * ``Explore/explore-package/setup.py`` is the script that generates a ``.whl`` package.
 
  * ``Explore/explore-package/explore_package/__init__.py`` is the main file that contains the entire code for module.
 
@@ -91,10 +132,6 @@ The ``.whl`` can be installed using ``pip``
 ```
 pip3 install dist/<the-.whl-file>.whl
 ```
-
- &nbsp;
-#### Login System and Security Layer in Explore
-After launching Explore for the first time, the user will be asked to set a password and an encryption key. Explore will save this data for you and you'll just have to enter the previously set password to login into Explore the next time you fire it up. The encryption key is solely for security purposes and can be set to any arbitrary value. The encryption key can be set to a random value by entering ``0`` when asked for it.
 
 &nbsp;
 #### Memory Locations in Explore
@@ -141,10 +178,18 @@ Reference to a data item in the **Cluster** is it's *Key* preceded by ``y_``
 y_(key-of-the-data-item-in-the-Cluster)
 ```
 
-Reference to a data item in the **Book** is it's dataspace, row and column preceded by ``b_``
+Reference to a data item in the **Book** for a parse text file is it's dataspace and its position preceded by ``b_``
+```
+b_(name_of_dataspace)->(position_of_the_data_item)
+```
+
+Reference to a data item in the **Book** for a parsed CSV file is it's dataspace, row and column preceded by ``b_``
 ```
 b_(name_of_dataspace)->(row_number)->(column_number)
 ```
+
+
+
 There should be atleast a space (`` ``) after and before the reference.
 Like,
 **Valid:**
@@ -160,7 +205,7 @@ calc x_3+1+y_val
 Explore uses the smily face emoticon ``:)`` as the default prompt. However the user can change the prompt emoticon to a different emoticon.
 
 ## Explore Commands
-Explore works with the following 23 commands:
+Explore works with the following 28 commands:
 > *01. push*
 > *02. getmess*
 > *03. pop*
@@ -186,8 +231,9 @@ Explore works with the following 23 commands:
 > *23. dump*
 > *24. getlog*
 > *25. find*
-> *26. info*
-> *27. bye*
+> *26. limit*
+> *27. info*
+> *28. bye*
 
 This documentation covers all of them one by one.
 
