@@ -582,7 +582,7 @@ class Explore:
                 book_keys = list(self.__book.keys())
                 if cmd[1] == "csv": 
                     if not(cmd[2] in book_keys):
-                        self.__book[cmd[2]] = ["csv", parse_csv(path, CSV_FS)]
+                        self.__book[cmd[2]] = ["csv", parse_csv(path, self.__CSV_FS)]
                     else:
                         error(14)
                 elif cmd[1] == "text":
@@ -590,7 +590,7 @@ class Explore:
                         self.__book[cmd[2]] = ["text", parse_file(path)]
                     else:
                         error(14)
-            except (FileNotFoundError, IsADirectoryError):
+            except (IsADirectoryError):
                 error(13)
 
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
