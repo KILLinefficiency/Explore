@@ -590,7 +590,7 @@ class Explore:
                         self.__book[cmd[2]] = ["text", parse_file(path)]
                     else:
                         error(14)
-            except (IsADirectoryError):
+            except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
