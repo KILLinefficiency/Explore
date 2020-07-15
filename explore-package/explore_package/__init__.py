@@ -297,9 +297,9 @@ class Explore:
         self.__add_n(mess_values)
         del mess_values[position - 1]
         mess_values.insert(position - 1, str(value) + " " + data_type + "\n")
-        mess = ""
+        self.__mess = ""
         for concat_mess in range(0, len(mess_values)):
-            mess = mess + mess_values[concat_mess]
+            self.__mess = self.__mess + mess_values[concat_mess]
 
     def __count_mess(self):
         mess_values = self.__gen_mess_values()
@@ -505,7 +505,7 @@ class Explore:
                 for join_mov_data in range(2, len(cmd) - 1):
                     mov_data = mov_data + del_left_zeros(cmd[join_mov_data]) + " "
                 mov_data = mov_data[:-1]
-                self.__move_in_mess(mov_data, "num", int(cmd[-1]))
+                self.__move_in_mess(float(eval(mov_data)), "num", int(cmd[-1]))
             elif cmd[1] == "alpha":
                 try:
                     mov_data = join_string(cmd, 2, len(cmd) - 2)
@@ -710,7 +710,7 @@ class Explore:
                         for join_change_value in range(3, len(cmd)):
                             change_value = change_value + del_left_zeros(cmd[join_change_value]) + " "
                         change_value = change_value[:-1]
-                        self.__change_in_cluster(cmd[1], float(change_value), "num")
+                        self.__change_in_cluster(cmd[1], float(eval(change_value)), "num")
                     elif cmd[2] == "alpha":
                         change_value = join_string(cmd, 3, len(cmd) - 1)
                         self.__change_in_cluster(cmd[1], change_value, "alpha")
