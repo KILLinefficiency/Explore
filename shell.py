@@ -178,7 +178,7 @@ while flag:
                 for join_mov_data in range(2, len(cmd) - 1):
                     mov_data = mov_data + lib.del_left_zeros(cmd[join_mov_data]) + " "
                 mov_data = mov_data[:-1]
-                ms.move_in_mess(mov_data, "num", int(cmd[-1]))
+                ms.move_in_mess(float(eval(mov_data)), "num", int(cmd[-1]))
             elif cmd[1] == "alpha":
                 # Replaces the current data item of the given index with the supplied alphabetic data item.
                 try:
@@ -496,14 +496,15 @@ while flag:
                         for join_change_value in range(3, len(cmd)):
                             change_value = change_value + lib.del_left_zeros(cmd[join_change_value]) + " "
                         change_value = change_value[:-1]
-                        ms.change_in_cluster(cmd[1], float(change_value), "num")
+                        ms.change_in_cluster(cmd[1], float(eval(change_value)), "num")
                     elif cmd[2] == "alpha":
                         change_value = lib.join_string(cmd, 3, len(cmd) - 1)
                         ms.change_in_cluster(cmd[1], change_value, "alpha")
                     else:
                         err.error(9)
-                except ValueError:
-                        err.error(6)
+                except ValueError as e:
+                        # err.error(6)
+                        print(e)
             else:
                 err.error(2)
 
@@ -693,7 +694,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    except:
-        print("-1")
-        continue
+    # except:
+        # print("-1")
+        # continue
 log.close()
