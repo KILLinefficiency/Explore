@@ -124,6 +124,7 @@ def join_string(arr, start, end):
         complete_string = complete_string + arr[join_str] + " "
     complete_string = complete_string[:-1]
     return complete_string
+data_types = ["num", "num\n", "alpha", "alpha\n"]
 
 class Explore:
     __mess = ""
@@ -607,7 +608,7 @@ class Explore:
             try:
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     error(15)
-                    continue
+                    pass
                 if cmd[2] == "rw":
                     self.__clean_mess()
                 mess_import_address = join_string(cmd, 3, len(cmd) - 1)
@@ -621,7 +622,7 @@ class Explore:
             try:
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     error(15)
-                    continue
+                    pass
                 if cmd[2] == "rw":
                     self.__clean_cluster()
                 cluster_import_address = join_string(cmd, 3, len(cmd) - 1)
