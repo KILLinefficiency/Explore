@@ -230,12 +230,3 @@ def add_to_ms_directly_safe(value, memory_structure):
             mess = mess + value
         elif memory_structure == "cluster":
             cluster = cluster + value
-
-# Adds a content to a Memory Structure whether a data type is specified or not.
-def add_to_ms_directly_unsafe(value, memory_structure):
-    global mess
-    global cluster
-    if memory_structure == "mess":
-        mess = mess + value
-    elif memory_structure == "cluster":
-        cluster = cluster + value
