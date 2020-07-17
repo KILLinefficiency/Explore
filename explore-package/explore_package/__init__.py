@@ -393,14 +393,6 @@ class Explore:
             elif memory_structure == "cluster":
                 self.__cluster = self.__cluster + value
 
-    def __add_to_ms_directly_unsafe(self, value, memory_structure):
-        global mess
-        global cluster
-        if memory_structure == "mess":
-            self.__mess = self.__mess + value
-        elif memory_structure == "cluster":
-            self.__cluster = self.__cluster + value
-
     def invoke(self, command):
         commands = list(self.__cmd_requests.keys())
         limit_commands = list(self.__cmd_limit.keys())
@@ -595,75 +587,47 @@ class Explore:
 
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
             try:
-                back_char = 1
-                if starts_with(cmd[-1], "e_"):
-                    back_char = 2
-                    e_m_key = int(cmd[-1][2:])
-                mess_export_address = join_string(cmd, 2, len(cmd) - back_char)
+                mess_export_address = join_string(cmd, 2, len(cmd) - 1)
                 mess_export_file = open(mess_export_address, "w+", encoding = "utf-8")
-                if starts_with(cmd[-1], "e_"):
-                    mess_export_file.write(enc_dec(self.__mess, e_m_key))
-                else:
-                    mess_export_file.write(self.__mess)
+                mess_export_file.write(self.__mess)
                 mess_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
         elif cmd[0] == "export" and cmd[1] == "cluster" and len(cmd) >= 3:
             try:
-                back_char = 1
-                if starts_with(cmd[-1], "e_"):
-                    back_char = 2
-                    e_c_key = int(cmd[-1][2:])
-                cluster_export_address = join_string(cmd, 2, len(cmd) - back_char)
+                cluster_export_address = join_string(cmd, 2, len(cmd) - 1)
                 cluster_export_file = open(cluster_export_address, "w+", encoding = "utf-8")
-                if starts_with(cmd[-1], "e_"):
-                    cluster_export_file.write(enc_dec(self.__cluster, e_c_key))
-                else:
-                    cluster_export_file.write(self.__cluster)
+                cluster_export_file.write(self.__cluster)
                 cluster_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
         elif cmd[0] == "import" and cmd[1] == "mess" and len(cmd) >= 4:
             try:
-                back_char = 1
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     error(15)
-                    pass
+                    continue
                 if cmd[2] == "rw":
                     self.__clean_mess()
-                if starts_with(cmd[-1], "d_"):
-                    back_char = 2
-                    d_m_key = int(cmd[-1][2:])
-                mess_import_address = join_string(cmd, 3, len(cmd) - back_char)
+                mess_import_address = join_string(cmd, 3, len(cmd) - 1)
                 mess_import_file = open(mess_import_address, "r", encoding = "utf-8")
                 mess_contents = mess_import_file.read()
-                if starts_with(cmd[-1], "d_"):
-                    self.__add_to_ms_directly_unsafe(enc_dec(mess_contents, d_m_key), "mess")
-                else:
-                    self.__add_to_ms_directly_safe(mess_contents, "mess")
+                self.__add_to_ms_directly_safe(mess_contents, "mess")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
 
         elif cmd[0] == "import" and cmd[1] == "cluster" and len(cmd) >= 4:
             try:
-                back_char = 1
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     error(15)
-                    pass
+                    continue
                 if cmd[2] == "rw":
                     self.__clean_cluster()
-                if starts_with(cmd[-1], "d_"):
-                    back_char = 2
-                    d_c_key = int(cmd[-1][2:])
-                cluster_import_address = join_string(cmd, 3, len(cmd) - back_char)
+                cluster_import_address = join_string(cmd, 3, len(cmd) - 1)
                 cluster_import_file = open(cluster_import_address, "r", encoding = "utf-8")
                 cluster_contents = cluster_import_file.read()
-                if starts_with(cmd[-1], "d_"):
-                    self.__add_to_ms_directly_unsafe(enc_dec(cluster_contents, d_c_key), "cluster")
-                else:
-                    self.__add_to_ms_directly_safe(cluster_contents, "cluster")
+                self.__add_to_ms_directly_safe(cluster_contents, "cluster")
             except (FileNotFoundError, IsADirectoryError):
                 error(13)
         
