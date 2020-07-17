@@ -1,4 +1,3 @@
-import cipher
 import lib
 import memory_structures as ms
 import limit
@@ -344,17 +343,9 @@ while flag:
         # Exports the Mess to a specified text file.
         elif cmd[0] == "export" and cmd[1] == "mess" and len(cmd) >= 3:
             try:
-                back_char = 1
-                if lib.starts_with(cmd[-1], "e_"):
-                    back_char = 2
-                    e_m_key = int(cmd[-1][2:])
-                mess_export_address = lib.join_string(cmd, 2, len(cmd) - back_char)
+                mess_export_address = lib.join_string(cmd, 2, len(cmd) - 1)
                 mess_export_file = open(mess_export_address, "w+", encoding = "utf-8")
-                # Encrypts the contents of the Mess if an encryption key is provided.
-                if lib.starts_with(cmd[-1], "e_"):
-                    mess_export_file.write(cipher.enc_dec(ms.mess, e_m_key))
-                else:
-                    mess_export_file.write(ms.mess)
+                mess_export_file.write(ms.mess)
                 mess_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
@@ -362,17 +353,9 @@ while flag:
         # Exports the Cluster to a specified text file.
         elif cmd[0] == "export" and cmd[1] == "cluster" and len(cmd) >= 3:
             try:
-                back_char = 1
-                if lib.starts_with(cmd[-1], "e_"):
-                    back_char = 2
-                    e_c_key = int(cmd[-1][2:])
-                cluster_export_address = lib.join_string(cmd, 2, len(cmd) - back_char)
+                cluster_export_address = lib.join_string(cmd, 2, len(cmd) - 1)
                 cluster_export_file = open(cluster_export_address, "w+", encoding = "utf-8")
-                # Encrypts the contents of the Cluster if an encryption key is provided.
-                if lib.starts_with(cmd[-1], "e_"):
-                    cluster_export_file.write(cipher.enc_dec(ms.cluster, e_c_key))
-                else:
-                    cluster_export_file.write(ms.cluster)
+                cluster_export_file.write(ms.cluster)
                 cluster_export_file.close()
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
@@ -380,46 +363,30 @@ while flag:
         # Imports the contents into the Mess from a specified text file.
         elif cmd[0] == "import" and cmd[1] == "mess" and len(cmd) >= 4:
             try:
-                back_char = 1
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     err.error(15)
                     continue
                 if cmd[2] == "rw":
                     ms.clean_mess()
-                if lib.starts_with(cmd[-1], "d_"):
-                    back_char = 2
-                    d_m_key = int(cmd[-1][2:])
-                mess_import_address = lib.join_string(cmd, 3, len(cmd) - back_char)
+                mess_import_address = lib.join_string(cmd, 3, len(cmd) - 1)
                 mess_import_file = open(mess_import_address, "r", encoding = "utf-8")
                 mess_contents = mess_import_file.read()
-                # Decrypts the contents of the Mess if a decryption key is provided.
-                if lib.starts_with(cmd[-1], "d_"):
-                    ms.add_to_ms_directly_unsafe(cipher.enc_dec(mess_contents, d_m_key), "mess")
-                else:
-                    ms.add_to_ms_directly_safe(mess_contents, "mess")
+                ms.add_to_ms_directly_safe(mess_contents, "mess")
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
 
         # Imports the contents into the Cluster from a specified text file.
         elif cmd[0] == "import" and cmd[1] == "cluster" and len(cmd) >= 4:
             try:
-                back_char = 1
                 if not (cmd[2] == "w" or cmd[2] == "rw"):
                     err.error(15)
                     continue
                 if cmd[2] == "rw":
                     ms.clean_cluster()
-                if lib.starts_with(cmd[-1], "d_"):
-                    back_char = 2
-                    d_c_key = int(cmd[-1][2:])
-                cluster_import_address = lib.join_string(cmd, 3, len(cmd) - back_char)
+                cluster_import_address = lib.join_string(cmd, 3, len(cmd) - 1)
                 cluster_import_file = open(cluster_import_address, "r", encoding = "utf-8")
                 cluster_contents = cluster_import_file.read()
-                # Decrypts the contents of the Cluster if a decryption key is provided.
-                if lib.starts_with(cmd[-1], "d_"):
-                    ms.add_to_ms_directly_unsafe(cipher.enc_dec(cluster_contents, d_c_key), "cluster")
-                else:
-                    ms.add_to_ms_directly_safe(cluster_contents, "cluster")
+                ms.add_to_ms_directly_safe(cluster_contents, "cluster")
             except (FileNotFoundError, IsADirectoryError):
                 err.error(13)
 
