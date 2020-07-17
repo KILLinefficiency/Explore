@@ -124,6 +124,7 @@ def join_string(arr, start, end):
         complete_string = complete_string + arr[join_str] + " "
     complete_string = complete_string[:-1]
     return complete_string
+
 data_types = ["num", "num\n", "alpha", "alpha\n"]
 
 class Explore:
