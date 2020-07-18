@@ -2,8 +2,8 @@
 
 The Explore Documentation is available in two versions:
 
-* Markdown (.md) version
-* PDF (.pdf) version
+* Markdown (.md) version.
+* PDF (.pdf) version.
 
 The Markdown version is mostly used only for editing the contents.
 Use the PDF Version for better experience.
