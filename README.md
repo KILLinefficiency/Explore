@@ -8,13 +8,19 @@ The official documentation can be found in the ``Documentation`` directory in th
 The Explore Package can be found in the ``explore-package`` directory.
 
 **Requirements**
-> python3
+> ``git``
 
-> pip3
+> ``python3``
 
-> node
+> ``pip3``
 
-#### Getting Explore:
+> ``node``
+
+> ``docker``  (Optional: For Dockerfile.)
+
+> ``bash`` (Optional: If you decide to use the installer.)
+
+#### Getting Explore
 
 Clone this repository:
 ```
