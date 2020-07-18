@@ -1,7 +1,7 @@
 # <h1 align="center">Explore Documentation</h1>
 
 &nbsp;
-<p align="center">https://www.github.com/KILLinefficiency/Explore</p>
+https://www.github.com/KILLinefficiency/Explore
 &nbsp;
 
 #### Introduction
@@ -22,9 +22,16 @@ You can either clone the repository directly from the GitHub page or by using th
 Make sure that you have newer version of the following installed:
 
 > ``git``
+
 > ``python3``
+
 > ``pip3``
+
 > ``node``
+
+> ``docker``  (Optional: For Dockerfile.)
+
+> ``bash`` (Optional: If you decide to use the installer.)
 
 **Cloning**
 ```
@@ -92,9 +99,7 @@ node server.js
 &nbsp;
 
 #### Files in the Source Code
-Explore is made up of four files:
-
- * ``cipher.py`` contains the code for the security layer in Explore.
+Explore is made up of seven files:
 
  * ``lib.py`` contains a few Explore standard functions required for it's functioning.
 
@@ -128,10 +133,22 @@ python3 setup.py bdist_wheel
 ```
  3] A ``.whl`` file will be generated in the newly created ``dist`` directory.
 
-The ``.whl`` can be installed using ``pip``
+The ``.whl`` can be installed using ``pip3``
 ```
 pip3 install dist/<the-.whl-file>.whl
 ```
+or
+```
+pip3 install dist/*
+```
+&nbsp;
+*Scripts for automating this process:*
+
+* ``gen-package.sh``: For generating the Explore package.
+
+* ``install-package.sh``: For installing the generated Explore package.
+
+* ``rem-package.sh``: For removing the genereted package and also uninstalling it from the system.
 
 &nbsp;
 #### Memory Locations in Explore
@@ -159,11 +176,29 @@ Explore currently has two data types. Explore uses ``num`` to store numeric valu
 #### Spaces in Explore
 Explore allows the usage of spaces. However Explore expects you to use only one space for everything. Additional spaces in Explore will be reduced down to only one spaces. For additional spaces, the pipe character ,``|`` has been created. ``|`` will act as nothing but a space character.
 
-#### The *log.txt* file
-Explore saves all of your commands in a text file simply called ``log.txt``. This file is generated in the Explore directory as soon Explore is set up. The Explore Login System is connected to this ``log.txt`` file. So, it's not a good idea to delete the ``log.txt`` file even if it's no longer necessary to the user.
+Like,
 
+Using ``disp`` to display something:
+```
+:) > disp Hello World
+Hello World
+:) > disp Hello          World
+Hello World
+```
+**(Does not work.)**
+
+```
+:) > disp Hello||||||||||World
+Hello          World
+```
+**(Works.)**
+
+This works not only with ``disp`` but with all the commands.
+
+#### The *log.txt* file
+Explore saves all of your commands in a text file simply called ``log.txt``. This file is generated in the Explore directory as soon Explore is set up.
 #### Escaping the *log.txt* file
-Explore will by-default save all the commands in ``log.txt``. However this can be prevented by prefixing the Explore command with a space (`` ``). By doing so the user's command will not be saved in the ``log.txt`` file.
+Explore will by-default save all the commands in ``log.txt``. However this can be prevented by prefixing the Explore command with a space (`` ``). By doing so, the user's command will not be saved in the ``log.txt`` file.
 
 #### Referring data in and from the Memory Locations
 The data in the **Mess** and the **Cluster** have a special reference convention. Data from the **Mess** requires it's *Position* for access while data from the **Cluster** requires it's *Key* for access. Many commands in Explore use referencing to access a particular value.
@@ -231,8 +266,9 @@ Explore works with the following 28 commands:
 > *23. getlog*
 > *24. find*
 > *25. limit*
-> *26. info*
-> *27. bye*
+> *26. server*
+> *27. info*
+> *28. bye*
 
 This documentation covers all of them one by one.
 
@@ -626,13 +662,17 @@ clear
 &nbsp;
 
 #### *11. csv*
-``csv`` reads a CSV file. CSV stands for *Comma-Separated Values*. ``csv`` will read the values from the ``.csv`` file and dislpay it in a tabular form.
+``csv`` reads a CSV file. CSV stands for *Comma-Separated Values*. ``csv`` will read the values from a ``.csv`` file (or ant text file with the same text format) and dislpay it in a tabular form.
 ```
 csv <file_name_with_complete_or_relative_address>
 ```
 The default spacing for the ``csv`` command is 4 tabs. The user can optionally change this spacing.
 ```
-csv <spacing> <file_name_with_complete_or_relative_address>
+csv config tab <required_tabs>
+```
+The default field separator for the ``csv`` command is ``,``. The user can optionally change this.
+```
+csv config fs <required_field_separator>
 ```
 
 Like,
@@ -654,7 +694,8 @@ abc,def,ghi,jkl
 3.  567				890				123				456
 4.  789				012				345				678
 
-:) > csv 1 /home/me/Desktop/file.csv
+:) > csv config tab 1
+:) > csv /home/me/Desktop/file.csv
 
     abc	def	ghi	jkl
 1.  123	456	789	012
@@ -662,6 +703,24 @@ abc,def,ghi,jkl
 3.  567	890	123	456
 4.  789	012	345	678
 
+```
+```
+:) > read /home/me/Desktop/file.csv
+
+abc;def;ghi;jkl
+123;456;789;012
+345;678;901;234
+567;890;123;456
+789;012;345;678
+
+:) > csv config fs ;
+:) > csv /home/me/Desktop/file.csv
+
+    abc				def				ghi				jkl
+1.  123				456				789				012
+2.  345				678				901				234
+3.  567				890				123				456
+4.  789				012				345				678
 ```
 &nbsp;
 
@@ -1144,6 +1203,14 @@ Location: Mess	 Datatype: alpha	 Position: 1
 Location: Cluster	 Itemtype: Key	 Value: 3.14
 ```
 &nbsp;
+
+#### *25. limit*
+&nbsp;
+
+
+#### *26. server*
+&nbsp;
+
 #### *25. info*
 ``info`` displays Explore-related information. ``about`` is an alternative to ``info``.
 ```
@@ -1169,7 +1236,7 @@ Repository: https://www.github.com/KILLinefficiency/Explore
 
 ```
 &nbsp;
-#### *26~~~~. bye*
+#### *26. bye*
 As the name suggests, ``bye`` closes down the current instance of Explore. The alternatives to ``bye`` are ``bye.``, ``exit`` and ``exit.``.
 ```
 bye
