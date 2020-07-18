@@ -10,4 +10,4 @@ Use the PDF Version for better experience.
 
 Documentation written using **Remarkable Markdown Editor**.
 
-https://www.remarkableapp.github.io 
+https://remarkableapp.github.io 
