@@ -7,6 +7,77 @@ INFO = {
     "REPOSITORY": "https://www.github.com/KILLinefficiency/Explore"
 }
 
+# Code that runs the Explore Server.
+server_code = """
+const http = require("http");
+const fs = require("fs");
+
+const SERVER_PORT = 2166;
+
+const index_page = `<html>
+	<head>
+		<title>Explore Server</title>
+	</head>
+
+	<body>
+		<h1 align = "center">Explore Sever</h1>
+		<br>
+		<h3>Routes for Explore Server:</h3>
+			<code>/mess</code>
+			<br><br>
+			<code>/cluster</code>
+	</body>
+
+	</html>
+`;
+
+const mess_file = ".mess_server_file.txt";
+const cluster_file = ".cluster_server_file.txt";
+
+server = http.createServer((req, res) => {
+	if(req.url == "/") {
+		res.write(index_page);
+		res.end();
+	}
+	if(req.url == "/mess") {
+		fs.readFile(mess_file, (err, mess_contents) => {
+			if(err) {
+				console.log("Error: Update the server from your Explore instance.")
+			}
+			else {
+				res.write(mess_contents);
+				res.end();
+			}
+		});
+	}
+	if(req.url == "/cluster") {
+		fs.readFile(cluster_file, (err, cluster_contents) => {
+			if(err) {
+				console.log("Error: Update the server from your Explore instance.")
+			}
+			else {
+				res.write(cluster_contents);
+				res.end();
+			}
+		});
+	}
+});
+
+var reqs = 1;
+server.on("connection", (socket) => {
+	console.log(`Request recieved... (${reqs})`);
+	reqs = reqs + 1;
+});
+
+server.listen(SERVER_PORT, "0.0.0.0", () => { console.log(`\\nServer running on port ${SERVER_PORT}...\\n`); });
+
+"""
+
+# Spwans a server.js file in the same directory as that of the Python program using the Explore Package.
+server_file = open("server.js", "w+", encoding = "utf-8")
+server_file.write(server_code)
+server_file.close()
+
 explore_errors = [
     "Reserved Place for System Error",
     "Invalid Key Entered.",
@@ -125,8 +196,6 @@ def join_string(arr, start, end):
     complete_string = complete_string[:-1]
     return complete_string
 
-data_types = ["num", "num\n", "alpha", "alpha\n"]
-
 class Explore:
     __mess = ""
     __cluster = ""
@@ -162,6 +231,8 @@ class Explore:
     __cmd_limit = {}
 
     __total_commands = list(__cmd_requests.keys())
+
+    __data_types = ["num", "num\n", "alpha", "alpha\n"]
 
     def __set_limit(self, command, limit):
         self.__cmd_limit[command] = limit
@@ -389,7 +460,7 @@ class Explore:
         global mess
         global cluster
         split_array = value.split(" ")
-        if split_array[-1] in data_types: 
+        if split_array[-1] in self.__data_types: 
             if memory_structure == "mess":
                 self.__mess = self.__mess + value
             elif memory_structure == "cluster":
