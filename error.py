@@ -17,7 +17,8 @@ explore_errors = [
     "Key Already Exists.",
     "Not Found.",
     "Server Not Found.",
-    "Memory Location Not Specified."
+    "Memory Location Not Specified.",
+    "Cannot enable limit to multiple commands at once."
 ]
 
 def error(error_code):
