@@ -98,7 +98,10 @@ while flag:
                         for limit_all in range(0, len(limit.total_commands)):
                             limit.set_limit(limit.total_commands[limit_all], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
                     elif cmd[2] != "all":
-                        limit.set_limit(cmd[2], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
+                        try:
+                            limit.set_limit(cmd[2], int(eval(lib.join_string(cmd, 3, len(cmd) - 1))))
+                        except SyntaxError:
+                            err.error(20)
                 # Disables the limit for all or a specific command.
                 elif cmd[1] == "disable":
                     if cmd[2] == "all":
