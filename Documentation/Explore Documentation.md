@@ -106,7 +106,7 @@ Explore is made up of seven files:
  * ``shell.py`` is an important file which contains the code responsible for the executions of commands. The code for the login screen is also present in ``shell.py``. ``shell.py`` uses all the standard functions defined in ``lib.py``.
 
  * ``Explore.py`` is the main file run by the Python interpreter. It just launches the ``shell.py`` file.
- 
+
 * ``limit.py`` contains the functions related to the ``limit`` command.
 
 * ``error.py`` contains standard Explore errors.
@@ -288,24 +288,30 @@ Like,
 The contents of the **Mess** can be displayed using the ``getmess`` command. Explore will display the data according the sequence of pushing.
 ```
 :) > getmess
+
 1. 3.14
 2. pi
+
 ```
 ``push`` can take alphabetic data contaning spaces too.
 ```
 :) > push alpha something with spaces
 :) > getmess
+
 1. 3.14
 2. pi
 3. something with spaces
+
 ```
 Instead of using just spaces, the user can also Explore's pipe character ``|`` for representating spaces.
 ```
 :) > push alpha something|with|spaces
 :) > getmess
+
 1. 3.14
 2. pi
 3. something with spaces
+
 ```
 &nbsp;
 Explore will, by-default, push the data item to the last position. However, the user can also push the data item to a specific position.
@@ -319,10 +325,12 @@ Like,
 ```
 :) > push num 9.8 2
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. pi
 4. something with spaces
+
 ```
 
 Mathematical expressions can also be passed to ``push``.
@@ -330,7 +338,9 @@ Like,
 ```
 :) > push num 22/7
 :) > getmess
+
 1. 3.142857142857143
+
 ```
 
 The user can also push the data from within the **Mess** by referencing it.
@@ -339,11 +349,15 @@ Like,
 ```
 :) > push num 3.14
 :) > getmess
+
 1. 3.14
+
 :) > push num x_1
 :) > getmess
+
 1. 3.14
 2. 3.14
+
 ```
 The same operation is applicable to the **Cluster** too.
 &nbsp;
@@ -356,10 +370,12 @@ getmess
 Like,
 ```
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. pi
 4. something with spaces
+
 ```
 Here, the positions of the data items are succeeded by the data items.
 For example, 1 is the position of *3.14*, 2 is the position of *9.8* and so on.
@@ -373,15 +389,19 @@ pop
 Like,
 ```
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. pi
 4. something with spaces
+
 :) > pop
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. pi
+
 ```
 ``pop``, by-default, removes the last data item from the **Mess**. However the user can remove a data item from anywhere in the **Mess** by specifying it's position.
 ```
@@ -390,13 +410,17 @@ pop <position>
 Like,
 ```
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. pi
+
 :) > pop 2
 :) > getmess
+
 1. 3.14
 2. pi
+
 ```
 ``pop`` also supports multiple item deletion.
 ```
@@ -405,12 +429,16 @@ pop <position_of_item_1> <position_of_item_2> ...
 Like,
 ```
 :) > getmess
+
 1. 3.14
 2. pi
+
 :) > push num 9.8
 :) > pop 1 3
 :) > getmess
+
 1. pi
+
 ```
 
 #### *04. mov*
@@ -422,13 +450,17 @@ mov <data_type> <data> <position>
 Like,
 ```
 :) > getmess
+
 1. 3.14
 2. pi
+
 :) > mov num 9.8 1
 :) > mov alpha g 2
 :) > getmess
+
 1. 9.8
 2. g
+
 ```
 The user can also move the data from within the **Mess**.
 
@@ -437,12 +469,16 @@ Like,
 :) > push alpha ninepointeight
 :) > push num 9.8
 :) > getmess
+
 1. ninepointeightfour
 2. 9.8
+
 :) > mov num x_2 1
 :) > getmess
+
 1. 9.8
 2. 9.8
+
 ```
 The same operation can also be performed on the data from the **Cluster**.
 &nbsp;
@@ -461,21 +497,25 @@ The contents of the **Cluster** can be displayed by using the ``getcluster `` co
 :) > set pi num 3.14
 :) > set something alpha anything
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
 something : anything
+
 ```
 Mathematical expressions can also be passed to ``set``.
 Like,
 ```
 :) > set pi num 22/7
 :) > getcluster
+
 Key : Value
 
 pi: 3.142857142857143
+
 ```
-The user can set the values from the **Mess**, the **Cluster** of from the **Book**.
+The user can set the values from the **Mess**, the **Cluster** or from the **Book**.
 Like,
 ```
 :) > push num 3.14
@@ -483,11 +523,13 @@ Like,
 :) > set pi num x_1
 :) > set name alpha y_value
 :) > getcluster
+
 Key : Value
 
 value : pi
 pi : 3.14
 name : pi
+
 ```
 
 *Keys* cannot contain spaces and a *Key* can be assigned to one value at a time only.
@@ -508,20 +550,26 @@ getcluster values
 Like,
 ```
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
 something : anything
+
 :) > getcluster keys
+
 Key :
 
 pi :
 something :
+
 :) > getcluster values
+
 : Values
 
 : 3.14
 : anything
+
 ```
 &nbsp;
 
@@ -533,15 +581,19 @@ rem
 Like,
 ```
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
 something : anything
+
 :) > rem
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
+
 ```
 However, ``rem`` can also be used to remove a specific data item from the **Cluster**. For this, the user needs to specify the *Key* of the data item to be removed.
 ```
@@ -551,15 +603,19 @@ Like,
 ```
 :) > set g num 9.8
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
 g : 9.8
+
 :) > rem pi
 :) > getcluster
+
 Key : Value
 
 g : 9.8
+
 ```
 ``rem`` also supports multiple item deletion.
 ```
@@ -571,10 +627,12 @@ Like,
 :) > set value num 3.14
 :) > set var alpha hello
 :) > rem name value
-:) > getmess
+:) > getcluster
+
 Key : Value
 
 var : hello
+
 ```
 &nbsp;
 
@@ -587,14 +645,18 @@ change <existing_key> <new_datatype_for_the_new_value> <new_value>
 Like,
 ```
 :) > getcluster
+
 Key : Value
 
 g : 9.8
+
 :) > change g num 10
 :) > getcluster
+
 Key : Value
 
 g : 10
+
 ```
 The *Value* can also be changed by referring it from within the **Cluster**, the **Mess** ot the **Book**.
 
@@ -604,22 +666,28 @@ Like,
 :) > set pi alpha threpointonefour
 :) > set pi_val num 22/7
 :) > getcluster
+
 Key : Value
 
 pi : threepointonefour
 pi_val : 3.142857142857143
+
 :) > change pi num x_1
 :) > getcluster
+
 Key : Value
 
 pi : 3.14
 pi_val : 3.142857142857143
+
 :) > change pi num y_pi_val
 :) > getcluster
+
 Key : Value
 
 pi : 3.142857142857143
 pi_val : 3.142857142857143
+
 ```
 &nbsp;
 
@@ -639,14 +707,18 @@ Like,
 :) > set version num 1
 :) > set ten num 1010
 :) > getmess
+
 1. 3.14
 2. 9.8
 3. some random text
+
 :) > getcluster
+
 Key : Value
 
 version : 1
 ten : 1010
+
 :) > count mess
 3
 :) > count cluster
@@ -747,8 +819,10 @@ Like,
 4.  789	012	345	678
 
 :) > push num b_info->3->3
-:) > getmess
+:) >
+
 1. 901.0
+
 ```
 The following example parses the CSV file and then access the data using referencing. The data at the *3rd row*, *3rd column* of the *Data Space* called *info* is accessed and push to the **Mess**.
 
@@ -878,13 +952,17 @@ Like,
 :) > set var1 alpha anything
 :) > set var2 alpha something
 :) > getmess
+
 1. 3.14
 2. 9.8
+
 :) > getcluster
+
 Key : Cluster
 
 var1 : anything
 var2 : something
+
 :) > clean mess
 :) > getmess
 :) > clean cluster
@@ -1009,20 +1087,6 @@ Here, the data items from the **Mess** and the **Cluster** have been exported to
 
 It's not a good idea to edit an exported file manually as it can cause errors while importing it.
 
-For data privacy, Explore also supports data encryption while exporting. The key is to be provided with the ``export`` command, preceded by ``e_``.
-```
-export <memory_location> <file_name_with_complete_or_relative_address> e_<encryption_key>
-```
-The encryption key should always be a whole number.
-
-Like,
-```
-:) > push num 45
-:) > push alpha hey
-:) > export mess /home/me/Desktop/enc_mess.txt e_60
-```
-In this example, the **Mess** has been exported into a file called *enc_mess.txt*, encrypted with the encryption key: 60.
-
 *(Here, ``me`` is the username on a Linux machine. The following example shows a Linux File System, but ``export`` works just fine on Windows and MacOS too).*
 &nbsp;
 #### *20. import*
@@ -1030,6 +1094,7 @@ Exporting data is of no use if the user can't import it back into Explore. ``imp
 
 ``import`` has 2 import modes:
 > ``w`` : write
+>
 > ``rw`` : rewrite
 
 &nbsp;
@@ -1047,23 +1112,31 @@ Using ``w``:
 :) > push alpha Kal-El
 :) > set codename alpha Kal-El
 :) > getmess
+
 1. Kal-El
+
 :) > getcluster
+
 Key : Value
 
 codename : Kal-El
+
 :) > import mess w /home/me/Desktop/my_mess.txt
 :) > getmess
+
 1. Kal-El
 2. 3.14
 3. something
+
 :) > import cluster w /home/me/Desktop/my_cluster.txt
 :) > getcluster
+
 Key : Value
 
 codename : Kal-El
 name : Explore
-ver : 2
+ver : 3
+
 ```
 
 Using ``rw``:
@@ -1071,38 +1144,32 @@ Using ``rw``:
 :) > push alpha Kal-El
 :) > set codename alpha Kal-El
 :) > getmess
+
 1. Kal-El
+
 :) > getcluster
+
 Key : Value
 
 codename : Kal-El
+
 :) > import mess rw /home/me/Desktop/my_mess.txt
 :) > getmess
+
 1. 3.14
 2. something
+
 :) > import cluster rw /home/me/Desktop/my_cluster.txt
 :) > getcluster
+
 Key : Value
 
 name : Explore
-ver : 2
+ver : 3
+
 ```
 *my_mess.txt* and *my_cluster.txt* are the same files which were exported in the previous section.
 
-Encrypted exported file **Mess**/**Cluster** files can be exported back if the correct decryption key is provided with the ``import`` command, preceded by ``d_``.
-```
-import <memory_location_to_be_imported_into> <import_mode> <exported_file_name_with_complete_or_relative_address> d_<decryption_key>
-```
-Decryption Key is the same as the Encryption Key.
-
-Like,
-```
-:) > import mess rw /home/me/Desktop/enc_mess.txt d_60
-:) > getmess
-1. 45.0
-2. hey
-```
-*enc_mess.txt* is the same encrypted file which was exported in the previous section.
 &nbsp;
 #### *21. read*
 ``read`` displays the contents of a text file passed to it.
@@ -1205,6 +1272,134 @@ Location: Cluster	 Itemtype: Key	 Value: 3.14
 &nbsp;
 
 #### *25. limit*
+``limit`` is useful when the user wants to set a limit for the number of times a command is called.
+
+```
+limit enable
+```
+```
+limit disable
+```
+```
+limit status
+```
+
+**Setting a limit**
+```
+limit enable <command_name> <limit>
+```
+A limit can be set to all the commands at once.
+```
+limit enable all <limit>
+```
+
+``limit enable`` cannot take multiple commands at once, so the commands should to be split into multiple ``limit enable`` commands.
+
+Like,
+
+**Invalid**
+```
+:) > limit enable push disp 4
+```
+
+**Valid**
+```
+:) > limit enable push 4
+:) > limit enable disp 4
+```
+
+The following example shows the ``disp`` command but ``limit`` works with all the commands.
+
+```
+:) > limit enable disp 3
+:) > disp running for the first time
+running for the first time
+:) > disp running for the second time
+running for the second time
+:) > disp last time
+last time
+:) > disp i wont show up :(
+Command Limit Reached.
+```
+
+Here the limit is set to 3, thus the ``disp`` command becomes executable for only 3 time. For the fourth time, an error message will show up.
+
+**Removing a limit**
+```
+limit disable <command_name>
+```
+``limit disable`` can take multiple commands at once.
+
+Like,
+```
+limit disable <command_1> <command_2> ...
+```
+
+Limits from all the commands can be removed at once.
+```
+limit disable all
+```
+
+Removing the limit set to ``disp`` in the previous section (whole example):
+```
+:) > limit enable disp 3
+:) > disp running for the first time
+running for the first time
+:) > disp running for the second time
+running for the second time
+:) > disp last time
+last time
+:) > disp i wont show up :(
+Command Limit Reached.
+:) >
+:) > limit disable disp
+:) > disp i am back again
+i am back again
+```
+
+**Getting information about a limit**
+```
+limit status <command>
+```
+``limit status`` can take multiple commands at once.
+
+Like,
+```
+limit status <command_1> <command_2> ...
+```
+The user can get the limit status of all the commands at once.
+```
+limit status all
+```
+
+Using ``limit status``:
+
+```
+:) > limit status disp
+
+1. Command: disp
+Limit Enabled: No
+Requests: 0
+Limit: 0
+
+:) > limit enable disp 3
+:) > limit status disp
+
+1. Command: disp
+Limit Enabled: Yes
+Requests: 0
+Limit: 3
+
+:) > disp try 1
+try 1
+:) > limit status disp
+
+1. Command: disp
+Limit Enabled: Yes
+Requests: 1
+Limit: 3
+```
+
 &nbsp;
 
 
@@ -1251,6 +1446,7 @@ Bye.
 &nbsp;
 ## The Explore Package
 Explore also offers a Python Package for integrating Explore in Python Programs.
+If you have used the installer or have installed dependencies from ``requirements.txt``, then the Explore Package is already installed on your system.
 &nbsp;
 #### *Installing the Explore Package*
 The Explore Package is available in the ``explore-package`` directory as a ``.whl`` package.
@@ -1275,7 +1471,22 @@ The Explore package has two in-built functions, the ``invoke()`` function and th
 > * ``invoke()``
 > * ``run()``
 
-The ``invoke()`` function runs Explore commands as strings in the Python Program. The ``run()`` function runs the user-made Explore Scripts in the Python Program
+The ``invoke()`` function runs Explore commands as strings in the Python Program. The ``run()`` function runs the user-made Explore Scripts in the Python Program.
+
+These two functions are a part of an ``Explore`` object. 
+
+**Getting an Explore object**
+
+Each Explore object has it's own **Mess**, **Cluster** and **Book**.
+
+```python3
+from explore_package import Explore
+
+db = Explore() # Object 1
+db1 = Explore() # Object 2
+```
+
+The object can be named whatever the user wants. Thus, multiple instances of Explore are possible.
 &nbsp;
 #### *invoke()*
 ``invoke()`` takes in one string argument. ``invoke()`` for few Explore commands returns data, while most of them displays it out directly in the Python Program.
@@ -1285,12 +1496,15 @@ invoke("<explore_command>")
 Like,
 
 **Python Program**
-```python
-import explore_package as e
-e.invoke("disp Hello World!")
-e.invoke("push num 3.14")
-e.invoke("set val alpha PI")
-e.invoke("disp y_val is x_1")
+```python3
+from explore_package import Explore
+
+db = Explore()
+
+db.invoke("disp Hello World!")
+db.invoke("push num 3.14")
+db.invoke("set val alpha PI")
+db.invoke("disp y_val is x_1")
 ```
 The output on running would be:
 ```
@@ -1311,27 +1525,25 @@ Non-Data-Returning | Data-Returning
 *push* | *count*
 *pop* | *get*
 *mov* | *calc*
-*sortmess* | *find*
 *set* | *info*
 *rem* | *getmess*
 *change* | *getcluster*
-*disp* |
-*clean* |
-*export* |
-*import* |
-*read* |
-*csv* |
+*disp* | *getbook*
+*clean* | *find*
+*export* | *limit status*
+*import* | *read*
+*csv* | *server ip*
 *book* |
-*getbook* |
 *dump* |
 
 Like,
 
-```python
-import explore_package as e
-e.invoke("push num 3.14")
-e.invoke("set pi num 3.14")
-if e.invoke("get mess 1") == e.invoke("get cluster pi"):
+```python3
+from explore_package import Explore
+db = Explore()
+db.invoke("push num 3.14")
+db.invoke("set pi num 3.14")
+if db.invoke("get mess 1") == db.invoke("get cluster pi"):
     print("PI is 3.14")
 else:
     print("PI is not 3.14")
@@ -1353,40 +1565,46 @@ Command | Return Type
 *count* | *Integer* (``int``)
 *get* | *Float* / *String* (``float`` / ``str``)
 *calc* | *Float* (``float``)
-*find* | *Dictionary* / *Dictionaries* inside a *List* (``list`` and ``dict``)
 *info* | *Dictionary* (``dict``)
 *getmess* | *List* (``list``)
 *getcluster* | *Dictionary* (``dict``)
+*getbook* | *Dictionary* (``dict``)
+*find* | *Dictionary* / *Dictionaries* inside a *List* (``list`` and ``dict``)
+*limit status* | *Dictionary* (``dict``)
+*read* | *List* (``list``)
+*server ip* | *Integer* (``int``)
 
 &nbsp;
 Like,
 
 **Python Program**
-```python
-import explore_package as e
+```python3
+from explore_package import Explore
 
-e.invoke("push num 3.14")
-e.invoke("set pi num 3.14")
+db = Explore()
+
+db.invoke("push num 3.14")
+db.invoke("set pi num 3.14")
 
 # Getting a search result for the number 3.14
-search = e.invoke("find num 3.14")
+search = db.invoke("find num 3.14")
 print(search)
 print() # Printing a blank line...
 
 # Getting Explore's information
-information = e.invoke("info")
+information = db.invoke("info")
 print(information)
 print() # Printing a blank line...
 
 # Getting specific data from the returned data
 print(search[1]["Key"])
-print(information["Codename"])
+print(information["CODENAME"])
 ```
 Output on running would be:
-```python
+```python3
 [{'Location': 'Mess', 'Datatype': 'num', 'Position': 1}, {'Location': 'Cluster', 'Itemtype': 'Value', 'Datatype': 'num', 'Key': 'pi'}]
 
-{'Version': 3.0, 'Codename': 'Kal-El', 'License': 'GNU General Public License v3.0', 'Author': 'Shreyas Sable', 'Repository': 'https://www.github.com/KILLinefficiency/Explore'}
+{'VERSION': 3.0, 'CODENAME': 'Kal-El', 'LICENSE': 'GNU General Public License v3.0', 'AUTHOR': 'Shreyas Sable', 'REPOSITORY': 'https://www.github.com/KILLinefficiency/Explore'}
 
 pi
 Kal-El
@@ -1394,30 +1612,29 @@ Kal-El
 &nbsp;
 **Using Formatted Strings**
 
-The user can get a data item into the Python Program from either the **Mess** or the **Cluster** by using ``get``. But there is no standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
+The user can get a data item into the Python Program from either the **Mess**, the **Cluster** or the **Book** by using ``get``. But there is no standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
 
 This is where Python's Formatted Strings come handy.
 
 The user can directly use operations like ``push`` and ``set`` by passing the data/value inside a formatted string in ``invoke()``.
 
 Like,
-```python
-import explore_package as e
+```python3
+from explore_package import Explore
+db = Explore()
 some_value = 9.8
 some_name = "Explore"
-e.invoke(f"push num {some_value}")
-e.invoke(f"set name alpha {some_name}")
-e.invoke("getmess")
+db.invoke(f"push num {some_value}")
+db.invoke(f"set name alpha {some_name}")
+print(db.invoke("getmess"))
 print()
-e.invoke("getcluster")
+print(db.invoke("getcluster"))
 ```
 The output on running would be:
 ```
-1. 9.8
+[9.8]
 
-Key : Value
-
-name : Explore
+{'name': 'Explore'}
 ```
 &nbsp;
 #### *run()*
@@ -1439,9 +1656,10 @@ Here's a file ``script.txt`` on the user's Desktop.
 disp hello
 ```
 **Python Program**
-```python
-import explore_package as e
-e.run("/home/me/Desktop/script.txt")
+```python3
+from explore_package import Explore
+db = Explore()
+db.run("/home/me/Desktop/script.txt")
 ```
 
 The output on running the Python Program:
@@ -1468,9 +1686,10 @@ set name alpha PI
 disp y_name is x_1
 ```
 **Python Program**
-```python
-import explore_package as e
-e.run("/home/me/Desktop/script.txt")
+```python3
+from explore_package import Explore
+db = Explore()
+db.run("/home/me/Desktop/script.txt")
 ```
 The output on running the Python Program:
 ```
