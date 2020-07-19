@@ -100,6 +100,62 @@ explore_errors = [
     "Memory Location Not Specified."
 ]
 
+def starts_with(string, trimmed_string):
+    return (trimmed_string == string[0:len(trimmed_string)])
+
+def join_string(arr, start, end):
+    complete_string = ""
+    for join_str in range(start, end + 1):
+        complete_string = complete_string + arr[join_str] + " "
+    complete_string = complete_string[:-1]
+    return complete_string
+
+def del_spaces(arr):
+    new_arr = []
+    for check_arr in range(0, len(arr)):
+        if arr[check_arr] != "":
+            new_arr.append(arr[check_arr])
+    return new_arr
+
+def del_comments(commands):
+    try:
+        for trim_comments in range(0, len(commands)):
+            if starts_with(commands[trim_comments], "..."):
+                del commands[trim_comments]
+    except IndexError:
+        del_comments(commands)
+
+"""
+Comments will also be present on the same line as that of
+the Explore command statement. The following function
+detects and deletes these comments. The detection is done
+by checking if a individual word is or starts with "...".
+If yes, then the function deletes the word and all the words
+onwards to than word.
+"""
+def del_line_comm(command):
+    clean_arr = []
+    command = command.split()
+    for del_line_comments in range(0, len(command)):
+        if command[del_line_comments] == "..." or starts_with(command[del_line_comments], "..."):
+            break
+        else:
+            clean_arr.append(command[del_line_comments])
+    clean_command = join_string(clean_arr, 0, len(clean_arr) - 1)
+    """for del_comm in range(0, len(commands)):
+        if not(command[del_comm] == "..." or starts_with(command[del_comm], "...")):
+            clean_arr.append(command[del_comm])"""
+    return clean_command
+
+def del_unwanted(command_list):
+    for strip_tabs in range(0, len(command_list)):
+            command_list[strip_tabs] = command_list[strip_tabs].strip()
+    # Remove the "" character representating a blank line.
+    command_list = del_spaces(command_list)
+    # Deletes all the comments from the Script.
+    del_comments(command_list)
+    return command_list
+
 def error(error_code):
     global explore_errors
     print(explore_errors[int(error_code) - 1])
@@ -155,22 +211,12 @@ def parse_file(location):
     file_data = trim_n(file_data)
     return file_data
 
-def starts_with(string, trimmed_string):
-    return (trimmed_string == string[0:len(trimmed_string)])
-
 def read_file(location):
     rfile = open(location, "r", encoding = "utf-8")
     file_contents = rfile.readlines()
     file_contents = trim_n(file_contents)
     rfile.close()
     return file_contents
-
-def del_spaces(arr):
-    new_arr = []
-    for check_arr in range(0, len(arr)):
-        if arr[check_arr] != "":
-            new_arr.append(arr[check_arr])
-    return new_arr
 
 def disp_list(arr):
     for itr_item in range(0, len(arr)):
@@ -188,13 +234,6 @@ def del_left_zeros(text):
     while text[zero_counter] == "0":
         zero_counter = zero_counter + 1
     return text[zero_counter:]
-
-def join_string(arr, start, end):
-    complete_string = ""
-    for join_str in range(start, end + 1):
-        complete_string = complete_string + arr[join_str] + " "
-    complete_string = complete_string[:-1]
-    return complete_string
 
 class Explore:
     __mess = ""
@@ -914,7 +953,7 @@ class Explore:
                     error(18)
                 else:
                     if cmd[1] == "ip":
-                        return self.__SERVER_IP
+                        return int(self.__SERVER_IP)
                     elif cmd[1] == "update":
                         if cmd[2] == "mess":
                             self.__set_data("mess")
@@ -937,3 +976,19 @@ class Explore:
                             error(19)
             except ConnectionError:
                 error(18)
+    # Runs an Explore Script if a valid path is specified.
+    def run(self, path):
+        try:
+            script = open(path, "r", encoding = "utf-8")
+            contents = script.readlines()
+            # Removes the unwanted characters from the Script.
+            contents = del_unwanted(contents)
+            for del_line_comments in range(0, len(contents)):
+                contents[del_line_comments] = del_line_comm(contents[del_line_comments])
+            # Runs each line as an Explore command.
+            for run_comm in range(0, len(contents)):
+                self.invoke(contents[run_comm])
+        except (FileNotFoundError, IsADirectoryError):
+            print("Invalid File/Directory.")
+        # except:
+            # print("-1")
