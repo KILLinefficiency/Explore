@@ -525,6 +525,9 @@ class Explore:
         except (KeyError, ValueError, IndexError):
             error(4)
             pass
+
+        cmd[0] = cmd[0].lower()
+
         cmd = del_spaces(cmd)
         for add_spaces in range(0, len(cmd)):
             for put_spaces in range(0, len(cmd[add_spaces])):
@@ -953,7 +956,7 @@ class Explore:
                     error(18)
                 else:
                     if cmd[1] == "ip":
-                        return int(self.__SERVER_IP)
+                        return self.__SERVER_IP
                     elif cmd[1] == "update":
                         if cmd[2] == "mess":
                             self.__set_data("mess")
