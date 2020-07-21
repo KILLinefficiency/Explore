@@ -58,6 +58,8 @@ while flag:
             err.error(4)
             continue
 
+        cmd[0] = cmd[0].lower()
+
         if not (len(command) == 0) and not (escape_log):
             log.write(command + "\n")
 
