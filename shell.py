@@ -613,36 +613,39 @@ while flag:
             dump_file.close()
 
         elif cmd[0] == "server":
-            # Sets the Server IP.
-            if cmd[1] == "connect":
+            try:
+                # Sets the Server IP.
+                if cmd[1] == "connect":
                     SERVER_IP = cmd[2]
-            if SERVER_IP == "" and cmd[1] != "update":
+                if SERVER_IP == "" and cmd[1] != "update":
+                    err.error(18)
+                else:
+                    if cmd[1] == "ip":
+                        print("Connected to: " + SERVER_IP)
+                    # Updates the contents to the Server.
+                    elif cmd[1] == "update":
+                        if cmd[2] == "mess":
+                            ms.set_data("mess")
+                        elif cmd[2] == "cluster":
+                            ms.set_data("cluster")
+                        elif cmd[2] == "all":
+                            ms.set_data("mess")
+                            ms.set_data("cluster")
+                        else:
+                            err.error(19)
+                    # Gets the contents from the Server.
+                    elif cmd[1] == "fetch":
+                        if cmd[2] == "mess":
+                            ms.get_data(SERVER_IP, "mess")
+                        elif cmd[2] == "cluster":
+                            ms.get_data(SERVER_IP, "cluster")
+                        elif cmd[2] == "all":
+                            ms.get_data(SERVER_IP, "mess")
+                            ms.get_data(SERVER_IP, "cluster")
+                        else:
+                            err.error(19)
+            except:
                 err.error(18)
-            else:
-                if cmd[1] == "ip":
-                    print("Connected to: " + SERVER_IP)
-                # Uodates the contents to the Server.
-                elif cmd[1] == "update":
-                    if cmd[2] == "mess":
-                        ms.set_data("mess")
-                    elif cmd[2] == "cluster":
-                        ms.set_data("cluster")
-                    elif cmd[2] == "all":
-                        ms.set_data("mess")
-                        ms.set_data("cluster")
-                    else:
-                        err.error(19)
-                # Gets the contents from the Server.
-                elif cmd[1] == "fetch":
-                    if cmd[2] == "mess":
-                        ms.get_data(SERVER_IP, "mess")
-                    elif cmd[2] == "cluster":
-                        ms.get_data(SERVER_IP, "cluster")
-                    elif cmd[2] == "all":
-                        ms.get_data(SERVER_IP, "mess")
-                        ms.get_data(SERVER_IP, "cluster")
-                    else:
-                        err.error(19)
 
         # Show a "Invalid Command" message if wrong command is entered.
         else:
