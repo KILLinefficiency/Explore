@@ -977,7 +977,7 @@ class Explore:
                             self.__get_data(self.__SERVER_IP, "cluster")
                         else:
                             error(19)
-            except ConnectionError:
+            except:
                 error(18)
     # Runs an Explore Script if a valid path is specified.
     def run(self, path):
