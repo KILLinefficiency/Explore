@@ -195,8 +195,38 @@ Hello          World
 
 This works not only with ``disp`` but with all the commands.
 
+#### Case Insensitivity in Explore
+Explore allows case insensitivity only for the head of the command.
+
+Like,
+
+```
+disp hello world
+```
+```
+DISP hello world
+```
+```
+Disp hello world
+```
+```
+dISP hello world
+```
+```
+DiSp hello world
+```
+```
+dIsP hello world
+```
+
+All of the given commands give the same output.
+```
+hello world
+```
+
+
 #### The *log.txt* file
-Explore saves all of your commands in a text file simply called ``log.txt``. This file is generated in the Explore directory as soon Explore is set up.
+Explore saves all of your commands in a text file simply called ``log.txt``. This file is generated in the Explore directory as soon as Explore is set up.
 #### Escaping the *log.txt* file
 Explore will by-default save all the commands in ``log.txt``. However this can be prevented by prefixing the Explore command with a space (`` ``). By doing so, the user's command will not be saved in the ``log.txt`` file.
 
@@ -213,7 +243,7 @@ Reference to a data item in the **Cluster** is it's *Key* preceded by ``y_``
 y_(key-of-the-data-item-in-the-Cluster)
 ```
 
-Reference to a data item in the **Book** for a parse text file is it's dataspace and its position preceded by ``b_``
+Reference to a data item in the **Book** for a parsed text file is it's dataspace and its position preceded by ``b_``
 ```
 b_(name_of_dataspace)->(position_of_the_data_item)
 ```
@@ -1404,9 +1434,133 @@ Limit: 3
 
 
 #### *26. server*
+``server`` allows sharing of data from Explore to one or more device running Explore if all of them are connected to a common network like WiFi.
+
+Let's consider Device1 and Device2, each one running Explore, connected to a common WiFi.
+
+With ``server``, it's possible to share the **Mess** and the **Cluster** contents wirelessly from Explore running on Device1 to Explore running on Device2.
+
+The Explore Server undertakes this task.
+
+**Running Explore Server**
+
+If Explore is installed via the installer, the Explore Server can be launched by running
+```
+explore-server
+```
+Alternatively the Explore Server can be launched from the ``server.js`` file (if the installer was not used).
+
+1] Navigate to the cloned repository.
+
+2] Run
+```
+node server.js
+```
+
+For the sender (Device1), the data will be hosted at
+```
+0.0.0.0:2166
+```
+
+For the reciever (Device2), the data will be hosted at
+```
+<ip.of.the.sender>:2166
+```
+
+Explore uses port **2166**
+
+**_Running the Explore Server takes up the entire process, so it's better to run it on a separate terminal._**
+
+**Sending the data (Device1)**
+
+The sender has to run just one command inside Explore for sending the data.
+
+```
+server update all
+```
+
+This will pipe all the data from the **Mess** and the **Cluster** to the Explore Server.
+
+Alternatively, the user can specifically choose the **Mess** or the **Cluster** to be sent by using
+
+```
+server update mess
+```
+
+and
+
+```
+server update cluster
+```
+
+**Recieving the data (Device2)**
+
+Explore requires the IP address of the sender (Device1).
+
+This can done by running ``server connect`` inside Explore
+
+```
+server connect <ip.of.the.sender>
+```
+
+Next, the data can be recieved using ``server fetch``
+
+```
+server fetch all
+```
+
+Alternatively, the user can specifically choose the **Mess** or the **Cluster** to be recieved by using
+
+```
+server fetch mess
+```
+
+and
+
+```
+server fetch cluster
+```
+
+**Device1**
+
+```
+:) > push num 200
+:) > set status alpha data go brrr
+:) > getmess
+
+1. 200.0
+
+:) > getcluster
+
+Key : Value
+
+status : data go brrr
+
+:) > server update all
+```
+
+**Device2**
+
+```
+:) > getmess
+:) > getcluster
+:) > server connect <ip.of.the.sender>
+:) > server fetch all
+:) > getmess
+
+1. 200.0
+
+:) > getcluster
+
+Key : Value
+
+status : data go brrr
+```
+
+Multiple devices can be connected in such way.
 &nbsp;
 
-#### *25. info*
+#### *27. info*
 ``info`` displays Explore-related information. ``about`` is an alternative to ``info``.
 ```
 info
@@ -1431,7 +1585,7 @@ Repository: https://www.github.com/KILLinefficiency/Explore
 
 ```
 &nbsp;
-#### *26. bye*
+#### *28. bye*
 As the name suggests, ``bye`` closes down the current instance of Explore. The alternatives to ``bye`` are ``bye.``, ``exit`` and ``exit.``.
 ```
 bye
@@ -1638,7 +1792,7 @@ The output on running would be:
 ```
 &nbsp;
 #### *run()*
-``run()`` lets the user to run Explore Scripts in a Python Program. The user does not have to run all the everyday commands everytime. This task can be automated with the help of Explore Scripts.
+``run()`` lets the user run Explore Scripts in a Python Program. The user does not have to run all the everyday commands everytime. This task can be automated with the help of Explore Scripts.
 
 An Explore Script can have any extension as long as it's a text file. It's always better to use ``.txt`` extension for Explore Scripts.
 
