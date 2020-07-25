@@ -40,11 +40,14 @@ git clone https://www.github.com/KILLinefficiency/Explore
 
 **Installing on Linux and WSL**
 
-Installation for Linux can be done either manually or automatically via a script.
+Installation on Linux can be done either manually or automatically via a script.
 
 *Manual Installation (not recommened for new users):*
 
 1] ``cd`` into the cloned repository.
+```
+cd Explore
+```
 
 2] Install the dependencies using ``pip3``.
 ```
@@ -72,6 +75,8 @@ cd Explore
 ./install.sh
 ```
 
+3] Restart the terminal.
+
 This will install Explore at ``~/.Explore``.
 
 Explore can be launched by running ``explore`` in the terminal.
@@ -81,6 +86,9 @@ Explore Server can be launched by running ``explore-server`` in the terminal.
 **Installing on Windows**
 
 1] ``cd`` into the cloned repository.
+```
+cd Explore
+```
 
 2] Install the dependencies using ``pip``.
 ```
@@ -117,7 +125,7 @@ Explore is made up of seven files:
 
 Apart from these files, the repository also contains file for Explore's Python module.
 
- * ``Explore/explore-package/setup.py`` is the script that generates a ``.whl`` package.
+ * ``Explore/explore-package/setup.py`` is the Python script that generates a ``.whl`` package.
 
  * ``Explore/explore-package/explore_package/__init__.py`` is the main file that contains the entire code for module.
 
@@ -142,6 +150,8 @@ or
 pip3 install dist/*
 ```
 &nbsp;
+Alternatively this process can also be automated via scripts available in the same directory.
+
 *Scripts for automating this process:*
 
 * ``gen-package.sh``: For generating the Explore package.
@@ -160,21 +170,21 @@ Memory Locations:
 
 Explore uses three memory locations to store it's data. The primary being the **Mess** and the secondary being the **Cluster**. The third memory location, the **Book** is however a non-rewritable memory location which stores parsed data.
 
-The working the Mess is very similar to the working of the Stack and is in fact based on the idea of Stack.
+The working the **Mess** is very similar to the working of the Stack and is in fact based on the idea of Stack.
 
-The Cluster on the other side acts as a giant hash table. Cluster is made up of keys and the data assigned to the keys.
+The **Cluster** on the other side acts as a hash table. Cluster is made up of keys and the data is assigned to the keys.
 
-The Book is non-rewritable, meaning the data once written to it cannot be changed. All the parsed data goes to the Book.
+The **Book** is non-rewritable, meaning the data once written to it cannot be changed. All the parsed data goes to the Book.
 
 #### Data Types in Explore
 Data Types:
 > * num
 > * alpha
 
-Explore currently has two data types. Explore uses ``num`` to store numeric values and ``alpha`` to store alphabetic values (including alphanumeric values).
+Explore currently has two data types. Explore uses ``num`` to store numeric values and ``alpha`` to store alphabetic (string) values (including alphanumeric values).
 
 #### Spaces in Explore
-Explore allows the usage of spaces. However Explore expects you to use only one space for everything. Additional spaces in Explore will be reduced down to only one spaces. For additional spaces, the pipe character ,``|`` has been created. ``|`` will act as nothing but a space character.
+Explore allows the usage of spaces. However Explore expects you to use only one space for everything. Additional spaces in Explore will be reduced down to only one space. For additional spaces, the pipe character ,``|`` has to be used. ``|`` will act as nothing but a space character.
 
 Like,
 
@@ -231,7 +241,7 @@ Explore saves all of your commands in a text file simply called ``log.txt``. Thi
 Explore will by-default save all the commands in ``log.txt``. However this can be prevented by prefixing the Explore command with a space (`` ``). By doing so, the user's command will not be saved in the ``log.txt`` file.
 
 #### Referring data in and from the Memory Locations
-The data in the **Mess** and the **Cluster** have a special reference convention. Data from the **Mess** requires it's *Position* for access while data from the **Cluster** requires it's *Key* for access. Many commands in Explore use referencing to access a particular value.
+The data in the **Mess**, the **Cluster** and the **Book** have a special reference convention. Data from the **Mess** requires it's *Position* for access while data from the **Cluster** requires it's *Key* for access. Many commands in Explore use referencing to access a particular value.
 
 Reference to a data item in the **Mess** is it's *Position* preceded by ``x_``
 ```
@@ -253,10 +263,11 @@ Reference to a data item in the **Book** for a parsed CSV file is it's dataspace
 b_(name_of_dataspace)->(row_number)->(column_number)
 ```
 
+The **Book** uses the arrow character (``->``) for it's referencing.
 
-
-There should be atleast a space (`` ``) after and before the reference.
+There should be a space (`` ``) after and before the reference.
 Like,
+
 **Valid:**
 ```
 calc x_3 + 1 + y_val
@@ -333,7 +344,7 @@ The contents of the **Mess** can be displayed using the ``getmess`` command. Exp
 3. something with spaces
 
 ```
-Instead of using just spaces, the user can also Explore's pipe character ``|`` for representating spaces.
+Instead of using just spaces, the user can also use Explore's pipe character ``|`` for spaces.
 ```
 :) > push alpha something|with|spaces
 :) > getmess
@@ -389,7 +400,7 @@ Like,
 2. 3.14
 
 ```
-The same operation is applicable to the **Cluster** too.
+The same operation of referencing is applicable to the **Cluster** and the **Book** too.
 &nbsp;
 
 #### *02. getmess*
@@ -433,7 +444,7 @@ Like,
 3. pi
 
 ```
-``pop``, by-default, removes the last data item from the **Mess**. However the user can remove a data item from anywhere in the **Mess** by specifying it's position.
+``pop``, by-default, removes the last data item from the **Mess**. However, the user can remove a data item from anywhere in the **Mess** by specifying it's position.
 ```
 pop <position>
 ```
@@ -510,11 +521,11 @@ Like,
 2. 9.8
 
 ```
-The same operation can also be performed on the data from the **Cluster**.
+The same operation of referencing can also be performed on the data from the **Cluster** and the **Book** too.
 &nbsp;
 
 #### *05. set*
-``set`` is a **Cluster** related command. It allows the user to set a data item is the **Cluster**. Unlike the **Mess**, data items in the **Cluster** have a distinct key. The data item acts as the value to the user-specified key.
+``set`` is a **Cluster** related command. It allows the user to set a data item in the **Cluster**. Unlike the **Mess**, data items in the **Cluster** have a distinct key. The data item in the **Cluster** is made up of *Keys* and their *Values*.
 ```
 set <key> <data_type_of_the_value> <value>
 ```
@@ -567,7 +578,7 @@ name : pi
 
 #### *06. getcluster*
 ``getcluster`` displays the contents of the **Cluster**. The contents include both the *Keys* and the *Values*.
-By default ``getcluster`` displays all the *Keys* and *Values* present in the **Cluster**. However, ``getcluster`` can also be used to access *Keys* or *Values* only.
+By default ``getcluster`` displays all the *Keys* and *Values* present in the **Cluster**. However, ``getcluster`` can also be used to access the *Keys* or the *Values* only.
 ```
 getcluster
 ```
@@ -656,6 +667,14 @@ Like,
 :) > set name alpha explore
 :) > set value num 3.14
 :) > set var alpha hello
+:) > getcluster
+
+Key : Value
+
+name : explore
+value : 3.14
+var : hello
+
 :) > rem name value
 :) > getcluster
 
@@ -688,11 +707,15 @@ Key : Value
 g : 10
 
 ```
-The *Value* can also be changed by referring it from within the **Cluster**, the **Mess** ot the **Book**.
+The *Value* can also be changed by referring it from within the **Cluster**, the **Mess** or the **Book**.
 
 Like,
 ```
 :) > push num 3.14
+:) > getmess
+
+1. 3.14
+
 :) > set pi alpha threpointonefour
 :) > set pi_val num 22/7
 :) > getcluster
@@ -754,6 +777,12 @@ ten : 1010
 :) > count cluster
 2
 ```
+
+``count`` also works on the **Book**.
+
+```
+count book
+```
 &nbsp;
 
 #### *10. clear*
@@ -764,7 +793,7 @@ clear
 &nbsp;
 
 #### *11. csv*
-``csv`` reads a CSV file. CSV stands for *Comma-Separated Values*. ``csv`` will read the values from a ``.csv`` file (or ant text file with the same text format) and dislpay it in a tabular form.
+``csv`` reads a CSV file. CSV stands for *Comma-Separated Values*. ``csv`` will read the values from a ``.csv`` file (or any text file with the same text format) and display it in a tabular form.
 ```
 csv <file_name_with_complete_or_relative_address>
 ```
@@ -807,7 +836,7 @@ abc,def,ghi,jkl
 
 ```
 ```
-:) > read /home/me/Desktop/file.csv
+:) > read /home/me/Desktop/file1.csv
 
 abc;def;ghi;jkl
 123;456;789;012
@@ -816,7 +845,7 @@ abc;def;ghi;jkl
 789;012;345;678
 
 :) > csv config fs ;
-:) > csv /home/me/Desktop/file.csv
+:) > csv /home/me/Desktop/file1.csv
 
     abc				def				ghi				jkl
 1.  123				456				789				012
@@ -830,7 +859,7 @@ abc;def;ghi;jkl
 As seen in the previous section, ``csv`` can read and display the data from a CSV file in a tabular form, however ``csv`` does not provide any medium to access the parsed data.
 The data from a CSV file can be parsed and accessed using ``book``.
 
-``book`` currently supports parsing on CSV files only.
+``book`` currently supports parsing of text file (reading lines from a text file) and CSV files only.
 
 As the name suggests, this parsed data goes into the **Book**. Inside the **Book**, the parsed data is stored individually as per the parsed files into units called *Data Spaces*.
 
@@ -839,6 +868,53 @@ Data Space name and the file address *cannot* contain any spaces.
 book <file_type> <data_space_name> <file_name_with_full_or_relative_address>
 ```
 Like,
+
+Consider a file ``list.txt``
+
+```
+Debian
+Arch Linux
+Fedora
+Linux Mint
+Ubuntu
+Manjaro
+Gentoo
+```
+
+For text files:
+
+Referencing data from the **Book**:
+```
+b_(name_of_dataspace)->(item_position)
+```
+
+```
+:) > book text distros /home/me/Desktop/list.txt
+
+Debian
+Arch Linux
+Fedora
+Linux Mint
+Ubuntu
+Manjaro
+Gentoo
+
+
+:) > disp b_distros->2
+Arch Linux
+:) > disp b_distros->7
+Gentoo
+:) > disp b_distros->4
+Linux Mint
+```
+
+For CSV files:
+
+Referencing data from the **Book**:
+```
+b_(name_of_dataspace)->(row_number)->(column_number)
+```
+
 ```
 :) > book csv info /home/me/Desktop/file.csv
 
@@ -849,17 +925,16 @@ Like,
 4.  789	012	345	678
 
 :) > push num b_info->3->3
-:) >
+:) > push alpha b_info-1->2
+:) > getmess
 
 1. 901.0
+2. def
 
 ```
-The following example parses the CSV file and then access the data using referencing. The data at the *3rd row*, *3rd column* of the *Data Space* called *info* is accessed and push to the **Mess**.
+The following example parses the CSV file and then access the data using referencing. The data at the *3rd row*, *3rd column* and the data of the *1st row*, *2nd column* of the *Data Space* called *info* is accessed and push to the **Mess**.
 
-Referencing data from the **Book**:
-```
-b_(name_of_dataspace)->(row_number)->(column_number)
-```
+
 &nbsp;
 
 #### *13. getbook*
@@ -911,6 +986,9 @@ get mess <position>
 ```
 ```
 get cluster <key>
+```
+```
+get book <dataspace> <item_position>
 ```
 ```
 get book <dataspace> <row> <column>
@@ -1029,7 +1107,7 @@ Like,
 15
 ```
 ``calc`` can perform addition(+), subtraction(-), multiplication(*), division(/) and modulus(%).
-Parenthesis can be used to define an order of precendence.
+Parentheses can be used to define an order of precendence.
 
 Like,
 ```
@@ -1109,7 +1187,7 @@ Like,
 :) > push num 3.14
 :) > push alpha something
 :) > set name alpha Explore
-:) > set ver num 2
+:) > set ver num 3
 :) > export mess /home/me/Desktop/my_mess.txt
 :) > export cluster /home/me/Desktop/my_cluster.txt
 ```
@@ -1136,6 +1214,8 @@ Import mode ``w`` will import the data items into the entered *Memory Location* 
 Import mode `rw` will import the data items into the entered *Memory Location* but will remove all the already existing data items.
 
 Like,
+
+*my_mess.txt* and *my_cluster.txt* here are the same files which were exported in the previous section.
 
 Using ``w``:
 ```
@@ -1198,7 +1278,6 @@ name : Explore
 ver : 3
 
 ```
-*my_mess.txt* and *my_cluster.txt* are the same files which were exported in the previous section.
 
 &nbsp;
 #### *21. read*
@@ -1278,7 +1357,7 @@ PI is 3.14
 4. exit
 ```
 &nbsp;
-*__``log.txt`` is an important file for Explore to run. Therefore, it's not a good idea to delete it even if the user doesn't need it.__*
+If the user deletes the ``log.txt`` file, it will be automatically created the next time Explore is launched.
 &nbsp;
 #### *24. find*
 ``find`` searches for the entered data item. ``find`` can search data items from the **Mess** and the *Keys*, the *Values* from the **Cluster** and the parsed values for the dataspaces of the **Book**.
@@ -1434,7 +1513,7 @@ Limit: 3
 
 
 #### *26. server*
-``server`` allows sharing of data from Explore to one or more device running Explore if all of them are connected to a common network like WiFi.
+``server`` allows sharing of data from a device running Explore to one or more device running Explore if all of them are connected to a common network like WiFi.
 
 Let's consider Device1 and Device2, each one running Explore, connected to a common WiFi.
 
@@ -1495,7 +1574,7 @@ server update cluster
 
 **Recieving the data (Device2)**
 
-Explore requires the IP address of the sender (Device1).
+The reciever requires the IP address of the sender (Device1).
 
 This can done by running ``server connect`` inside Explore
 
@@ -1525,7 +1604,7 @@ server fetch cluster
 
 ```
 :) > push num 200
-:) > set status alpha data go brrr
+:) > set status alpha haha data go brrr
 :) > getmess
 
 1. 200.0
@@ -1534,7 +1613,7 @@ server fetch cluster
 
 Key : Value
 
-status : data go brrr
+status : haha data go brrr
 
 :) > server update all
 ```
@@ -1602,20 +1681,8 @@ Bye.
 Explore also offers a Python Package for integrating Explore in Python Programs.
 If you have used the installer or have installed dependencies from ``requirements.txt``, then the Explore Package is already installed on your system.
 &nbsp;
-#### *Installing the Explore Package*
-The Explore Package is available in the ``explore-package`` directory as a ``.whl`` package.
+Alternatively, the Explore Package can be installed from pypi.org:
 
-``cd`` into ``explore-package``
-```
-cd explore-package
-```
-Use ``pip3`` to install the package
-```
-sudo pip3 install explore_package-3.0-py3-none-any.whl
-```
-
-Installing Explore Package from pypi.org :
-The Explore Package can be directly installed from pypi.org via pip3.
 ```
 sudo pip3 install explore_package
 ```
@@ -1671,8 +1738,9 @@ PI is 3.14
 Data-Returning Commands do not display the output/data directly. The user will need a Python variable to hold the data and then print it out or perform operations on it.
 
 Non-Data-Returning commands give a direct output.
+There are 24 Explore Commands in the Explore Package.
 
-Non-Data-Returning and Data-Returning commnds in the Explore Package:
+Non-Data-Returning and Data-Returning commands in the Explore Package:
 
 Non-Data-Returning | Data-Returning
 --------------- | ------------------
@@ -1706,7 +1774,7 @@ The output on running would be:
 ```
 PI is 3.14
 ```
-Here, both the ``get``commands returned data. One ``get`` command returned data from the **Mess** and the other ``get`` command returned data from the **Cluster**. The data returned is compared in the ``if`` statement and since the returned data items were equal, the block inside ``if`` was executed.
+Here, both the ``get``commands returned data. One ``get`` command returned data from the **Mess** and the other ``get`` command returned data from the **Cluster**. The data returned is compared in an ``if`` statement and since the returned data items were equal, the block inside ``if`` was executed.
 &nbsp;
 **Return Types for Data-Returning Commands**
 
@@ -1726,7 +1794,7 @@ Command | Return Type
 *find* | *Dictionary* / *Dictionaries* inside a *List* (``list`` and ``dict``)
 *limit status* | *Dictionary* (``dict``)
 *read* | *List* (``list``)
-*server ip* | *Integer* (``int``)
+*server ip* | *String* (``str``)
 
 &nbsp;
 Like,
@@ -1768,7 +1836,7 @@ Kal-El
 
 The user can get a data item into the Python Program from either the **Mess**, the **Cluster** or the **Book** by using ``get``. But there is no standard Explore command to send a data/value from the Python Program into the **Mess** or the **Cluster**.
 
-This is where Python's Formatted Strings come handy.
+This is where Python's Formatted Strings come into use.
 
 The user can directly use operations like ``push`` and ``set`` by passing the data/value inside a formatted string in ``invoke()``.
 
@@ -1784,6 +1852,9 @@ print(db.invoke("getmess"))
 print()
 print(db.invoke("getcluster"))
 ```
+
+Here, ``some_value`` and ``some_name`` are Python variables which are sent into the Explore instance.
+
 The output on running would be:
 ```
 [9.8]
@@ -1858,7 +1929,7 @@ pip3 uninstall explore_package
 ---
 &nbsp;
 #### Hey There!
-Hello Explorers! I hope you had fun using Explore as much as I had making it. If you like it, feel free to make contributions at https://www.github.com/KILLinefficiency/Explore and contact me at shreyas.sable2166@gmail.com.
+Hello Explorers! I hope you had fun using Explore as much as I had making it. If you like it, feel free to make contributions at https://www.github.com/KILLinefficiency/Explore or contact me at shreyas.sable2166@gmail.com.
 
 **_Shreyas Sable_**
 ---
