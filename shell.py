@@ -669,7 +669,7 @@ while flag:
     except KeyboardInterrupt:
         print("\n\nBye.")
         break
-    # except:
-        # print("-1")
-        # continue
+    except:
+        print("-1")
+        continue
 log.close()
