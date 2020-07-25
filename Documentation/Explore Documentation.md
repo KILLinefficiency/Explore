@@ -1684,7 +1684,7 @@ If you have used the installer or have installed dependencies from ``requirement
 Alternatively, the Explore Package can be installed from pypi.org:
 
 ```
-sudo pip3 install explore_package
+pip3 install explore_package
 ```
 &nbsp;
 #### *Usage*
