@@ -2,7 +2,7 @@
 requests==2.23.0
 
 # The Explore Package :
-explore_package==3.0
+explore_package
 
 # Dependencies for generating and uploading the Explore Package to pypi.org :  
 twine
