@@ -993,5 +993,5 @@ class Explore:
                 self.invoke(contents[run_comm])
         except (FileNotFoundError, IsADirectoryError):
             print("Invalid File/Directory.")
-        # except:
-            # print("-1")
+        except:
+            print("-1")
