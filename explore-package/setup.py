@@ -1,7 +1,7 @@
 import setuptools
 setuptools.setup(
 	name = "explore_package",
-	version = "3.0",
+	version = "3.1",
 	install_requires = ["requests"],
 	author = "Shreyas Sable",
 	author_email = "shreyas.sable2166@gmail.com",
