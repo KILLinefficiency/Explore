@@ -61,6 +61,8 @@ cd Explore
 ./install.sh
 ```
 
+Restart the Terminal.
+
 This will install Explore at ``~/.Explore``.
 
 Explore can be launched by running ``explore`` in the terminal.
